@@ -4,7 +4,12 @@ language: php
 
 before_install:
   - pecl install grpc
+
+install:
   - cd php
+  - composer install
+  - composer clearcache
+  - composer update
 script:
   - composer test
 
