@@ -1,18 +1,14 @@
 sudo: required
-
 language: php
 
 before_install:
-  - pecl install grpc
-
+- openssl aes-256-cbc -K $encrypted_147a1605fbb2_key -iv $encrypted_147a1605fbb2_iv
+  -in google.json.enc -out test/Config/google.json -d
+- pecl install grpc
 install:
-  - cd php
-  - composer install
-  - composer clearcache
-  - composer update
+- cd php
+- composer install
+- composer clearcache
+- composer update
 script:
-  - composer test
-
-
-
-
+- composer test
