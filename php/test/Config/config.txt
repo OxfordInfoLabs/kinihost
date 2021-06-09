@@ -1,0 +1,27 @@
+# Config file
+
+application.name = Kinihost
+application.namespace = Kinihost
+
+search.paths = ../vendor/oxil/kiniauth/php/src;../src
+
+db.provider = sqlite3
+db.filename = DB/kinihost-test.db
+db.logFile = DB/kinihost-test.log
+
+access.control.origin = REFERRER
+
+file.storage.root = FileStorage
+
+static.service.domain = kinihost.test
+static.storage.provider = file
+static.dns.provider = dummy
+static.routing.provider = dummy
+
+google.project.id = kinisite-test
+
+google.keyfile.path = Config/google.json
+google.bucket.region = europe-west2
+google.bucket.zone = europe-west2-c
+google.html.object.cache-age = 120
+

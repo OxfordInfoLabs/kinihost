@@ -1,0 +1,13 @@
+sudo: required
+
+language: php
+
+before_install:
+  - pecl install grpc
+  - cd php
+script:
+  - composer test
+
+
+
+
