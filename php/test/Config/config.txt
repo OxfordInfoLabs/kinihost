@@ -25,3 +25,7 @@ google.bucket.region = europe-west2
 google.bucket.zone = europe-west2-c
 google.html.object.cache-age = 120
 
+cloudflare.api.key = 6be26772aabdc96207e66530d2c1bf9863e1c
+cloudflare.api.email = support@oxil.co.uk
+cloudflare.account.id = a8b6ccd7525a55c166e04ca68f154b44
+cloudflare.contentsecuritypolicy.kvp.namespace = 46449eea586948caa1e55b04f16111a3

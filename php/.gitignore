@@ -1,3 +1,5 @@
 test/Config/google.json
+test/Config/config.txt
 vendor
 test/DB/kinihost*
+test/FileStorage/*
