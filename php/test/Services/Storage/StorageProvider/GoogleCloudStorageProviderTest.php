@@ -12,8 +12,6 @@ use Kinihost\ValueObjects\Storage\StorageProvider\HostedSiteConfig;
 use Kinihost\ValueObjects\Storage\StorageProvider\StorageProviderConfig;
 use Kinihost\TestBase;
 
-include_once __DIR__ . "/../../../../autoloader.php";
-
 include_once "autoloader.php";
 
 class GoogleCloudStorageProviderTest extends TestBase {
@@ -301,7 +299,6 @@ class GoogleCloudStorageProviderTest extends TestBase {
 
 
     }
-
 
 
 }

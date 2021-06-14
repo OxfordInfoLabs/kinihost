@@ -12,7 +12,7 @@ use Kinikit\MVC\Request\Headers;
 use Kinikit\MVC\Request\Request;
 use Kinihost\TestBase;
 
-include_once __DIR__ . "/../../../autoloader.php";
+include_once "autoloader.php";
 
 class CLIRouteInterceptorTest extends TestBase {
 

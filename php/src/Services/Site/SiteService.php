@@ -154,24 +154,7 @@ class SiteService {
      */
     public function listSites($searchString = "", $offset = 0, $limit = 10) {
 
-        return SiteSummary::filter("WHERE (title like ? or siteKey like ?) AND type = 'site' ORDER by title LIMIT ? OFFSET ?",
-            "%" . $searchString . "%", "%" . $searchString . "%", $limit, $offset);
-
-    }
-
-
-    /**
-     * List components (type of theme or app)
-     *
-     * @param string $searchString
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return SiteSummary[]
-     */
-    public function listComponents($searchString = "", $offset = 0, $limit = 10) {
-
-        return SiteSummary::filter("WHERE (title like ? or siteKey like ?) AND type IN ('theme','app') ORDER by title LIMIT ? OFFSET ?",
+        return SiteSummary::filter("WHERE (title like ? or siteKey like ?)  ORDER by title LIMIT ? OFFSET ?",
             "%" . $searchString . "%", "%" . $searchString . "%", $limit, $offset);
 
     }
@@ -362,9 +345,9 @@ class SiteService {
             $site->save();
 
             if ($site->getAccountId()) {
-                $this->emailService->send(new AccountTemplatedEmail($site->getAccountId(), "staticwebsite/activated", ["site" => $site]));
+                $this->emailService->send(new AccountTemplatedEmail($site->getAccountId(), "activated", ["site" => $site]));
             } else {
-                $this->emailService->send(new SuperUserTemplatedEmail("staticwebsite/activated", ["site" => $site]));
+                $this->emailService->send(new SuperUserTemplatedEmail("activated", ["site" => $site]));
             }
 
         } else {
@@ -375,7 +358,7 @@ class SiteService {
                 $this->queuedTaskService->queueTask(Configuration::readParameter("queue.name"), "check-activation-static", "Check Static Site Activation - " . $site->getSiteKey() . " $checkNumber / 24",
                     ["siteId" => $siteId, "checkNumber" => $checkNumber], null, 300);
             } else {
-                $this->emailService->send(new SuperUserTemplatedEmail("staticwebsite/superuser/activation-failure", ["site" => $site]));
+                $this->emailService->send(new SuperUserTemplatedEmail("superuser/activation-failure", ["site" => $site]));
             }
 
         }
@@ -400,30 +383,6 @@ class SiteService {
         // Set the title if set
         if ($siteUpdateDescriptor->getTitle()) {
             $site->setTitle($siteUpdateDescriptor->getTitle());
-        }
-
-        if (is_array($siteUpdateDescriptor->getComponents())) {
-            $currentVersions = [];
-            foreach ($site->getSiteComponents() as $siteComponent) {
-                $currentVersions[$siteComponent->getComponentSiteKey()] = $siteComponent->getInstalledVersion();
-            }
-            $newComponents = $this->getSiteComponentsFromDescriptors($siteUpdateDescriptor->getComponents(), $currentVersions);
-
-            if (ObjectArrayUtils::getMemberValueArrayForObjects("compareKey", $newComponents) !=
-                ObjectArrayUtils::getMemberValueArrayForObjects("compareKey", $site->getSiteComponents())) {
-                $site->setSiteComponents($newComponents);
-
-                $initiatingUser = $this->securityService->getLoggedInUserAndAccount()[0] ?? null;
-                $initiatingUserId = $initiatingUser ? $initiatingUser->getId() : null;
-
-                $this->queuedTaskService->queueTask(Configuration::readParameter("queue.name"),
-                    "update-static-components",
-                    "Update components for site " . $site->getSiteKey(),
-                    ["siteKey" => $site->getSiteKey(), "initiatingUserId" => $initiatingUserId]);
-
-                $result = "QUEUED";
-
-            }
         }
 
         // Save the site

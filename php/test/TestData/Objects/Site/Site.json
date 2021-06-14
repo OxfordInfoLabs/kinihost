@@ -63,51 +63,5 @@
     "siteKey": "oxfordcyberstatictest",
     "title": "Oxford Cyber Static Test",
     "status": "ACTIVE"
-  },
-  {
-    "accountId": 0,
-    "siteKey": "testtheme",
-    "title": "Test Theme",
-    "serviceDomain": "oxfordcybertest.site",
-    "storageProviderKey": "google",
-    "status": "ACTIVE"
-  },
-  {
-    "accountId": 0,
-    "siteKey": "docs",
-    "title": "Docs App",
-    "serviceDomain": "oxfordcybertest.site",
-    "status": "ACTIVE",
-    "config": {
-      "publishDirectory": "public",
-      "indexPage": "index.html",
-      "notFoundPage": "404.html"
-    }
-  },
-  {
-    "accountId": 0,
-    "siteKey": "adnewsfeed",
-    "title": "Ad News Feed App",
-    "serviceDomain": "oxfordcybertest.site",
-    "status": "ACTIVE",
-    "config": {
-      "publishDirectory": "public",
-      "indexPage": "index.html",
-      "notFoundPage": "404.html"
-    }
-  },
-  {
-    "accountId": 0,
-    "siteKey": "unpublishedapp",
-    "title": "Unpublished App",
-    "serviceDomain": "oxfordcybertest.site",
-    "status": "ACTIVE"
-  },
-  {
-    "accountId": 0,
-    "siteKey": "unpublishedtheme",
-    "title": "Unpublished Theme",
-    "serviceDomain": "oxfordcybertest.site",
-    "status": "ACTIVE"
   }
 ]

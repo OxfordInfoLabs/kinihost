@@ -13,7 +13,7 @@ use Kinihost\ValueObjects\Storage\StorageProvider\StoredObject;
 use Kinihost\ValueObjects\Storage\StorageProvider\StoredObjectSummary;
 use Kinihost\TestBase;
 
-include_once __DIR__ . "/../../../autoloader.php";
+include_once "autoloader.php";
 
 class StorageRootTest extends TestBase {
 
