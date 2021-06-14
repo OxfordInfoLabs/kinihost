@@ -38,27 +38,12 @@ class SiteSummary extends ActiveRecord {
 
 
     /**
-     * What type of site this is - one of the type constants.
-     *
-     * @var string
-     * @required
-     */
-    protected $type = self::TYPE_SITE;
-
-    /**
      * Site title (descriptive)
      *
      * @var string
      * @required
      */
     protected $title;
-
-    /**
-     * Published version number
-     *
-     * @var integer
-     */
-    protected $publishedVersion;
 
     /**
      * The service domain used for this site.
@@ -101,10 +86,6 @@ class SiteSummary extends ActiveRecord {
     const STATUS_SUSPENDED = "SUSPENDED";
     const STATUS_DELETED = "DELETED";
 
-
-    public const TYPE_THEME = "theme";
-    public const TYPE_APP = "app";
-    public const TYPE_SITE = "site";
     /**
      * Key/value pair configuration as required.
      *
@@ -126,12 +107,6 @@ class SiteSummary extends ActiveRecord {
         $this->siteKey = $siteKey;
     }
 
-    /**
-     * @return int
-     */
-    public function getPublishedVersion() {
-        return $this->publishedVersion;
-    }
 
     /**
      * @return string
@@ -147,12 +122,6 @@ class SiteSummary extends ActiveRecord {
         return $this->siteId;
     }
 
-    /**
-     * @return string
-     */
-    public function getType() {
-        return $this->type;
-    }
 
     /**
      * @return string

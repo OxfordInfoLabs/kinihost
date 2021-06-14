@@ -8,7 +8,7 @@ use Kinikit\Persistence\ORM\ActiveRecord;
 
 /**
  * Class SiteDomain
- * @package OxfordCyber\StaticWebsite\Objects\Site
+ * @package Kinihost\Objects\Site
  *
  * @table kh_site_domain
  * @generate

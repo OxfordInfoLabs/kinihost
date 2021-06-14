@@ -1,0 +1,10 @@
+# Config file for Kinihost Example
+
+application.name = Kinihost Example
+application.namespace = KinihostExample
+
+search.paths = ../vendor/oxil/kiniauth/php/src;../vendor/oxil/kinihost/php/src
+
+db.provider = sqlite3
+db.filename = DB/kinihost-example.db
+db.logFile = DB/kinihost-example.log

@@ -1,0 +1,113 @@
+[
+  {
+    "accountId": 1,
+    "siteKey": "samdavisdotcom",
+    "title": "Sam Davis Design .COM",
+    "status": "ACTIVE",
+    "serviceDomain": "oxfordcybertest.uk"
+  },
+  {
+    "accountId": 1,
+    "siteKey": "woollenmill",
+    "title": "Woollen Mill Site",
+    "status": "ACTIVE"
+  },
+  {
+    "accountId": 1,
+    "siteKey": "pingu",
+    "title": "Pingu Graphics"
+  },
+  {
+    "accountId": 1,
+    "siteKey": "lucientaylor",
+    "title": "Lucien Taylor",
+    "serviceDomain": "oxfordcybertest.site",
+    "status": "ACTIVE",
+    "config": {
+      "publishDirectory": "public",
+      "indexPage": "index.html",
+      "notFoundPage": "404.html"
+    }
+  },
+  {
+    "accountId": 1,
+    "siteKey": "markrobertshaw",
+    "title": "Mark Robertshaw",
+    "serviceDomain": "oxfordcybertest.site",
+    "status": "PENDING"
+  },
+  {
+    "accountId": 1,
+    "siteKey": "nathanalan",
+    "title": "Nathan Alan",
+    "serviceDomain": "oxfordcybertest.site",
+    "status": "ACTIVE",
+    "config": {
+      "publishDirectory": "public",
+      "indexPage": "index.html",
+      "notFoundPage": "404.html"
+    }
+  },
+  {
+    "accountId": 2,
+    "siteKey": "paperchase",
+    "title": "The Paper Chasing Machine"
+  },
+  {
+    "accountId": 5,
+    "siteKey": "smartcoasting",
+    "title": "Smart Coasting Website"
+  },
+  {
+    "accountId": 4,
+    "siteKey": "oxfordcyberstatictest",
+    "title": "Oxford Cyber Static Test",
+    "status": "ACTIVE"
+  },
+  {
+    "accountId": 0,
+    "siteKey": "testtheme",
+    "title": "Test Theme",
+    "serviceDomain": "oxfordcybertest.site",
+    "storageProviderKey": "google",
+    "status": "ACTIVE"
+  },
+  {
+    "accountId": 0,
+    "siteKey": "docs",
+    "title": "Docs App",
+    "serviceDomain": "oxfordcybertest.site",
+    "status": "ACTIVE",
+    "config": {
+      "publishDirectory": "public",
+      "indexPage": "index.html",
+      "notFoundPage": "404.html"
+    }
+  },
+  {
+    "accountId": 0,
+    "siteKey": "adnewsfeed",
+    "title": "Ad News Feed App",
+    "serviceDomain": "oxfordcybertest.site",
+    "status": "ACTIVE",
+    "config": {
+      "publishDirectory": "public",
+      "indexPage": "index.html",
+      "notFoundPage": "404.html"
+    }
+  },
+  {
+    "accountId": 0,
+    "siteKey": "unpublishedapp",
+    "title": "Unpublished App",
+    "serviceDomain": "oxfordcybertest.site",
+    "status": "ACTIVE"
+  },
+  {
+    "accountId": 0,
+    "siteKey": "unpublishedtheme",
+    "title": "Unpublished Theme",
+    "serviceDomain": "oxfordcybertest.site",
+    "status": "ACTIVE"
+  }
+]

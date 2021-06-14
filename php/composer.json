@@ -1,4 +1,6 @@
 {
+  "name": "oxil/kinihost",
+  "version": "0.1",
   "require": {
     "ext-bcmath": "*",
     "ext-grpc": "*",
