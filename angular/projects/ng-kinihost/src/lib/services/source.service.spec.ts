@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NgKinihostService } from './ng-kinihost.service';
+import { SourceService } from './source.service';
 
-describe('NgKinihostService', () => {
-  let service: NgKinihostService;
+describe('SourceService', () => {
+  let service: SourceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(NgKinihostService);
+    service = TestBed.inject(SourceService);
   });
 
   it('should be created', () => {

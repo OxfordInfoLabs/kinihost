@@ -1,0 +1,45 @@
+<div class="grid grid-desktop my3 px1">
+
+    <ng-template [ngIf]="site">
+
+        <h4>Site manager: {{site.title}} | <span>Custom Domains</span></h4>
+
+        <p class="mb2">Add up to {{maxRedirects}} domain names you would like to map to your production site.</p>
+
+        <div class="mb1" *ngFor="let siteDomain of siteDomains; let i = index">
+
+            <p class="mb0">
+                <b *ngIf="siteDomain.type === 'PRIMARY'">Primary Domain</b>
+                <b *ngIf="siteDomain.type !== 'PRIMARY'">Secondary Domain</b>
+            </p>
+
+            <div class="flex align-center">
+                <div class="flex1">
+                    <input type="text" style="width: 100%" placeholder="eg. myfantasticsite.com"
+                           [(ngModel)]="siteDomain.domainName">
+
+                    <p class="mb0 ml050" style="color: red" *ngIf="i == 0 && _.some(siteDomains, {domainName: ''})">
+                        <small>At least one domain name is required</small>
+                    </p>
+                </div>
+
+                <button mat-icon-button color="warn" (click)="removeSiteDomain(i)"
+                        [ngStyle]="{visibility: i > 0 ? 'visible': 'hidden'}">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="flex justify-between mt2">
+            <div></div>
+            <button class="but" (click)="saveSiteDomains()"
+                    [disabled]="_.some(siteDomains, {domainName: ''})">Save Domains
+            </button>
+        </div>
+
+
+    </ng-template>
+
+
+</div>

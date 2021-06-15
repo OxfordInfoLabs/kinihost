@@ -1,0 +1,38 @@
+<div class="grid grid-desktop my3 px1">
+
+    <ng-template [ngIf]="site">
+
+        <h4 class="ml1">Site manager: {{site.title}} | <span>Builds</span></h4>
+
+        <table cellspacing="0">
+            <thead>
+            <tr>
+                <th>Target</th>
+                <th>Type</th>
+                <th>Completed</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let build of builds" [routerLink]="[build.id]">
+                <td>{{(build.buildTarget).toLowerCase()}}</td>
+                <td>{{(build.buildType).toLowerCase().split('_').join(' ')}}</td>
+                <td>
+                    <span *ngIf="build.completedDate">{{moment.unix(build.completedDate.timestamp).format('DD/MM/YYYY HH:mm:ss')}}</span>
+                </td>
+                <td>{{(build.status).toLowerCase()}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="thin text-center mt2" *ngIf="!builds.length && !loading">
+            There are no builds for this site yet.</p>
+
+        <p class="thin text-center mt2" *ngIf="loading">
+            Loading ...
+        </p>
+
+    </ng-template>
+
+
+</div>

@@ -1,0 +1,290 @@
+<div class="alert alert-warning" *ngIf="productionStatus === 'warning'">
+    <p class="flex align-center">
+        <mat-icon class="mr025">history</mat-icon><b>Changes detected:&nbsp;</b>
+        update your production server with the changes in preview
+    </p>
+</div>
+<div class="alert alert-info" *ngIf="site && site.maintenanceMode">
+    <p class="flex align-center">
+        <mat-icon class="mr025">developer_mode</mat-icon><b>Maintenance Mode:&nbsp;</b>
+        Your production site is currently in maintenance mode.
+    </p>
+</div>
+<div class="grid my3">
+
+    <ng-template [ngIf]="site">
+
+        <h4 class="ml1">Site manager: {{site.title}} | <span>Overview</span></h4>
+
+        <div class="grid">
+            <div class="flex-grid">
+                <div class="w-66">
+
+                    <div class="actionpanel sixtyforty mb050 status">
+                        <div class="actioninfo {{previewStatus}} {{productionStatus}} p2w p1m">
+                            <h4 class="mb1 mt0">Current status</h4>
+
+                            <div class="status-panel">
+
+                                <div class="server {{previewStatus}}">
+                                    <p>Preview<br>Server</p>
+                                    <span [class]="previewStatus">
+                                        <mat-icon
+                                            *ngIf="previewStatus !== 'RUNNING' && previewStatus !== 'QUEUED' && previewStatus !== 'PENDING'">{{previewStatus}}</mat-icon>
+                                        <mat-icon *ngIf="previewStatus === 'QUEUED'">dynamic_feed</mat-icon>
+                                        <mat-icon *ngIf="previewStatus === 'PENDING'">backup</mat-icon>
+                                        <mat-spinner *ngIf="previewStatus === 'RUNNING'" diameter="25"></mat-spinner>
+                                    </span>
+                                </div>
+                                <div class="update-status">
+                                    <mat-progress-bar mode="determinate" value="0"
+                                                      *ngIf="productionStatus !== 'RUNNING' && productionStatus !== 'QUEUED'">
+                                    </mat-progress-bar>
+                                    <mat-progress-bar mode="buffer"
+                                                      *ngIf="productionStatus === 'QUEUED'"></mat-progress-bar>
+                                    <mat-progress-bar mode="indeterminate"
+                                                      *ngIf="productionStatus === 'RUNNING'"></mat-progress-bar>
+                                </div>
+                                <div class="server {{productionStatus}}">
+                                    <p>Production<br>Server</p>
+                                    <span [class]="productionStatus">
+                                        <mat-icon
+                                            *ngIf="productionStatus !== 'RUNNING' && productionStatus !== 'QUEUED'">{{productionStatus}}</mat-icon>
+                                        <mat-icon *ngIf="productionStatus === 'QUEUED'">dynamic_feed</mat-icon>
+                                        <mat-spinner *ngIf="productionStatus === 'RUNNING'" diameter="25"></mat-spinner>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="actions flex flex-col align-center justify-center p1">
+                            <button class="button small-button {{productionStatus}}"
+                                    [disabled]="productionStatus !== 'warning'"
+                                    [ngStyle]="{opacity: productionStatus !== 'warning' ? .5 : 1, cursor: productionStatus !== 'warning' ? 'not-allowed' : 'pointer'}"
+                                    (click)="updateProduction()">
+                                Update
+                                <mat-icon>keyboard_arrow_right</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="changes-panel" *ngIf="!lastBuild">
+                        <p>
+                            There are currently no builds of this site. To submit a new build please publish your site
+                            using the Oxford Cyber command line CLI tool.
+                        </p>
+                    </div>
+                    <div class="changes-panel" *ngIf="lastBuild">
+                        <p *ngIf="lastBuild.buildType === 'SOURCE_UPLOAD'">
+                            <b>Latest changes: </b>
+                            <span *ngIf="lastBuild.status === 'QUEUED'">
+                                current uploaded source files are queued for processing.
+                            </span>
+                            <span *ngIf="lastBuild.status === 'RUNNING'">
+                                processing source file changes
+                            </span>
+                            <span *ngIf="lastBuild.status === 'PENDING'">
+                                pending source file upload
+                            </span>
+                            <span *ngIf="lastBuild.completedDate">{{(lastBuild.buildTarget).toLowerCase()}}
+                                updated on {{moment.unix(lastBuild.completedDate.timestamp).format('Do MMM @ HH:mm:ss')}}
+                                with {{lastBuild.data.changedObjects.length}} changes</span>
+                        </p>
+                        <p *ngIf="lastBuild.buildType === 'VERSION_REVERT'">
+                            <span *ngIf="lastBuild.status === 'QUEUED'">
+                                <b>Pending: </b>version {{lastBuild.data.targetVersion}} has been queued for processing.
+                            </span>
+                            <span *ngIf="lastBuild.status === 'RUNNING'">
+                                <b>Processing: </b>version {{lastBuild.data.targetVersion}}
+                            </span>
+                            <span *ngIf="lastBuild.status === 'PENDING'">
+                                <b>Pending: </b>version {{lastBuild.data.targetVersion}} revert
+                            </span>
+                            <span *ngIf="lastBuild.status === 'SUCCEEDED'">
+                                Site has been reverted to version {{lastBuild.data.targetVersion}}
+                            </span>
+                        </p>
+                        <p *ngIf="lastBuild.buildType === 'CURRENT' && lastBuild.buildTarget === 'PRODUCTION'">
+                            <ng-template [ngIf]="lastBuild.status === 'SUCCEEDED'">
+                                <b>Production version is up to date.</b>
+                            </ng-template>
+                            <ng-template [ngIf]="lastBuild.status === 'QUEUED'">
+                                <b>Pending: </b> the production build is queued for processing and will begin shortly.
+                            </ng-template>
+                            <ng-template [ngIf]="lastBuild.status === 'RUNNING'">
+                                <b>Deploying: </b> the production build is currently processing.
+                            </ng-template>
+                        </p>
+                        <p *ngIf="lastBuild.buildType === 'CURRENT' && lastBuild.buildTarget !== 'PRODUCTION'">
+                            <span>Preview site updated</span>
+                        </p>
+                    </div>
+
+                    <div class="actionpanel sixtyforty mb050 status" style="margin-top: 2rem">
+                        <div class="actioninfo p2w p1m">
+                            <h4 class="mb1 mt0 flex align-center">
+                                Service URLs
+                            </h4>
+
+                            <p style="margin-bottom: 1rem">
+                                <b>Preview URL</b><br>
+                                <a href="https://{{site.siteKey}}-preview.{{site.serviceDomain}}" target="_blank">
+                                    https://{{site.siteKey}}-preview.{{site.serviceDomain}}
+                                </a>
+                            </p>
+                            <p style="margin-bottom: 1rem">
+                                <b>Production URL<span *ngIf="site.siteDomains.length > 1">s</span></b><br>
+                                <ng-template ngFor let-siteDomain [ngForOf]="site.siteDomains">
+                                    <a href="https://{{siteDomain.domainName}}" target="_blank">
+                                        https://{{siteDomain.domainName}}</a><br>
+                                </ng-template>
+                            </p>
+
+                        </div>
+                        <div class="actions flex flex-col align-center justify-center p1">
+                            <button class="button small-button" [routerLink]="['settings/custom-domains']">
+                                Manage Domains
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="actionpanel sixtyforty mb050 status" style="margin-top: 2rem">
+                        <div class="actioninfo p2w p1m">
+                            <h4 class="mb1 mt0 flex align-center">
+                                <mat-icon class="mr050" *ngIf="!site.siteDomains.length"
+                                          color="warn">warning
+                                </mat-icon>
+                                Settings
+                            </h4>
+
+                            <div class="mb1">
+                                <p>
+                                    <b>Maintenance Mode</b> is currently turned
+                                    <b *ngIf="site.maintenanceMode">On</b>
+                                    <span *ngIf="!site.maintenanceMode">Off</span>
+                                </p>
+                            </div>
+
+                            <ng-template [ngIf]="site.config">
+                                <p style="margin-bottom: 1rem" *ngIf="site.config.publishDirectory">
+                                    <b>Publish directory: </b><br>
+                                    {{site.config.publishDirectory}}
+                                </p>
+
+                                <p style="margin-bottom: 1rem" *ngIf="site.config.indexPage">
+                                    <b>Site Index Page: </b><br>
+                                    {{site.config.indexPage}}
+                                </p>
+
+                                <p *ngIf="site.config.notFoundPage">
+                                    <b>Not Found Page: </b><br>
+                                    {{site.config.notFoundPage}}
+                                </p>
+                            </ng-template>
+                        </div>
+                        <div class="actions flex flex-col align-center justify-center p1">
+                            <button class="button small-button" [routerLink]="['settings']">
+                                Manage Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-33">
+                    <div class="right-panel">
+                        <div class="flex align-center justify-between mb1">
+                            <h4 class="mb0">Builds</h4>
+                            <small>
+                                <a href="javascript:void(0)" [routerLink]="['builds']">view all</a>
+                            </small>
+                        </div>
+
+                        <!--                        <mat-spinner *ngIf="loadingBuilds" diameter="30"></mat-spinner>-->
+
+                        <div class="panel-list">
+                            <div *ngFor="let build of builds" class="list-item">
+                                <p class="production"
+                                   *ngIf="build.buildType === 'CURRENT' && build.buildTarget === 'PRODUCTION'">
+                                    <ng-template [ngIf]="build.status === 'SUCCEEDED'">
+                                        <b>Deployed to Production</b>
+                                    </ng-template>
+                                    <ng-template [ngIf]="build.status === 'QUEUED'">
+                                        <b style="color: #333">Pending production build</b>
+                                    </ng-template>
+                                    <ng-template [ngIf]="build.status === 'RUNNING'">
+                                        <b style="color: #12a6d3">Processing production build</b>
+                                    </ng-template>
+
+                                </p>
+
+                                <p class="preview"
+                                   *ngIf="build.buildType === 'CURRENT' && build.buildTarget !== 'PRODUCTION'">
+                                    Preview site updated
+                                </p>
+
+                                <ng-template [ngIf]="build.buildType === 'SOURCE_UPLOAD'">
+                                    <p>
+                                        <ng-template [ngIf]="build.status === 'SUCCEEDED'">
+                                            <b [ngClass]="{preview: build.buildTarget === 'PREVIEW', production: build.buildTarget === 'PRODUCTION'}">
+                                                New source uploaded to
+                                                <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
+                                        </ng-template>
+                                        <ng-template [ngIf]="build.status === 'QUEUED'">
+                                            <b>Pending source upload to
+                                                <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
+                                        </ng-template>
+                                        <ng-template [ngIf]="build.status === 'RUNNING'">
+                                            <b style="color: #12a6d3">Processing source upload to
+                                                <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
+                                        </ng-template>
+
+                                        {{build.data.changedObjects.length}} changed files
+                                    </p>
+                                </ng-template>
+
+                                <ng-template [ngIf]="build.buildType === 'VERSION_REVERT'">
+                                    <p class="preview"><b>Reverted to:</b> version {{build.data.targetVersion}}</p>
+                                </ng-template>
+
+                                <p *ngIf="build.completedDate">
+                                    <b>Completed: </b> {{moment.unix(build.completedDate.timestamp).format('DD/MM/YYYY HH:mm:ss')}}
+                                </p>
+
+                            </div>
+                        </div>
+
+                        <div class="flex align-center justify-between mb1">
+                            <h4 class="mb0">Versions</h4>
+                            <small>
+                                <a href="javascript:void(0)" [routerLink]="['versions']">view all</a>
+                            </small>
+                        </div>
+
+                        <mat-spinner *ngIf="loadingVersions" diameter="30"></mat-spinner>
+
+                        <div class="panel-list" *ngIf="!loadingVersions">
+                            <div *ngFor="let version of versions" class="list-item">
+                                <div class="toggle-row" (click)="version.toggle = !version.toggle">
+                                    <p><b>v.</b>{{version.version}} - <small>{{version.createdDateTime}}</small></p>
+                                    <button *ngIf="!version.toggle" mat-icon-button>
+                                        <mat-icon>keyboard_arrow_down</mat-icon>
+                                    </button>
+                                    <button *ngIf="version.toggle" mat-icon-button>
+                                        <mat-icon>keyboard_arrow_up</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="sub-item" *ngIf="version.toggle">
+                                    <a href="javascript:void(0)" (click)="revertVersion(version.version)">Revert</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+
+</div>
