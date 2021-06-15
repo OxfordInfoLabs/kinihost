@@ -1,0 +1,12 @@
+{
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../php"
+    }
+  ],
+  "require": {
+    "oxil/kinihost": "*"
+  },
+  "minimum-stability": "dev"
+}

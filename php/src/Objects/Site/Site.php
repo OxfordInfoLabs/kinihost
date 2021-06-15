@@ -6,7 +6,7 @@ namespace Kinihost\Objects\Site;
 use Kinikit\Core\Configuration\Configuration;
 use Kinikit\Core\Util\ObjectArrayUtils;
 use Kinikit\Core\Validation\FieldValidationError;
-use OxfordCyber\StaticWebsite\Objects\Build\Build;
+use Kinihost\Objects\Build\Build;
 
 /**
  * Class Site
@@ -86,17 +86,16 @@ class Site extends SiteSummary {
      * @param string $siteKey
      * @param integer $accountId
      */
-    public function __construct($title = null, $siteKey = null, $accountId = null, $type = Site::TYPE_SITE) {
+    public function __construct($title = null, $siteKey = null, $accountId = null) {
 
         // Construct parent
         parent::__construct($title, $siteKey);
 
         $this->accountId = $accountId;
-        $this->type = $type;
         $this->config = new SiteConfig();
 
         // Initialise array of site domains with production domain.
-        $this->siteDomains = [new SiteDomain($siteKey . "-production." . Configuration::readParameter("static.service.domain"))];
+        $this->siteDomains = [new SiteDomain($siteKey . "-production." . Configuration::readParameter("kinihost.service.domain"))];
 
 
     }
@@ -116,12 +115,6 @@ class Site extends SiteSummary {
         return $this->title . " (" . $this->siteKey . ")";
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType(string $type) {
-        $this->type = $type;
-    }
 
     /**
      * @param string $siteKey
@@ -272,7 +265,6 @@ class Site extends SiteSummary {
      * following a successful published build.
      */
     public function registerPublishedBuild($save = true) {
-        $this->publishedVersion = $this->publishedVersion ? $this->publishedVersion + 1 : 1;
         $this->lastPublished = new \DateTime();
         if ($save)
             $this->save();

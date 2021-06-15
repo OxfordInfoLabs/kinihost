@@ -1,0 +1,18 @@
+[
+  {
+    "scope": "SITE",
+    "name": "Content Editor",
+    "description": "Can edit content for the site",
+    "privileges": [
+      "contentManagement"
+    ]
+  },
+  {
+    "scope": "SITE",
+    "name": "Source Manager",
+    "description": "Can upload and edit source for the source",
+    "privileges": [
+      "sourceManagement"
+    ]
+  }
+]
