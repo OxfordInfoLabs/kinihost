@@ -3,3 +3,4 @@ test/Config/config.txt
 vendor
 test/DB/kinihost*
 test/FileStorage/*
+!test/FileStorage/.gitkeep

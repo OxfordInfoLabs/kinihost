@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es6",
+      "es2015",
+      "dom"
+    ],
+    "outDir": "dist",
+    "rootDir": "src",
+    "allowJs": true,
+    "strict": true,
+    "types": [
+      "node",
+      "jasmine"
+    ],
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
