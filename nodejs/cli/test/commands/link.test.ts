@@ -6,11 +6,14 @@ import Api from "../../src/core/api";
 import * as fs from "fs";
 import SiteConfig from "../../src/core/site-config";
 import Container from "../../src/core/container";
+import MockApi from "../mock/mock-api";
+import {sha512} from "js-sha512";
+import getMAC from "getmac";
 
 describe('Tests for the link command', function () {
 
-    let config = new Config("test/Core/useraccesstoken", "dev");
-    let api = new Api(config);
+    let config = new Config("useraccesstoken", "http://localhost", "test");
+    let api = new MockApi(config);
     let auth: Auth;
     let siteConfig: SiteConfig = Container.getInstance("SiteConfig");
 
@@ -19,7 +22,7 @@ describe('Tests for the link command', function () {
         let authenticationInquirer = new MockInquirer([
             {"emailAddress": "sam@samdavisdesign.co.uk", "password": "password"}
         ]);
-        auth = new Auth(config, authenticationInquirer);
+        auth = new Auth(config, authenticationInquirer, api);
 
         auth.logout();
 
@@ -36,8 +39,14 @@ describe('Tests for the link command', function () {
             {"emailAddress": "sam@samdavisdesign.co.uk", "password": "badpass"}
         ]);
 
+        api.setCallMethodExpectation(new Error("bad username / password"), "/cli/auth/accessToken", "POST", {}, {
+            emailAddress: "sam@samdavisdesign.co.uk",
+            password: sha512("badpasssam@samdavisdesign.co.uk"),
+            secondaryToken: getMAC()
+        }, "string");
 
-        let link = new Link(new Auth(config, inquirer), siteConfig, api);
+
+        let link = new Link(new Auth(config, inquirer, api), siteConfig, api);
 
         link.process().then(result => {
             expect(result).toBeFalsy();
@@ -52,9 +61,17 @@ describe('Tests for the link command', function () {
         let authenticationInquirer = new MockInquirer([
             {"emailAddress": "john@shoppingonline.com", "password": "password"}
         ]);
-        auth = new Auth(config, authenticationInquirer);
+        auth = new Auth(config, authenticationInquirer, api);
 
-        let link = new Link(auth, siteConfig, api, null);
+        let link = new Link(auth, siteConfig, api, authenticationInquirer);
+
+
+        api.setCallMethodExpectation("VALIDTOKEN", "/cli/auth/accessToken", "POST", {}, {
+            emailAddress: "sam@samdavisdesign.co.uk",
+            password: sha512("passwordsam@samdavisdesign.co.uk"),
+            secondaryToken: getMAC()
+        }, "string");
+
 
         link.process().then(result => {
 
@@ -245,7 +262,7 @@ describe('Tests for the link command', function () {
 
     it("Ensure linked should prompt to choose new site if existing site key not valid", function (done) {
 
-       siteConfig.siteConfig = {"siteKey": "badboy", "config": {"publishDirectory": null}};
+        siteConfig.siteConfig = {"siteKey": "badboy", "config": {"publishDirectory": null}};
 
         let inquirer = new MockInquirer([
             {"siteKey": "lucientaylor"}

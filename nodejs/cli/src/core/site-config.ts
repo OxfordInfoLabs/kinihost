@@ -25,7 +25,7 @@ export default class SiteConfig {
     /**
      * Load the site config
      */
-    constructor(api?: Api, config? : Config, contentRoot: string = ".") {
+    constructor(api?: Api, config?: Config, contentRoot: string = ".") {
         this._api = api ? api : Container.getInstance("Api");
         this._config = config ? config : Container.getInstance("Config");
         this._contentRoot = contentRoot;
@@ -34,23 +34,10 @@ export default class SiteConfig {
 
 
     /**
-     * Set the config filename
-     *
-     * @param configFilename
-     */
-    public set configFilename(configFilename: string) {
-        this._configFilename = configFilename;
-        this._loadSiteConfig();
-    }
-
-    /**
      * Get the config filename
      */
     public get configFilename(): string {
-        if (this._configFilename) {
-            return this._configFilename;
-        } else
-            return "kinihost" + (this._config.mode == "production" ? "" : "-" + this._config.mode) + ".json";
+        return this._config.configFilename;
     }
 
     /**

@@ -3,7 +3,7 @@
 application.name = Kinihost Example
 application.namespace = KinihostExample
 
-search.paths = ../vendor/oxil/kiniauth/php/src;../vendor/oxil/kinihost/php/src
+search.paths = ../vendor/oxil/kiniauth/php/src;../vendor/oxil/kinihost/src
 
 db.provider = sqlite3
 db.filename = DB/kinihost-example.db

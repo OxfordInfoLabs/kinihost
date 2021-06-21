@@ -1,12 +1,11 @@
 {
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../../php"
-    }
-  ],
   "require": {
     "oxil/kinihost": "*"
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "scripts": {
+    "serve": "php -S 127.0.0.1:3000 -t src",
+    "clean-database": "Kinikit\\Persistence\\Tools\\DBInstaller::runFromComposer",
+    "test-data": "Kinikit\\Persistence\\Tools\\TestDataInstaller::runFromComposer"
+  }
 }

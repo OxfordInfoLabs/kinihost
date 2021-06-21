@@ -8,7 +8,7 @@ import {sha512} from "js-sha512";
 
 describe('Tests for the authentication service class', function () {
 
-    let config = new Config("test/Core/useraccesstoken", "dev");
+    let config = new Config("useraccesstoken","http://localhost", "test");
 
     let api = new MockApi();
 

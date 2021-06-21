@@ -4,6 +4,7 @@
 import SiteConfig from "./site-config";
 import Api from "./api";
 import Config from "./config";
+import AuthenticationService from "../services/authentication-service";
 
 export default class Container {
 
@@ -48,7 +49,8 @@ export default class Container {
             this._instanceClasses = {
                 "Api": Api,
                 "Config": Config,
-                "SiteConfig": SiteConfig
+                "SiteConfig": SiteConfig,
+                "AuthenticationService": AuthenticationService
             };
         }
         return this._instanceClasses;

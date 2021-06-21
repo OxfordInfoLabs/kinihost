@@ -13,7 +13,7 @@ import getMAC from "getmac";
 
 describe('Tests for the check command', function () {
 
-    let config = new Config("test/Core/useraccesstoken", "dev");
+    let config = new Config("useraccesstoken", "dev");
     let link: Link;
     let auth: Auth;
     let siteConfig = Container.getInstance("SiteConfig");

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c180db5e42ccac6a938e85577ce19559",
+    "content-hash": "6843edb52016bd96e7f48bd59bf61ccc",
     "packages": [
         {
             "name": "brick/math",
@@ -478,17 +478,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client.git",
-                "reference": "62f57e7682fa649f955010f9124e4892ced0717d"
+                "reference": "a1f05ce3b5733dd45fa4d45e41b76ecdbd229fee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/62f57e7682fa649f955010f9124e4892ced0717d",
-                "reference": "62f57e7682fa649f955010f9124e4892ced0717d",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/a1f05ce3b5733dd45fa4d45e41b76ecdbd229fee",
+                "reference": "a1f05ce3b5733dd45fa4d45e41b76ecdbd229fee",
                 "shasum": ""
             },
             "require": {
                 "firebase/php-jwt": "~2.0||~3.0||~4.0||~5.0",
-                "google/apiclient-services": "~0.13",
+                "google/apiclient-services": "^0.200.0",
                 "google/auth": "^1.10",
                 "guzzlehttp/guzzle": "~5.3.3||~6.0||~7.0",
                 "guzzlehttp/psr7": "^1.2",
@@ -540,20 +540,20 @@
                 "issues": "https://github.com/googleapis/google-api-php-client/issues",
                 "source": "https://github.com/googleapis/google-api-php-client/tree/master"
             },
-            "time": "2021-06-10T18:56:25+00:00"
+            "time": "2021-06-18T18:58:28+00:00"
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.181.0",
+            "version": "v0.200.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "a4ea5fd96887d654d10d446b239e1ff60240e2c1"
+                "reference": "0375af405757b36f3bcc82e19d7daf61e0b4cfd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/a4ea5fd96887d654d10d446b239e1ff60240e2c1",
-                "reference": "a4ea5fd96887d654d10d446b239e1ff60240e2c1",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/0375af405757b36f3bcc82e19d7daf61e0b4cfd8",
+                "reference": "0375af405757b36f3bcc82e19d7daf61e0b4cfd8",
                 "shasum": ""
             },
             "require": {
@@ -564,9 +564,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Google_Service_": "src"
-                }
+                "psr-4": {
+                    "Google\\Service\\": "src"
+                },
+                "files": [
+                    "autoload.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -579,9 +582,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.181.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.200.0"
             },
-            "time": "2021-06-13T11:20:02+00:00"
+            "time": "2021-06-18T15:00:35+00:00"
         },
         {
             "name": "google/appengine-php-sdk",
@@ -1560,12 +1563,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4347fe7f4dde0954ed3df833fd568806b714e9a0"
+                "reference": "1ac14e91c9129463117fe11fb6747fc25a988c1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4347fe7f4dde0954ed3df833fd568806b714e9a0",
-                "reference": "4347fe7f4dde0954ed3df833fd568806b714e9a0",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1ac14e91c9129463117fe11fb6747fc25a988c1d",
+                "reference": "1ac14e91c9129463117fe11fb6747fc25a988c1d",
                 "shasum": ""
             },
             "require": {
@@ -1646,7 +1649,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-03-21T09:35:17+00:00"
+            "time": "2021-06-15T19:24:48+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -2042,8 +2045,8 @@
             "version": "0.1",
             "dist": {
                 "type": "path",
-                "url": "../../php",
-                "reference": "6c32cb256d0eaff659d64a11cf8458563311f88e"
+                "url": "../..",
+                "reference": "2912132af500b2121e4ff4623db653e68679bd54"
             },
             "require": {
                 "cloudflare/sdk": "dev-master",
@@ -2057,15 +2060,21 @@
                 "oxil/kiniauth": "dev-master"
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kinihost\\Test\\": "php/test/",
+                    "Kinihost\\": "php/src/"
+                }
+            },
             "scripts": {
                 "dev": [
-                    "rm -rf vendor/oxil/kini*; ln -s ../../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../../kiniauth vendor/oxil/kiniauth;"
+                    "rm -rf vendor/oxil/kini*; ln -s ../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../kiniauth vendor/oxil/kiniauth;"
                 ],
                 "run-queue": [
                     "Kiniauth\\Tools\\QueuedTaskRunner::runFromComposer"
                 ],
                 "test": [
-                    "cd test; phpunit ."
+                    "cd php/test; phpunit php"
                 ]
             },
             "transport-options": {
@@ -2078,12 +2087,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OxfordInfoLabs/kinikit-core.git",
-                "reference": "fe7197c277ae5743cd2e656f0bd6ec8556fda223"
+                "reference": "6a3519750a7936b9d10dd7e68071df05a0d205a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OxfordInfoLabs/kinikit-core/zipball/fe7197c277ae5743cd2e656f0bd6ec8556fda223",
-                "reference": "fe7197c277ae5743cd2e656f0bd6ec8556fda223",
+                "url": "https://api.github.com/repos/OxfordInfoLabs/kinikit-core/zipball/6a3519750a7936b9d10dd7e68071df05a0d205a8",
+                "reference": "6a3519750a7936b9d10dd7e68071df05a0d205a8",
                 "shasum": ""
             },
             "require": {
@@ -2118,7 +2127,7 @@
                 "issues": "https://github.com/OxfordInfoLabs/kinikit-core/issues",
                 "source": "https://github.com/OxfordInfoLabs/kinikit-core/tree/master"
             },
-            "time": "2021-06-04T10:27:05+00:00"
+            "time": "2021-06-17T13:16:04+00:00"
         },
         {
             "name": "oxil/kinikit-mvc",
@@ -2169,12 +2178,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OxfordInfoLabs/kinikit-persistence.git",
-                "reference": "f85582a53cd811f9bf98116216f8203972e7d304"
+                "reference": "ba530d4def048cd97c8fd436b21acf9d7aeb89f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OxfordInfoLabs/kinikit-persistence/zipball/f85582a53cd811f9bf98116216f8203972e7d304",
-                "reference": "f85582a53cd811f9bf98116216f8203972e7d304",
+                "url": "https://api.github.com/repos/OxfordInfoLabs/kinikit-persistence/zipball/ba530d4def048cd97c8fd436b21acf9d7aeb89f6",
+                "reference": "ba530d4def048cd97c8fd436b21acf9d7aeb89f6",
                 "shasum": ""
             },
             "require": {
@@ -2203,7 +2212,7 @@
                 "issues": "https://github.com/OxfordInfoLabs/kinikit-persistence/issues",
                 "source": "https://github.com/OxfordInfoLabs/kinikit-persistence/tree/master"
             },
-            "time": "2021-05-24T13:54:25+00:00"
+            "time": "2021-06-17T14:43:40+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -2324,16 +2333,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.4.1",
+            "version": "v6.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d"
+                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9256f12d8fb0cd0500f93b19e18c356906cbed3d",
-                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a5b5c43e50b7fba655f793ad27303cd74c57363c",
+                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c",
                 "shasum": ""
             },
             "require": {
@@ -2388,7 +2397,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.4.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.5.0"
             },
             "funding": [
                 {
@@ -2396,7 +2405,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-29T12:25:04+00:00"
+            "time": "2021-06-16T14:33:43+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -2404,12 +2413,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "a127a5133804ff2f47ae629dd529b129da616ad7"
+                "reference": "fceb5b47dade899826c30d2ab18e81d931fa840f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/a127a5133804ff2f47ae629dd529b129da616ad7",
-                "reference": "a127a5133804ff2f47ae629dd529b129da616ad7",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/fceb5b47dade899826c30d2ab18e81d931fa840f",
+                "reference": "fceb5b47dade899826c30d2ab18e81d931fa840f",
                 "shasum": ""
             },
             "require": {
@@ -2507,7 +2516,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-14T06:54:45+00:00"
+            "time": "2021-06-19T16:30:03+00:00"
         },
         {
             "name": "psr/cache",

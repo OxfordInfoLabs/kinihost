@@ -17,8 +17,6 @@ export default class AuthenticationService {
     private _api: Api;
     private _inquirer: any;
 
-    private static _instance: AuthenticationService;
-
     /**
      * Construct with a config object and inquirer
      *
@@ -78,7 +76,7 @@ export default class AuthenticationService {
      */
     public async login() {
 
-        console.log("\nPlease login with your Kinisite email address and password.\n");
+        console.log("\nPlease login with your " + this._config.cliDisplayName + " email address and password.\n");
 
         let config = await this._inquirer.prompt([
             {

@@ -7,7 +7,6 @@ before_install:
   -in php/test/Config/google.json.enc -out php/test/Config/google.json -d
 - pecl install grpc
 install:
-- cd php
 - composer install
 - composer clearcache
 - composer update

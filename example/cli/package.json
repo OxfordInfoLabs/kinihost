@@ -1,0 +1,20 @@
+{
+  "name": "kinihost-example",
+  "version": "0.0.1",
+  "bin": {
+    "kinihost-example": "./dist/index.js"
+  },
+  "scripts": {
+    "build-lib": "cd ../../nodejs/cli; npm run build",
+    "build": "npm run build-lib; tsc -p .",
+    "install-cli": "npm run build; sudo npm i -g"
+  },
+  "dependencies": {
+    "kinihost-cli": "file:../../nodejs/cli"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.8",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
+  }
+}
