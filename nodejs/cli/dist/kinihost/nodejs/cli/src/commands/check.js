@@ -42,9 +42,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var link_1 = __importDefault(require("./link"));
 var chalk_1 = __importDefault(require("chalk"));
 var container_1 = __importDefault(require("../core/container"));
-var source_service_1 = __importDefault(require("../services/source-service"));
-var liveInquirer = require('inquirer');
-var Download = /** @class */ (function () {
+/**
+ * Check task to ensure that we are linked to a site.
+ */
+var Check = /** @class */ (function () {
     /**
      * Constructor mostly for testing
      *
@@ -53,66 +54,44 @@ var Download = /** @class */ (function () {
      * @param inquirer
      * @param siteConfig
      */
-    function Download(link, api, siteConfig, inquirer) {
+    function Check(link, auth) {
+        this._auth = auth ? auth : container_1.default.getInstance("AuthenticationService");
         this._link = link ? link : new link_1.default();
-        this._api = api ? api : container_1.default.getInstance("Api");
-        this._siteConfig = siteConfig ? siteConfig : container_1.default.getInstance("SiteConfig");
-        this._inquirer = inquirer ? inquirer : liveInquirer;
     }
     /**
-     * Process the push operation
+     * Process method to process check
      */
-    Download.prototype.process = function () {
+    Check.prototype.process = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result, sourceManager, remoteFiles, localFiles, requiredDownloads, values, downloadUrls;
+            var authenticated, linked;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._link.ensureLinked()];
+                    case 0: return [4 /*yield*/, this._auth.checkAuthenticated()];
                     case 1:
-                        result = _a.sent();
-                        if (!result) return [3 /*break*/, 10];
-                        sourceManager = new source_service_1.default(this._api, this._siteConfig);
-                        // Now grab.
-                        console.log("\nCalculating files to download......");
-                        return [4 /*yield*/, sourceManager.getRemoteObjectFootprints()];
+                        authenticated = _a.sent();
+                        if (!authenticated) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this._link.checkLinked()];
                     case 2:
-                        remoteFiles = _a.sent();
-                        localFiles = sourceManager.getLocalObjectFootprints();
-                        requiredDownloads = sourceManager.generateChanges(localFiles, remoteFiles);
-                        console.log(requiredDownloads.length + " changes required");
-                        if (!(requiredDownloads.length > 0)) return [3 /*break*/, 8];
-                        return [4 /*yield*/, this._inquirer.prompt([
-                                {
-                                    "type": "confirm",
-                                    "name": "areYouSure",
-                                    "message": "This will add and remove files from your local copy, are you sure?"
-                                }
-                            ])];
+                        linked = _a.sent();
+                        if (linked) {
+                            console.log(chalk_1.default.blue("Check:") + chalk_1.default.green(" success"));
+                            console.log(chalk_1.default.blue("Site: " + linked.title + " (" + linked.siteKey + ")"));
+                            if (linked.lastBuildNumber)
+                                console.log(chalk_1.default.blue("Last build: #" + chalk_1.default.bold(linked.lastBuildNumber) + " by " + chalk_1.default.bold(linked.lastBuildUser) + " on " + chalk_1.default.bold(linked.lastBuildTime)));
+                            else
+                                console.log(chalk_1.default.grey("There have been no builds for this site"));
+                        }
+                        else {
+                            console.log(chalk_1.default.red("\nThis source base is not currently linked to an active site.  Please use the link command to first link to a site."));
+                        }
+                        return [2 /*return*/, linked];
                     case 3:
-                        values = _a.sent();
-                        if (!values.areYouSure) return [3 /*break*/, 6];
-                        console.log("\nPreparing download......");
-                        return [4 /*yield*/, sourceManager.getRemoteDownloadUrls(requiredDownloads)];
-                    case 4:
-                        downloadUrls = _a.sent();
-                        console.log("\nDownloading files...");
-                        return [4 /*yield*/, sourceManager.downloadFiles(downloadUrls)];
-                    case 5:
-                        _a.sent();
-                        console.log("\nRemoving old files...");
-                        sourceManager.removeDeletedLocalFiles(requiredDownloads);
-                        console.log(chalk_1.default.green("\nDownload complete"));
-                        return [2 /*return*/, true];
-                    case 6: return [2 /*return*/, false];
-                    case 7: return [3 /*break*/, 9];
-                    case 8: return [2 /*return*/, true];
-                    case 9: return [3 /*break*/, 11];
-                    case 10: return [2 /*return*/, false];
-                    case 11: return [2 /*return*/];
+                        console.log(chalk_1.default.red("You are not currently logged in.  Please use the login command to log in."));
+                        return [2 /*return*/, false];
                 }
             });
         });
     };
-    return Download;
+    return Check;
 }());
-exports.default = Download;
+exports.default = Check;

@@ -39,80 +39,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var link_1 = __importDefault(require("./link"));
+var check_1 = __importDefault(require("./check"));
 var chalk_1 = __importDefault(require("chalk"));
 var container_1 = __importDefault(require("../core/container"));
 var source_service_1 = __importDefault(require("../services/source-service"));
-var liveInquirer = require('inquirer');
-var Download = /** @class */ (function () {
-    /**
-     * Constructor mostly for testing
-     *
-     * @param link
-     * @param api
-     * @param inquirer
-     * @param siteConfig
-     */
-    function Download(link, api, siteConfig, inquirer) {
-        this._link = link ? link : new link_1.default();
+/**
+ * Status command - runs check and also looks for any outstanding changes.
+ */
+var Status = /** @class */ (function () {
+    function Status(check, api, siteConfig) {
+        this._check = check ? check : new check_1.default();
         this._api = api ? api : container_1.default.getInstance("Api");
         this._siteConfig = siteConfig ? siteConfig : container_1.default.getInstance("SiteConfig");
-        this._inquirer = inquirer ? inquirer : liveInquirer;
     }
     /**
-     * Process the push operation
+     * Process the status command
      */
-    Download.prototype.process = function () {
+    Status.prototype.process = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result, sourceManager, remoteFiles, localFiles, requiredDownloads, values, downloadUrls;
+            var result, sourceManager;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._link.ensureLinked()];
+                    case 0:
+                        console.log(chalk_1.default.blue("Status: ") + chalk_1.default.yellow("running .."));
+                        return [4 /*yield*/, this._check.process()];
                     case 1:
                         result = _a.sent();
-                        if (!result) return [3 /*break*/, 10];
-                        sourceManager = new source_service_1.default(this._api, this._siteConfig);
-                        // Now grab.
-                        console.log("\nCalculating files to download......");
-                        return [4 /*yield*/, sourceManager.getRemoteObjectFootprints()];
-                    case 2:
-                        remoteFiles = _a.sent();
-                        localFiles = sourceManager.getLocalObjectFootprints();
-                        requiredDownloads = sourceManager.generateChanges(localFiles, remoteFiles);
-                        console.log(requiredDownloads.length + " changes required");
-                        if (!(requiredDownloads.length > 0)) return [3 /*break*/, 8];
-                        return [4 /*yield*/, this._inquirer.prompt([
-                                {
-                                    "type": "confirm",
-                                    "name": "areYouSure",
-                                    "message": "This will add and remove files from your local copy, are you sure?"
-                                }
-                            ])];
-                    case 3:
-                        values = _a.sent();
-                        if (!values.areYouSure) return [3 /*break*/, 6];
-                        console.log("\nPreparing download......");
-                        return [4 /*yield*/, sourceManager.getRemoteDownloadUrls(requiredDownloads)];
-                    case 4:
-                        downloadUrls = _a.sent();
-                        console.log("\nDownloading files...");
-                        return [4 /*yield*/, sourceManager.downloadFiles(downloadUrls)];
-                    case 5:
-                        _a.sent();
-                        console.log("\nRemoving old files...");
-                        sourceManager.removeDeletedLocalFiles(requiredDownloads);
-                        console.log(chalk_1.default.green("\nDownload complete"));
-                        return [2 /*return*/, true];
-                    case 6: return [2 /*return*/, false];
-                    case 7: return [3 /*break*/, 9];
-                    case 8: return [2 /*return*/, true];
-                    case 9: return [3 /*break*/, 11];
-                    case 10: return [2 /*return*/, false];
-                    case 11: return [2 /*return*/];
+                        if (result) {
+                            sourceManager = new source_service_1.default(this._api, this._siteConfig);
+                            sourceManager.calculateChanges();
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return Download;
+    return Status;
 }());
-exports.default = Download;
+exports.default = Status;

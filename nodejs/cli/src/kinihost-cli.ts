@@ -10,6 +10,7 @@ import Check from "./commands/check";
 import Link from "./commands/link";
 import Status from "./commands/status";
 import Push from "./commands/push";
+import Download from "./commands/download";
 
 export default class KinihostCli {
 
@@ -82,6 +83,13 @@ export default class KinihostCli {
                 "description": "Push the latest source for the currently linked website",
                 "action": (env: any) => {
                     new Push().process();
+                }
+            },
+            {
+                "name": "download",
+                "description": "Download the latest source for the currently linked website",
+                "action": (env: any) => {
+                    new Download().process();
                 }
             }
         ]
