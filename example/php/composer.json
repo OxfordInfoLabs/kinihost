@@ -1,11 +1,17 @@
 {
   "require": {
-    "oxil/kinihost": "*"
+    "oxil/kinihost": "dev-main"
   },
   "minimum-stability": "dev",
+  "config": {
+    "process-timeout": 0,
+    "source-directory": "src",
+    "test-directory": "test"
+  },
   "scripts": {
     "serve": "php -S 127.0.0.1:3000 -t src",
     "clean-database": "Kinikit\\Persistence\\Tools\\DBInstaller::runFromComposer",
-    "test-data": "Kinikit\\Persistence\\Tools\\TestDataInstaller::runFromComposer"
+    "test-data": "Kinikit\\Persistence\\Tools\\TestDataInstaller::runFromComposer",
+    "dev":  "rm -rf vendor/oxil/kini*; ln -s ../../../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../../../kiniauth vendor/oxil/kiniauth; ln -s ../../../.. vendor/oxil/kinihost"
   }
 }

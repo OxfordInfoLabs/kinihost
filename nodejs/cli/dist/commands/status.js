@@ -40,26 +40,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var check_1 = __importDefault(require("./check"));
-var api_1 = __importDefault(require("../../../core/api"));
-var site_config_1 = __importDefault(require("../site-config"));
-var source_manager_1 = __importDefault(require("../services/source-manager"));
 var chalk_1 = __importDefault(require("chalk"));
-var site_entity_validator_1 = __importDefault(require("../services/site-entity-validator"));
+var container_1 = __importDefault(require("../core/container"));
+var source_service_1 = __importDefault(require("../services/source-service"));
 /**
  * Status command - runs check and also looks for any outstanding changes.
  */
 var Status = /** @class */ (function () {
     function Status(check, api, siteConfig) {
         this._check = check ? check : new check_1.default();
-        this._api = api ? api : api_1.default.instance();
-        this._siteConfig = siteConfig ? siteConfig : site_config_1.default.instance();
+        this._api = api ? api : container_1.default.getInstance("Api");
+        this._siteConfig = siteConfig ? siteConfig : container_1.default.getInstance("SiteConfig");
     }
     /**
      * Process the status command
      */
     Status.prototype.process = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result, sourceManager, changes, validator;
+            var result, sourceManager;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -68,10 +66,8 @@ var Status = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         if (result) {
-                            sourceManager = new source_manager_1.default(this._api, this._siteConfig);
-                            changes = sourceManager.calculateChanges();
-                            validator = new site_entity_validator_1.default(this._siteConfig);
-                            validator.validateChangedEntityConfiguration(changes);
+                            sourceManager = new source_service_1.default(this._api, this._siteConfig);
+                            sourceManager.calculateChanges();
                         }
                         return [2 /*return*/];
                 }

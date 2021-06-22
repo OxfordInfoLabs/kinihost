@@ -62,11 +62,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Create site handling class.
  */
 var link_1 = __importDefault(require("./link"));
-var api_1 = __importDefault(require("../core/api"));
-var site_config_1 = __importDefault(require("../core/site-config"));
 var fs = __importStar(require("fs"));
 var chalk_1 = __importDefault(require("chalk"));
-var source_manager_1 = __importDefault(require("../services/source-manager"));
+var source_service_1 = __importDefault(require("../services/source-service"));
+var container_1 = __importDefault(require("../core/container"));
 var liveInquirer = require('inquirer');
 var Push = /** @class */ (function () {
     /**
@@ -79,9 +78,9 @@ var Push = /** @class */ (function () {
      */
     function Push(link, api, inquirer, siteConfig) {
         this._link = link ? link : new link_1.default();
-        this._api = api ? api : api_1.default.instance();
+        this._api = api ? api : container_1.default.getInstance("Api");
         this._inquirer = inquirer ? inquirer : liveInquirer;
-        this._siteConfig = siteConfig ? siteConfig : site_config_1.default.instance();
+        this._siteConfig = siteConfig ? siteConfig : container_1.default.getInstance("SiteConfig");
     }
     /**
      * Process the push operation
@@ -126,29 +125,22 @@ var Push = /** @class */ (function () {
     // Actually do the push once stuff has been resolved.
     Push.prototype.__doPush = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sourceManager, validator, changes, errors, result;
+            var sourceManager, changes, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        sourceManager = new source_manager_1.default(this._api, this._siteConfig);
-                        validator = new SiteEntityValidator(this._siteConfig);
+                        sourceManager = new source_service_1.default(this._api, this._siteConfig);
                         // Write the deploy config out.
-                        fs.writeFileSync(".kinisite-deploy", JSON.stringify(this._siteConfig.deploymentConfig));
+                        fs.writeFileSync(".kinihost-deploy", JSON.stringify(this._siteConfig.deploymentConfig));
                         return [4 /*yield*/, sourceManager.calculateChanges()];
                     case 1:
                         changes = _a.sent();
-                        errors = validator.validateChangedEntityConfiguration(changes);
-                        if (!(!errors || Object.keys(errors).length == 0)) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.__processSourceChanges(changes)];
                     case 2:
                         result = _a.sent();
-                        if (fs.existsSync(".kinisite-deploy"))
-                            fs.unlinkSync(".kinisite-deploy");
+                        if (fs.existsSync(".kinihost-deploy"))
+                            fs.unlinkSync(".kinihost-deploy");
                         return [2 /*return*/, result];
-                    case 3:
-                        if (fs.existsSync(".kinisite-deploy"))
-                            fs.unlinkSync(".kinisite-deploy");
-                        return [2 /*return*/, false];
                 }
             });
         });
@@ -160,23 +152,24 @@ var Push = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        sourceManager = new source_manager_1.default(this._api, this._siteConfig);
+                        sourceManager = new source_service_1.default(this._api, this._siteConfig);
                         if (!(changes.length > 0)) return [3 /*break*/, 6];
                         console.log("\nPreparing build (this might take some time).........");
                         return [4 /*yield*/, sourceManager.createRemoteUploadBuild(changes)];
                     case 1:
                         uploadBuild_1 = _a.sent();
+                        console.log(uploadBuild_1);
                         if (!(Object.keys(uploadBuild_1.uploadUrls).length > 0)) return [3 /*break*/, 4];
                         console.log("\nUploading files....");
                         return [4 /*yield*/, sourceManager.uploadFiles(uploadBuild_1.uploadUrls)];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, this._api.callMethod("/cli/staticwebsite/build/queue/" + uploadBuild_1.buildId)];
+                        return [4 /*yield*/, this._api.callMethod("/cli/build/queue/" + uploadBuild_1.buildId)];
                     case 3:
                         _a.sent();
                         console.log(chalk_1.default.green("\nBuild #" + uploadBuild_1.siteBuildNumber + " has been started.  You will get an email once this has been completed"));
                         return [2 /*return*/, true];
-                    case 4: return [2 /*return*/, this._api.callMethod("/cli/staticwebsite/build/queue/" + uploadBuild_1.buildId).then(function () {
+                    case 4: return [2 /*return*/, this._api.callMethod("/cli/build/queue/" + uploadBuild_1.buildId).then(function () {
                             console.log(chalk_1.default.green("\nBuild #" + uploadBuild_1.siteBuildNumber + " has been started.  You will get an email once this has been completed"));
                             return true;
                         })];

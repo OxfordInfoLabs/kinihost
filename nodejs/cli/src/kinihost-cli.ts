@@ -6,6 +6,10 @@ import program from "commander";
 import chalk from "chalk";
 
 import Container from "./core/container";
+import Check from "./commands/check";
+import Link from "./commands/link";
+import Status from "./commands/status";
+import Push from "./commands/push";
 
 export default class KinihostCli {
 
@@ -42,10 +46,7 @@ export default class KinihostCli {
                 "name": "login",
                 "description": "Login to the " + cliDisplayName + " system",
                 "action": (env: any) => {
-                    authenticationService.login().then(() => {
-                        console.log(chalk.green("\nYou have logged in successfully"));
-                    });
-
+                    authenticationService.login();
                 }
             },
             {
@@ -53,7 +54,34 @@ export default class KinihostCli {
                 "description": "Logout from the " + cliDisplayName + " system",
                 "action": (env: any) => {
                     authenticationService.logout();
-                    console.log(chalk.green("\nYou have been logged out"));
+                }
+            },
+            {
+                "name": "link",
+                "description": "Link the current directory to an existing " + cliDisplayName + " site",
+                "action": (siteKey: any, env: any) => {
+                    new Link().process(env ? siteKey : null);
+                }
+            },
+            {
+                "name": "check",
+                "description": "Check whether this source is linked to a site and display status info",
+                "action": (env: any) => {
+                    new Check().process();
+                }
+            },
+            {
+                "name": "status",
+                "description": "Check the status of the local source base prior to a push",
+                "action": (env: any) => {
+                    new Status().process();
+                }
+            },
+            {
+                "name": "push",
+                "description": "Push the latest source for the currently linked website",
+                "action": (env: any) => {
+                    new Push().process();
                 }
             }
         ]

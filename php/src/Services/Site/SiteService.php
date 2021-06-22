@@ -15,6 +15,7 @@ use Kiniauth\Services\Security\SecurityService;
 use Kiniauth\Services\Workflow\QueuedTask\QueuedTaskService;
 use Kinikit\Core\Configuration\Configuration;
 
+use Kinikit\Core\Logging\Logger;
 use Kinikit\Core\Util\ObjectArrayUtils;
 use Kinikit\Core\Validation\ValidationException;
 use Kinikit\Core\Validation\Validator;

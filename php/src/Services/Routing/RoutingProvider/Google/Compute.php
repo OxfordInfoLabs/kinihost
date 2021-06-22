@@ -3,11 +3,10 @@
 
 namespace Kinihost\Services\Routing\RoutingProvider\Google;
 
-
 use Google_Client;
 use Google_Service_Compute_Resource_SslCertificates;
 
-class Compute extends \Google_Service_Compute {
+class Compute extends \Google\Service\Compute {
 
     /**
      * Constructs the internal representation of the Compute service.

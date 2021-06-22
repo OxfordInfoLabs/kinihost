@@ -2,7 +2,7 @@
 
 namespace Kinihost\Services\Routing\RoutingProvider\Google;
 
-class SslCertificate extends \Google_Service_Compute_SslCertificate {
+class SslCertificate extends \Google\Service\Compute\SslCertificate {
 
     public $managed;
 

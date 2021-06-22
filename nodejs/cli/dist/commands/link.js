@@ -124,7 +124,7 @@ var Link = /** @class */ (function () {
                         if (result)
                             console.log(chalk_1.default.green("\nThe current site has now been linked to " + siteKey));
                         return [2 /*return*/, result];
-                    case 3: return [4 /*yield*/, this._api.callMethod("/cli/staticwebsite/site")];
+                    case 3: return [4 /*yield*/, this._api.callMethod("/cli/site")];
                     case 4:
                         results = _a.sent();
                         if (!(results.length > 0)) return [3 /*break*/, 7];
@@ -149,7 +149,7 @@ var Link = /** @class */ (function () {
                             console.log(chalk_1.default.green("\nThe current site has now been linked to " + inquirerResults.siteKey));
                         return [2 /*return*/, result];
                     case 7:
-                        console.log(chalk_1.default.red("\nYou currently have no active sites within your account.  Please visit https://oxfordcyber.uk to purchase a subscription"));
+                        console.log(chalk_1.default.red("\nYou currently have no active sites within your account."));
                         return [2 /*return*/, false];
                     case 8: return [3 /*break*/, 10];
                     case 9: return [2 /*return*/, false];

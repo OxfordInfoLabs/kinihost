@@ -142,6 +142,7 @@ var AuthenticationService = /** @class */ (function () {
                     case 3:
                         userAccessToken = _a.sent();
                         this._config.userToken = userAccessToken;
+                        console.log(chalk_1.default.green("\nYou have logged in successfully"));
                         return [2 /*return*/, true];
                     case 4:
                         error_1 = _a.sent();
@@ -189,6 +190,7 @@ var AuthenticationService = /** @class */ (function () {
      */
     AuthenticationService.prototype.logout = function () {
         this._config.userToken = "";
+        console.log(chalk_1.default.green("\nYou have been logged out"));
     };
     return AuthenticationService;
 }());

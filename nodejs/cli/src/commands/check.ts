@@ -48,14 +48,14 @@ export default class Check {
                 else
                     console.log(chalk.grey("There have been no builds for this site"));
             } else {
-                console.log(chalk.red("\nThis source base is not currently linked to an active site.  Please type " + chalk.bold("oc static link") + " to link to a site."));
+                console.log(chalk.red("\nThis source base is not currently linked to an active site.  Please use the link command to first link to a site."));
             }
 
             return linked;
 
 
         } else {
-            console.log(chalk.red("You are not currently logged in.  Please type " + chalk.bold("oc login") + " to log in."));
+            console.log(chalk.red("You are not currently logged in.  Please use the login command to log in."));
             return false;
         }
 

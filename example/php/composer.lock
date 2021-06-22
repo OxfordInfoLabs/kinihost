@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6843edb52016bd96e7f48bd59bf61ccc",
+    "content-hash": "384db2ce6aca3d56c82a01b252d11631",
     "packages": [
         {
             "name": "brick/math",
@@ -2042,11 +2042,17 @@
         },
         {
             "name": "oxil/kinihost",
-            "version": "0.1",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OxfordInfoLabs/kinihost.git",
+                "reference": "791f9de4ecb562553d0149335e421c3c709b02c7"
+            },
             "dist": {
-                "type": "path",
-                "url": "../..",
-                "reference": "2912132af500b2121e4ff4623db653e68679bd54"
+                "type": "zip",
+                "url": "https://api.github.com/repos/OxfordInfoLabs/kinihost/zipball/791f9de4ecb562553d0149335e421c3c709b02c7",
+                "reference": "791f9de4ecb562553d0149335e421c3c709b02c7",
+                "shasum": ""
             },
             "require": {
                 "cloudflare/sdk": "dev-master",
@@ -2059,6 +2065,7 @@
                 "google/cloud-tasks": "dev-master",
                 "oxil/kiniauth": "dev-master"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2066,20 +2073,12 @@
                     "Kinihost\\": "php/src/"
                 }
             },
-            "scripts": {
-                "dev": [
-                    "rm -rf vendor/oxil/kini*; ln -s ../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../kiniauth vendor/oxil/kiniauth;"
-                ],
-                "run-queue": [
-                    "Kiniauth\\Tools\\QueuedTaskRunner::runFromComposer"
-                ],
-                "test": [
-                    "cd php/test; phpunit php"
-                ]
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/OxfordInfoLabs/kinihost/issues",
+                "source": "https://github.com/OxfordInfoLabs/kinihost/tree/main"
             },
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2021-06-21T12:31:19+00:00"
         },
         {
             "name": "oxil/kinikit-core",
@@ -3331,7 +3330,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "oxil/kinihost": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

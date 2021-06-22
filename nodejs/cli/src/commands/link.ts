@@ -95,7 +95,7 @@ export default class Link {
                 /**
                  * Call the site method
                  */
-                let results: any[] = await this._api.callMethod("/cli/staticwebsite/site");
+                let results: any[] = await this._api.callMethod("/cli/site");
 
                 if (results.length > 0) {
 
@@ -122,7 +122,7 @@ export default class Link {
 
 
                 } else {
-                    console.log(chalk.red("\nYou currently have no active sites within your account.  Please visit https://oxfordcyber.uk to purchase a subscription"));
+                    console.log(chalk.red("\nYou currently have no active sites within your account."));
                     return false;
                 }
 

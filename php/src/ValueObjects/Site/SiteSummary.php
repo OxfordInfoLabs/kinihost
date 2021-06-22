@@ -44,32 +44,9 @@ class SiteSummary {
 
 
     /**
-     * @var string
-     */
-    private $lastBuildUser;
-
-
-    /**
-     * @var \DateTime
-     */
-    private $lastBuildTime;
-
-    /**
      * @var SiteConfig
      */
     private $config;
-
-
-    /**
-     * @var string
-     */
-    private $type;
-
-
-    /**
-     * @var integer
-     */
-    private $publishedVersion;
 
 
     /**
@@ -82,14 +59,10 @@ class SiteSummary {
         $this->title = $site->getTitle();
         $this->status = $site->getStatus();
         $this->lastModified = $site->getLastModified() instanceof \DateTime ? $site->getLastModified()->format("Y-m-d H:i:s") : null;
-        $this->type = $site->getType();
-        $this->publishedVersion = $site->getPublishedVersion();
 
         if ($site instanceof Site) {
             $this->config = $site->getConfig();
             $this->lastBuildNumber = $site->getLastBuildNumber();
-            $this->lastBuildTime = $site->getLastBuild() ? $site->getLastBuild()->getCreatedDate() : null;
-            $this->lastBuildUser = $site->getLastBuild() && $site->getLastBuild()->getInitiatingUser() ? $site->getLastBuild()->getInitiatingUser()->getName() : null;
         }
     }
 
@@ -114,13 +87,6 @@ class SiteSummary {
         return ucfirst(strtolower($this->status));
     }
 
-    /**
-     * @return string
-     */
-    public function getType(): string {
-        return ucfirst(strtolower($this->type));
-    }
-
 
     /**
      * @return \DateTime
@@ -136,33 +102,12 @@ class SiteSummary {
         return $this->lastBuildNumber;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastBuildUser() {
-        return $this->lastBuildUser;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastBuildTime() {
-        return $this->lastBuildTime ? $this->lastBuildTime->format("d/m/Y H:i:s") : null;
-    }
-
 
     /**
      * @return SiteConfig
      */
     public function getConfig() {
         return $this->config;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getPublishedVersion() {
-        return $this->publishedVersion ? $this->publishedVersion : "N/A";
     }
 
 

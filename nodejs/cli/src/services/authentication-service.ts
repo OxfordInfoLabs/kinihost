@@ -30,8 +30,6 @@ export default class AuthenticationService {
     }
 
 
-
-
     /**
      * Check authenticated
      */
@@ -100,6 +98,7 @@ export default class AuthenticationService {
                 secondaryToken: macAddress
             }, "string");
             this._config.userToken = userAccessToken;
+            console.log(chalk.green("\nYou have logged in successfully"));
             return true;
         } catch (error) {
 
@@ -146,6 +145,7 @@ export default class AuthenticationService {
      */
     public logout() {
         this._config.userToken = "";
+        console.log(chalk.green("\nYou have been logged out"));
     }
 
 }

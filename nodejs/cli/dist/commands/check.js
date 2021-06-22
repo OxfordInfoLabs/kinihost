@@ -82,11 +82,11 @@ var Check = /** @class */ (function () {
                                 console.log(chalk_1.default.grey("There have been no builds for this site"));
                         }
                         else {
-                            console.log(chalk_1.default.red("\nThis source base is not currently linked to an active site.  Please type " + chalk_1.default.bold("oc static link") + " to link to a site."));
+                            console.log(chalk_1.default.red("\nThis source base is not currently linked to an active site.  Please use the link command to first link to a site."));
                         }
                         return [2 /*return*/, linked];
                     case 3:
-                        console.log(chalk_1.default.red("You are not currently logged in.  Please type " + chalk_1.default.bold("oc login") + " to log in."));
+                        console.log(chalk_1.default.red("You are not currently logged in.  Please use the login command to log in."));
                         return [2 /*return*/, false];
                 }
             });
