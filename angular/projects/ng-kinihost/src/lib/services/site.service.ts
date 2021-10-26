@@ -22,8 +22,14 @@ export class SiteService {
 
     }
 
+    public getSites(searchString = '', limit = '10', offset = '0') {
+        return this.http.get(this.config.accessHttpURL + '/site/list', {
+            params: {searchString, limit, offset}
+        });
+    }
+
     public saveSite(site) {
-        return this.http.post(this.config.accessHttpURL + '/account/staticwebsite/site/save', site)
+        return this.http.post(this.config.accessHttpURL + '/site/save', site)
             .toPromise().then(() => {
                 this.setActiveSite(site);
                 return site;
@@ -31,14 +37,14 @@ export class SiteService {
     }
 
     public saveSiteDomains(siteDomains, siteKey) {
-        return this.http.post(this.config.accessHttpURL + '/account/staticwebsite/site/siteDomains?siteKey=' + siteKey, siteDomains)
+        return this.http.post(this.config.accessHttpURL + '/site/siteDomains?siteKey=' + siteKey, siteDomains)
             .toPromise().then(() => {
                 this.getSite(this.activeSite.getValue().siteKey);
             });
     }
 
     public removeSiteDomain(siteDomainId) {
-        return this.http.get(this.config.accessHttpURL + '/account/staticwebsite/site/removeSiteDomain', {
+        return this.http.get(this.config.accessHttpURL + '/site/removeSiteDomain', {
             params: {
                 siteDomainId
             }
@@ -48,7 +54,7 @@ export class SiteService {
     }
 
     public getSite(siteKey) {
-        return this.http.get(this.config.accessHttpURL + '/account/staticwebsite/site', {
+        return this.http.get(this.config.accessHttpURL + '/site', {
             params: { siteKey }
         }).toPromise().then(site => {
             this.setActiveSite(site);
@@ -57,7 +63,7 @@ export class SiteService {
     }
 
     public getSiteVersions(siteKey) {
-        return this.http.get(this.config.accessHttpURL + '/account/staticwebsite/site/versions', {
+        return this.http.get(this.config.accessHttpURL + '/site/versions', {
             params: {
                 siteKey
             }
@@ -66,7 +72,7 @@ export class SiteService {
     }
 
     public getSiteSettings(siteKey) {
-        return this.http.get(this.config.accessHttpURL + '/account/staticwebsite/site/settings', {
+        return this.http.get(this.config.accessHttpURL + '/site/settings', {
             params: {
                 siteKey
             }
@@ -76,7 +82,7 @@ export class SiteService {
 
     public updateSiteSettings(siteKey, siteSettings) {
         return this.http.post(this.config.accessHttpURL +
-            '/account/staticwebsite/site/updateSettings?siteKey=' + siteKey, siteSettings)
+            '/site/updateSettings?siteKey=' + siteKey, siteSettings)
             .toPromise().then(() => {
                 this.snackBar.open(
                     'Settings have been saved. You will be notified by email once they have' +
@@ -89,7 +95,7 @@ export class SiteService {
 
     public updateMaintenanceMode(siteKey, mode) {
         const maintenanceMode = mode ? '1' : '0';
-        return this.http.get(this.config.accessHttpURL + '/account/staticwebsite/site/maintenance', {
+        return this.http.get(this.config.accessHttpURL + '/site/maintenance', {
             params: {
                 siteKey, maintenanceMode
             }

@@ -10,6 +10,15 @@ import {SourceFilesComponent} from './components/site/source-files/source-files.
 import {VersionsComponent} from './components/site/versions/versions.component';
 import {SiteComponent} from './components/site/site.component';
 import {SecurityPolicyComponent} from './components/site/settings/cyber-security-settings/security-policy/security-policy.component';
+import {RouterModule} from '@angular/router';
+import {SitePickerComponent} from './components/site/site-picker/site-picker.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {BrowserModule} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
+import { SitesComponent } from './components/site/sites/sites.component';
 
 
 @NgModule({
@@ -23,26 +32,36 @@ import {SecurityPolicyComponent} from './components/site/settings/cyber-security
         SourceFilesComponent,
         VersionsComponent,
         SiteComponent,
-        SecurityPolicyComponent
+        SecurityPolicyComponent,
+        SitePickerComponent,
+        SitesComponent
     ],
     imports: [
-        HttpClientModule
+        BrowserModule,
+        CommonModule,
+        HttpClientModule,
+        RouterModule,
+        MatDialogModule,
+        MatIconModule,
+        MatButtonModule,
+        DragDropModule
     ],
     exports: [
-        BuildsComponent,
-        BuildComponent,
-        DomainsComponent,
-        SettingsComponent,
-        CyberSecuritySettingsComponent,
-        PageSettingsComponent,
-        SourceFilesComponent,
-        VersionsComponent,
+        // BuildsComponent,
+        // BuildComponent,
+        // DomainsComponent,
+        // SettingsComponent,
+        // CyberSecuritySettingsComponent,
+        // PageSettingsComponent,
+        // SourceFilesComponent,
+        // VersionsComponent,
         SiteComponent,
-        SecurityPolicyComponent
+        // SecurityPolicyComponent,
+        SitePickerComponent
     ]
 })
 export class NgKinihostModule {
-    static forRoot(conf?: KinihostModuleConfig): ModuleWithProviders<any> {
+    static forRoot(conf?: KinihostModuleConfig): ModuleWithProviders<NgKinihostModule> {
         return {
             ngModule: NgKinihostModule,
             providers: [

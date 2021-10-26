@@ -35,7 +35,7 @@ export class BuildsComponent implements OnInit {
     }
 
     private getBuilds(site) {
-        return this.buildService.getBuilds(site, 1000).then((builds: any) => {
+        return this.buildService.getBuilds(site, '1000').then((builds: any) => {
             if (builds.length) {
                 this.builds = builds;
             }

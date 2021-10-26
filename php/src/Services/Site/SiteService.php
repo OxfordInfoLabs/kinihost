@@ -166,8 +166,9 @@ class SiteService {
      *
      * @return Site[]
      */
-    public function listSitesForAccount($accountId = Account::LOGGED_IN_ACCOUNT) {
-        return Site::filter("WHERE accountId = ? ORDER BY title", $accountId);
+    public function listSitesForAccount($searchString = "", $offset = 0, $limit = 10, $accountId = Account::LOGGED_IN_ACCOUNT) {
+        return Site::filter("WHERE (title like ? or siteKey like ?) AND accountId = ? ORDER by title LIMIT ? OFFSET ?",
+            "%" . $searchString . "%", "%" . $searchString . "%", $accountId, $limit, $offset);
     }
 
 

@@ -51,8 +51,8 @@ trait Site {
      *
      * @return \Kinihost\Objects\Site\Site[]
      */
-    public function getSites() {
-        return $this->siteService->listSitesForAccount();
+    public function getSites($searchString = "", $offset = 0, $limit = 10) {
+        return $this->siteService->listSitesForAccount($searchString, $offset, $limit);
     }
 
     /**

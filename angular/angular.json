@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/ng-kinihost",
       "sourceRoot": "projects/ng-kinihost/src",
-      "prefix": "lib",
+      "prefix": "kh",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

@@ -15,3 +15,6 @@ kinihost.dns.provider = dummy
 kinihost.routing.provider = dummy
 
 file.storage.root = FileStorage
+
+session.cookie.domain = WILDCARD
+session.cookie.secure = false

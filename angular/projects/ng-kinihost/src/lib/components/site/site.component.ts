@@ -6,7 +6,7 @@ import { BuildService } from '../../services/build.service';
 import * as moment from 'moment';
 
 @Component({
-    selector: 'app-site',
+    selector: 'kh-site',
     templateUrl: './site.component.html',
     styleUrls: ['./site.component.sass']
 })
@@ -31,6 +31,9 @@ export class SiteComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.siteService.activeSite.subscribe(site => {
+            this.site = site;
+        });
         this.routeSub = this.route.params.subscribe(res => {
             if (this.buildSub) {
                 this.buildSub.unsubscribe();
