@@ -1,10 +1,11 @@
 {
   "name": "kinihost-cli",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "CLI package for Kinisite Site Builder",
   "scripts": {
     "build": "tsc -p .",
-    "test": "jasmine-ts --config=jasmine.json"
+    "test": "jasmine-ts --config=jasmine.json",
+    "publish-cli": "npm run build; bump patch; npm publish"
   },
   "dependencies": {
     "chalk": "^2.4.2",

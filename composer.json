@@ -6,7 +6,7 @@
     "ext-grpc": "*",
     "oxil/kiniauth": "dev-master",
     "google/cloud-storage": "dev-master",
-    "google/apiclient": "dev-master",
+    "google/apiclient": "dev-main",
     "google/appengine-php-sdk": "*",
     "google/cloud-tasks": "dev-master",
     "cloudflare/sdk": "dev-master",
