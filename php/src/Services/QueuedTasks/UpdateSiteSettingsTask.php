@@ -6,16 +6,15 @@ namespace Kinihost\Services\QueuedTasks;
 
 use Kiniauth\Objects\Communication\Email\UserTemplatedEmail;
 use Kiniauth\Services\Communication\Email\EmailService;
-use Kiniauth\Services\Workflow\QueuedTask\QueuedTask;
+use Kiniauth\Services\Workflow\Task\Task;
 use Kinihost\Objects\Build\Build;
-use Kinihost\Objects\Site\Site;
 use Kinihost\Services\Build\BuildService;
 use Kinihost\Services\Site\SiteDNSManager;
 use Kinihost\Services\Site\SiteRoutingManager;
 use Kinihost\Services\Site\SiteService;
 use Kinihost\Services\Site\SiteStorageManager;
 
-class UpdateSiteSettingsTask implements QueuedTask {
+class UpdateSiteSettingsTask implements Task {
 
 
     /**

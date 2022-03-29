@@ -9,7 +9,7 @@ use Google\Cloud\Tasks\V2\HttpMethod;
 use Google\Cloud\Tasks\V2\Queue;
 use Google\Cloud\Tasks\V2\Task;
 use Google\Protobuf\Timestamp;
-use Kiniauth\Services\Workflow\QueuedTask\Processor\QueuedTaskProcessor;
+use Kiniauth\Services\Workflow\Task\Queued\Processor\QueuedTaskProcessor;
 use Kiniauth\ValueObjects\QueuedTask\QueueItem;
 use Kinikit\Core\Configuration\Configuration;
 

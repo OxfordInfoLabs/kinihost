@@ -15,15 +15,15 @@
   "minimum-stability": "dev",
   "config": {
     "process-timeout": 0,
-    "source-directory": "php/src",
-    "test-directory": "php/test",
+    "source-directory": "src",
+    "test-directory": "test",
     "exclude-test-data-paths": "../vendor/oxil/kinicart/php/src",
     "queue-name": "oxford-cyber-test"
   },
   "scripts": {
-    "dev": "rm -rf vendor/oxil/kini*; ln -s ../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../kiniauth vendor/oxil/kiniauth;",
+    "dev": "rm -rf vendor/oxil/kini*; ln -s ../../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../../kiniauth vendor/oxil/kiniauth;",
     "run-queue": "Kiniauth\\Tools\\QueuedTaskRunner::runFromComposer",
-    "test": "cd php/test; phpunit php"
+    "test": "cd test; phpunit ."
   },
   "autoload": {
     "psr-4": {

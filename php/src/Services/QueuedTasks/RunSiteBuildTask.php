@@ -2,10 +2,10 @@
 
 namespace Kinihost\Services\QueuedTasks;
 
-use Kiniauth\Services\Workflow\QueuedTask\QueuedTask;
+use Kiniauth\Services\Workflow\Task\Task;
 use Kinihost\Services\Build\BuildService;
 
-class RunSiteBuildTask implements QueuedTask {
+class RunSiteBuildTask implements Task {
 
     /**
      * @var BuildService

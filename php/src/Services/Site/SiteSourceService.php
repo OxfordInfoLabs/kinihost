@@ -149,7 +149,7 @@ class SiteSourceService {
         $site = $siteService->getSiteByKey($siteKey);
 
         $buildService = Container::instance()->get(BuildService::class);
-        $build = $buildService->createBuild($siteKey, Build::TYPE_SOURCE_UPLOAD, Build::BUILD_TARGET_PREVIEW, Build::STATUS_PENDING, ["changedObjects" => $changedObjects]);
+        $build = $buildService->createBuild($siteKey, Build::TYPE_SOURCE_UPLOAD, Build::STATUS_PENDING, ["changedObjects" => $changedObjects]);
 
         $uploadRoot = $this->siteStorageManager->getUploadRoot($site);
 

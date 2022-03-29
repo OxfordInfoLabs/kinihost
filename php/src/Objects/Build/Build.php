@@ -10,7 +10,7 @@ use Kinihost\ValueObjects\Storage\ChangedObject;
 /**
  * Class Build
  *
- * @table oc_static_build
+ * @table kh_build
  * @generate
  */
 class Build extends ActiveRecord {
@@ -51,12 +51,6 @@ class Build extends ActiveRecord {
      * @var string
      */
     private $buildType;
-
-
-    /**
-     * @var string
-     */
-    private $buildTarget;
 
 
     /**
@@ -119,6 +113,8 @@ class Build extends ActiveRecord {
     const TYPE_SOURCE_UPLOAD = "SOURCE_UPLOAD";
     const TYPE_VERSION_REVERT = "VERSION_REVERT";
     const TYPE_CURRENT = "CURRENT";
+    const TYPE_PREVIEW = "PREVIEW";
+    const TYPE_PUBLISH = "PUBLISH";
 
     // Stati for build
     const STATUS_PENDING = "PENDING";
@@ -128,17 +124,12 @@ class Build extends ActiveRecord {
     const STATUS_SUCCEEDED = "SUCCEEDED";
 
 
-    // Build targets.
-    const BUILD_TARGET_PREVIEW = "PREVIEW";
-    const BUILD_TARGET_PRODUCTION = "PRODUCTION";
-
-
     /**
      * Constructor
      *
      * Build constructor.
      */
-    public function __construct($site, $buildType, $buildTarget = self::BUILD_TARGET_PREVIEW, $status = self::STATUS_PENDING, $initiatingUserId = null, $data = []) {
+    public function __construct($site, $buildType, $status = self::STATUS_PENDING, $initiatingUserId = null, $data = []) {
 
         if ($site) {
             $this->siteId = $site->getSiteId();
@@ -150,7 +141,6 @@ class Build extends ActiveRecord {
 
         $this->initiatingUserId = $initiatingUserId;
 
-        $this->buildTarget = $buildTarget;
         $this->status = $status;
         $this->data = $data;
 
@@ -212,13 +202,6 @@ class Build extends ActiveRecord {
         return $this->buildType;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getBuildTarget() {
-        return $this->buildTarget;
-    }
 
     /**
      * @return ChangedObject[]

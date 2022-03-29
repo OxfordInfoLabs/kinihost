@@ -87,7 +87,7 @@ class CLIRouteInterceptorTest extends TestBase {
         $cliRouteInterceptor->beforeRoute($request);
 
         // Should now be logged in.
-        $this->assertEquals(7, $this->session->__getLoggedInUser()->getId());
+        $this->assertEquals(7, $this->session->__getLoggedInSecurable()->getId());
 
     }
 

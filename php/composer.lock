@@ -635,7 +635,7 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.228.0",
+            "version": "v0.229.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -673,7 +673,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.228.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.229.0"
             },
             "time": "2021-12-21T12:26:12+00:00"
         },
@@ -2136,12 +2136,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/mustache.php.git",
-                "reference": "26c8a448fcac3c9094a3a20604f8a073838bf872"
+                "reference": "e7165a33b282ab4d20b3863825caadb46313d62b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/26c8a448fcac3c9094a3a20604f8a073838bf872",
-                "reference": "26c8a448fcac3c9094a3a20604f8a073838bf872",
+                "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/e7165a33b282ab4d20b3863825caadb46313d62b",
+                "reference": "e7165a33b282ab4d20b3863825caadb46313d62b",
                 "shasum": ""
             },
             "require": {
@@ -2179,7 +2179,7 @@
                 "issues": "https://github.com/bobthecow/mustache.php/issues",
                 "source": "https://github.com/bobthecow/mustache.php/tree/main"
             },
-            "time": "2021-12-22T04:11:27+00:00"
+            "time": "2022-01-08T02:35:06+00:00"
         },
         {
             "name": "oxil/kiniauth",
@@ -2322,12 +2322,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OxfordInfoLabs/kinikit-persistence.git",
-                "reference": "79e0f2e4662ef8ffcb6dac0187c18cef1ed90ac2"
+                "reference": "cc1c74a60c7cdbdf45149f695e5a10e35435c273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OxfordInfoLabs/kinikit-persistence/zipball/79e0f2e4662ef8ffcb6dac0187c18cef1ed90ac2",
-                "reference": "79e0f2e4662ef8ffcb6dac0187c18cef1ed90ac2",
+                "url": "https://api.github.com/repos/OxfordInfoLabs/kinikit-persistence/zipball/cc1c74a60c7cdbdf45149f695e5a10e35435c273",
+                "reference": "cc1c74a60c7cdbdf45149f695e5a10e35435c273",
                 "shasum": ""
             },
             "require": {
@@ -2356,7 +2356,7 @@
                 "issues": "https://github.com/OxfordInfoLabs/kinikit-persistence/issues",
                 "source": "https://github.com/OxfordInfoLabs/kinikit-persistence/tree/master"
             },
-            "time": "2021-12-01T09:28:26+00:00"
+            "time": "2022-01-06T15:52:32+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -2559,12 +2559,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "438241b6c2376c8b742605772671a69f2fcca070"
+                "reference": "ddfb217855ee9740d7b43942b42ee56af93c4b1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/438241b6c2376c8b742605772671a69f2fcca070",
-                "reference": "438241b6c2376c8b742605772671a69f2fcca070",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ddfb217855ee9740d7b43942b42ee56af93c4b1d",
+                "reference": "ddfb217855ee9740d7b43942b42ee56af93c4b1d",
                 "shasum": ""
             },
             "require": {
@@ -2662,7 +2662,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-28T06:27:33+00:00"
+            "time": "2022-01-09T01:51:35+00:00"
         },
         {
             "name": "psr/cache",

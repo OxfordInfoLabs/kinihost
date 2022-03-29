@@ -9,18 +9,23 @@ use Kinihost\ValueObjects\Storage\ChangedObject;
 use Kinihost\Objects\Build\Build;
 use Kinihost\Objects\Site\Site;
 
-use Kinihost\Services\Content\ContentService;
-use Kinihost\Services\Content\DeploymentProcessors\BootstrapDataProcessor;
-use Kinihost\Services\Content\DeploymentProcessors\ContentDeploymentProcessor;
-use Kinihost\Services\Content\DeploymentProcessors\MetaDataDeploymentProcessor;
-use Kinihost\Services\Content\EntityDefinitionService;
-use Kinihost\Services\Site\SiteDataUpdateManager;
 use Kinihost\Services\Site\SiteService;
-use Kinihost\Services\Site\SiteStorageManager;
-use Kinihost\Services\Source\DeploymentProcessors\CachedDataDeploymentProcessor;
-use Kinihost\Services\Source\SiteSourceService;
+use Kinihost\Services\Site\SiteSourceService;
 
-class SourceUploadBuildRunner extends CurrentBuildRunner {
+class SourceUploadBuildRunner implements BuildRunner {
+
+
+    /**
+     * @var SiteService
+     */
+    private $siteService;
+
+
+    /**
+     * @var SiteSourceService
+     */
+    private $siteSourceService;
+
 
     /**
      * @var ObjectBinder
@@ -29,39 +34,17 @@ class SourceUploadBuildRunner extends CurrentBuildRunner {
 
 
     /**
-     * @var CachedDataDeploymentProcessor
-     */
-    private $cachedDataDeploymentProcessor;
-
-    /**
-     * @var SiteService
-     */
-    private $siteService;
-
-    /**
-     * @var SiteDataUpdateManager
-     */
-    private $siteDataUpdateManager;
-
-
-    /**
      * SourceUploadBuildRunner constructor.
      *
-     * @param SiteSourceService $sourceService
-     * @param SiteStorageManager $siteStorageManager
-     * @param ObjectBinder $objectBinder
-     * @param CachedDataDeploymentProcessor $cachedDataDeploymentProcessor
-     * @param SiteDataUpdateManager $siteDataUpdateManager
-     * @param MetaDataDeploymentProcessor $metaDataDeploymentProcessor
-     * @param ContentDeploymentProcessor $contentDeploymentProcessor
+     *
      * @param SiteService $siteService
+     * @param SiteSourceService $siteSourceService
+     * @param ObjectBinder $objectBinder
      */
-    public function __construct($sourceService, $siteStorageManager, $objectBinder, $cachedDataDeploymentProcessor, $siteDataUpdateManager, $metaDataDeploymentProcessor, $contentDeploymentProcessor, $siteService) {
-        parent::__construct($sourceService, $siteStorageManager, $metaDataDeploymentProcessor, $contentDeploymentProcessor);
+    public function __construct($siteService, $siteSourceService, $objectBinder) {
         $this->objectBinder = $objectBinder;
+        $this->siteSourceService = $siteSourceService;
         $this->siteService = $siteService;
-        $this->cachedDataDeploymentProcessor = $cachedDataDeploymentProcessor;
-        $this->siteDataUpdateManager = $siteDataUpdateManager;
     }
 
     /**
@@ -81,24 +64,11 @@ class SourceUploadBuildRunner extends CurrentBuildRunner {
         print_r("\nApplying uploaded source to the content bucket.....");
 
         // Apply the uploaded source
-        $this->sourceService->applyUploadedSource($build->getId(), $changedObjects, $site);
+        $this->siteSourceService->applyUploadedSource($build->getId(), $changedObjects, $site);
 
         // Update site settings as required
-        $this->siteService->updateSiteSettings($site->getSiteKey(), $this->sourceService->getCurrentSiteConfig($site->getSiteKey()));
+        $this->siteService->updateSiteSettings($site->getSiteKey(), $this->siteSourceService->getCurrentSiteConfig($site->getSiteKey()));
 
-        print_r("\nCaching site data....");
-
-        // Run the cached data deployment processor to generate any content cache items.
-        $this->cachedDataDeploymentProcessor->cacheSiteData($site, $changedObjects);
-
-
-        print_r("\nUpdating site data....");
-        $this->siteDataUpdateManager->updateSiteData($site);
-
-        print_r("\nBuilding to preview.....");
-
-        // Run the current build as usual after source upload complete
-        parent::runBuild($build, $site);
     }
 
 

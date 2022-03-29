@@ -9,7 +9,7 @@ use Kiniauth\Services\Communication\Email\EmailService;
 use Kiniauth\Services\Security\AuthenticationService;
 use Kiniauth\Services\Security\ScopeManager;
 use Kiniauth\Services\Security\SecurityService;
-use Kiniauth\Services\Workflow\QueuedTask\QueuedTaskService;
+use Kiniauth\Services\Workflow\Task\Queued\QueuedTaskService;
 use Kiniauth\Test\Services\Security\AuthenticationHelper;
 use Kinikit\Core\Configuration\Configuration;
 use Kinikit\Core\DependencyInjection\Container;
@@ -85,7 +85,7 @@ class SiteServiceTest extends TestBase {
 
         $sites = $this->siteService->listSites("p");
 
-        $this->assertEquals(2, sizeof($sites));
+        $this->assertGreaterThan(1, sizeof($sites));
 
         // Ordering by title not site key
         $this->assertEquals("pingu", $sites[0]->getSiteKey());
@@ -113,7 +113,7 @@ class SiteServiceTest extends TestBase {
         $this->assertEquals([], $this->siteService->listSitesForAccount(5));
 
         AuthenticationHelper::login("sam@samdavisdesign.co.uk", "password");
-        $sites = $this->siteService->listSitesForAccount(1);
+        $sites = $this->siteService->listSitesForAccount("", 0, 10, 1);
         $this->assertTrue(sizeof($sites) >= 6);
 
         $siteKeys = ObjectArrayUtils::getMemberValueArrayForObjects("siteKey", $sites);
@@ -125,7 +125,7 @@ class SiteServiceTest extends TestBase {
         $this->assertContains("woollenmill", $siteKeys);
         $this->assertNotContains("smartcoasting", $siteKeys);
 
-        $sites = $this->siteService->listSitesForAccount(5);
+        $sites = $this->siteService->listSitesForAccount("", 0, 10, 5);
         $this->assertEquals(1, sizeof($sites));
         $this->assertEquals("smartcoasting", $sites[0]->getSiteKey());
 
@@ -190,7 +190,6 @@ class SiteServiceTest extends TestBase {
         $this->assertEquals("Mary Poppins Hair Display", $site->getTitle());
 
 
-
         // Check logged in user was granted full access to the site.
         UserRole::fetch([
             3, "SITE", $site->getSiteId(), 4
@@ -218,7 +217,6 @@ class SiteServiceTest extends TestBase {
         }
 
     }
-
 
 
     public function testCanGetSiteByKeyIfPermissions() {
@@ -278,11 +276,7 @@ class SiteServiceTest extends TestBase {
         $this->assertEquals("The Paper Chasing Machine", $site->getTitle());
         $this->assertEquals("paperchase", $site->getSiteKey());
 
-        // Now login as api and confirm access.
-        $this->authenticationService->apiAuthenticate("TESTAPIKEY2", "TESTAPISECRET2");
-        $site = $this->siteService->getSiteByKey("paperchase");
-        $this->assertEquals("The Paper Chasing Machine", $site->getTitle());
-        $this->assertEquals("paperchase", $site->getSiteKey());
+
 
 
     }
@@ -301,8 +295,6 @@ class SiteServiceTest extends TestBase {
         $this->assertEquals("Penguin Graphics", $site->getTitle());
 
     }
-
-
 
 
     public function testCanRemoveSiteByKeyIfPermissions() {

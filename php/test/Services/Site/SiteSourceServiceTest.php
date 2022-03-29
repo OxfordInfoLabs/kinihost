@@ -3,7 +3,7 @@
 namespace Kinihost\Services;
 
 use Kiniauth\Services\Security\AuthenticationService;
-use Kiniauth\Services\Workflow\QueuedTask\QueuedTaskService;
+use Kiniauth\Services\Workflow\Task\Queued\QueuedTaskService;
 use Kiniauth\Test\Services\Security\AuthenticationHelper;
 use Kinihost\Services\Site\SiteSourceService;
 use Kinihost\ValueObjects\Build\SourceUploadBuild;
@@ -235,7 +235,6 @@ class SourceServiceTest extends TestBase {
 
         $builds = Build::filter("ORDER BY id DESC");
         $this->assertEquals($site->getSiteId(), $builds[0]->getSiteId());
-        $this->assertEquals(Build::BUILD_TARGET_PREVIEW, $builds[0]->getBuildTarget());
 
 
         $queuedItems = $this->queueService->listQueuedTasks("kinihost-test");

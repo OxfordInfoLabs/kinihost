@@ -5,7 +5,7 @@ namespace Kinihost\Services\Build;
 use Kiniauth\Objects\Communication\Email\UserTemplatedEmail;
 use Kiniauth\Services\Communication\Email\EmailService;
 use Kiniauth\Services\Security\SecurityService;
-use Kiniauth\Services\Workflow\QueuedTask\QueuedTaskService;
+use Kiniauth\Services\Workflow\Task\Queued\QueuedTaskService;
 use Kinikit\Core\Configuration\Configuration;
 use Kinikit\Core\DependencyInjection\Container;
 use Kinihost\ValueObjects\Storage\ChangedObject;
@@ -62,15 +62,15 @@ class BuildService {
      *
      * @param int $siteId
      */
-    public function createBuild($siteKey, $type, $target = Build::BUILD_TARGET_PREVIEW, $status = Build::STATUS_QUEUED, $buildData = null) {
+    public function createBuild($siteKey, $type, $status = Build::STATUS_QUEUED, $buildData = null) {
 
         $site = $this->siteService->getSiteByKey($siteKey);
         $site->incrementLastBuildNumber();
 
-        $initiatingUser = $this->securityService->getLoggedInUserAndAccount()[0] ?? null;
+        $initiatingUser = $this->securityService->getLoggedInSecurableAndAccount()[0] ?? null;
         $initiatingUserId = $initiatingUser ? $initiatingUser->getId() : null;
 
-        $build = new Build($site, $type, $target, $status, $initiatingUserId, $buildData);
+        $build = new Build($site, $type, $status, $initiatingUserId, $buildData);
         $build->save();
 
 
@@ -91,7 +91,7 @@ class BuildService {
      * @param $siteKey
      */
     public function createProductionBuild($siteKey) {
-        return $this->createBuild($siteKey, Build::TYPE_CURRENT, Build::BUILD_TARGET_PRODUCTION);
+        return $this->createBuild($siteKey, Build::TYPE_CURRENT);
     }
 
 
@@ -102,7 +102,7 @@ class BuildService {
      * @param $targetVersion
      */
     public function createVersionRevertBuild($siteKey, $targetVersion) {
-        $this->createBuild($siteKey, Build::TYPE_VERSION_REVERT, Build::BUILD_TARGET_PREVIEW, Build::STATUS_QUEUED, ["targetVersion" => $targetVersion]);
+        $this->createBuild($siteKey, Build::TYPE_VERSION_REVERT, Build::STATUS_QUEUED, ["targetVersion" => $targetVersion]);
     }
 
 
@@ -135,7 +135,9 @@ class BuildService {
 
         try {
 
-            // Get the build
+            /**
+             * @var Build $build
+             */
             $build = Build::fetch($buildId);
 
             // Site
@@ -155,13 +157,12 @@ class BuildService {
             $buildRunner = Container::instance()->getInterfaceImplementation(BuildRunner::class, $build->getBuildType());
             $buildRunner->runBuild($build, $site);
 
-
             // Mark as succeeded if completes all steps successfully.
             $build->registerStatusChange(Build::STATUS_SUCCEEDED);
 
-            if ($build->getBuildTarget() == Build::BUILD_TARGET_PREVIEW) {
+            if ($build->getBuildType() == Build::TYPE_PREVIEW) {
                 $site->registerPreviewBuild();
-            } else if ($build->getBuildTarget() == Build::BUILD_TARGET_PRODUCTION) {
+            } else if ($build->getBuildType() == Build::TYPE_PUBLISH) {
                 $site->registerPublishedBuild();
             }
 
@@ -169,7 +170,7 @@ class BuildService {
 
             if ($build->getInitiatingUserId())
                 $this->emailService->send(new UserTemplatedEmail($build->getInitiatingUserId(),
-                    "staticwebsite/build-success", [
+                    "build-success", [
                         "build" => $build,
                         "site" => $site
                     ]));
@@ -182,15 +183,12 @@ class BuildService {
 
             $build->registerStatusChange(Build::STATUS_FAILED, $e->getMessage());
 
-            print_r($e->getMessage());
-            print_r($e->getTraceAsString());
-
             if ($build->getInitiatingUserId()) {
 
                 $site = Site::fetch($build->getSiteId());
 
                 $this->emailService->send(new UserTemplatedEmail($build->getInitiatingUserId(),
-                    "staticwebsite/build-failure", [
+                    "build-failure", [
                         "build" => $build,
                         "site" => $site
                     ]));

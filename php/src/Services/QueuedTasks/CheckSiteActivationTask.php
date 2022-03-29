@@ -3,11 +3,10 @@
 
 namespace Kinihost\Services\QueuedTasks;
 
-
-use Kiniauth\Services\Workflow\QueuedTask\QueuedTask;
+use Kiniauth\Services\Workflow\Task\Task;
 use Kinihost\Services\Site\SiteService;
 
-class CheckSiteActivationTask implements QueuedTask {
+class CheckSiteActivationTask implements Task {
 
     /**
      * @var SiteService

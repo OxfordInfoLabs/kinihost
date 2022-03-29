@@ -12,11 +12,9 @@ use Kiniauth\Services\Communication\Email\EmailService;
 
 use Kiniauth\Services\Security\ScopeManager;
 use Kiniauth\Services\Security\SecurityService;
-use Kiniauth\Services\Workflow\QueuedTask\QueuedTaskService;
+use Kiniauth\Services\Workflow\Task\Queued\QueuedTaskService;
 use Kinikit\Core\Configuration\Configuration;
 
-use Kinikit\Core\Logging\Logger;
-use Kinikit\Core\Util\ObjectArrayUtils;
 use Kinikit\Core\Validation\ValidationException;
 use Kinikit\Core\Validation\Validator;
 use Kinikit\Persistence\ORM\Exception\ObjectNotFoundException;
@@ -283,7 +281,7 @@ class SiteService {
 
 
         // Grant full access to the logged in user if one exists
-        $user = $this->securityService->getLoggedInUserAndAccount()[0] ?? null;
+        $user = $this->securityService->getLoggedInSecurableAndAccount()[0] ?? null;
         if ($user) {
 
             $roles = Role::filter("WHERE scope = ?", SiteScopeAccess::SCOPE_SITE);
@@ -504,7 +502,7 @@ class SiteService {
         // Get the site
         $site = $this->getSiteByKey($siteKey);
 
-        $initiatingUser = $this->securityService->getLoggedInUserAndAccount()[0] ?? null;
+        $initiatingUser = $this->securityService->getLoggedInSecurableAndAccount()[0] ?? null;
         $initiatingUserId = $initiatingUser ? $initiatingUser->getId() : null;
 
         $updateConfig = ["siteKey" => $siteKey, "initiatingUserId" => $initiatingUserId];
@@ -542,7 +540,7 @@ class SiteService {
         $site->setMaintenanceMode($maintenanceMode);
         $this->saveSite($site);
 
-        $initiatingUser = $this->securityService->getLoggedInUserAndAccount()[0] ?? null;
+        $initiatingUser = $this->securityService->getLoggedInSecurableAndAccount()[0] ?? null;
         $initiatingUserId = $initiatingUser ? $initiatingUser->getId() : null;
 
 
