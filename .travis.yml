@@ -3,6 +3,7 @@ language: php
 php:
   - '7.4'
 before_install:
+- pecl install grpc
 - openssl aes-256-cbc -K $encrypted_326d07a343a9_key -iv $encrypted_326d07a343a9_iv
   -in php/test/Config/config.txt.enc -out php/test/Config/config.txt -d
 - openssl aes-256-cbc -K $encrypted_147a1605fbb2_key -iv $encrypted_147a1605fbb2_iv
