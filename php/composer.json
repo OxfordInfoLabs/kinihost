@@ -5,12 +5,12 @@
     "ext-bcmath": "*",
     "ext-grpc": "*",
     "oxil/kiniauth": "dev-master",
-    "google/cloud-storage": "dev-master",
+    "google/cloud-storage": "dev-main",
     "google/apiclient": "dev-main",
     "google/appengine-php-sdk": "*",
-    "google/cloud-tasks": "dev-master",
+    "google/cloud-tasks": "dev-main",
     "cloudflare/sdk": "dev-master",
-    "google/cloud-firestore": "dev-master"
+    "google/cloud-firestore": "dev-main"
   },
   "minimum-stability": "dev",
   "config": {

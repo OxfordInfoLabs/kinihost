@@ -23,7 +23,7 @@ use Kinihost\TestBase;
 
 include_once "autoloader.php";
 
-class SourceServiceTest extends TestBase {
+class SiteSourceServiceTest extends TestBase {
 
 
     /**
