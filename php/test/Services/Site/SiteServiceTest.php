@@ -192,11 +192,11 @@ class SiteServiceTest extends TestBase {
 
         // Check logged in user was granted full access to the site.
         UserRole::fetch([
-            3, "SITE", $site->getSiteId(), 4
+            3, "SITE", $site->getSiteId(), 5
         ]);
 
         UserRole::fetch([
-            3, "SITE", $site->getSiteId(), 5
+            3, "SITE", $site->getSiteId(), 6
         ]);
 
 

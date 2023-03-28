@@ -3,7 +3,6 @@
   "version": "0.1",
   "require": {
     "ext-bcmath": "*",
-    "ext-grpc": "*",
     "oxil/kiniauth": "dev-master",
     "google/cloud-storage": "dev-main",
     "google/apiclient": "dev-main",

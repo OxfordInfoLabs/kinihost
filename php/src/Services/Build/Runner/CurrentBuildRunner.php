@@ -3,16 +3,12 @@
 
 namespace Kinihost\Services\Build\Runner;
 
+use Kinihost\Services\Site\SiteSourceService;
 use Kinikit\Core\Util\ObjectArrayUtils;
-use OxfordCyber\Controllers\CLI\StaticWebsite\Content;
 use Kinihost\Objects\Build\Build;
 use Kinihost\Objects\Site\Site;
-use Kinihost\Services\Content\ContentService;
-use Kinihost\Services\Content\DeploymentProcessors\ContentDeploymentProcessor;
-use Kinihost\Services\Content\DeploymentProcessors\MetaDataDeploymentProcessor;
-use Kinihost\Services\Content\EntityDefinitionService;
+
 use Kinihost\Services\Site\SiteStorageManager;
-use Kinihost\Services\Source\SiteSourceService;
 
 /**
  * Core build runner which builds from the current source and content into the specified target.
@@ -32,15 +28,6 @@ class CurrentBuildRunner implements BuildRunner {
      */
     protected $siteStorageManager;
 
-    /**
-     * @var MetaDataDeploymentProcessor
-     */
-    protected $metaDataDeploymentProcessor;
-
-    /**
-     * @var ContentDeploymentProcessor
-     */
-    protected $contentDeploymentProcessor;
 
 
     /**
@@ -48,14 +35,10 @@ class CurrentBuildRunner implements BuildRunner {
      *
      * @param SiteSourceService $sourceService
      * @param SiteStorageManager $siteStorageManager
-     * @param MetaDataDeploymentProcessor $metaDataDeploymentProcessor
-     * @param ContentDeploymentProcessor $contentDeploymentProcessor
      */
-    public function __construct($sourceService, $siteStorageManager, $metaDataDeploymentProcessor, $contentDeploymentProcessor) {
+    public function __construct($sourceService, $siteStorageManager) {
         $this->sourceService = $sourceService;
         $this->siteStorageManager = $siteStorageManager;
-        $this->metaDataDeploymentProcessor = $metaDataDeploymentProcessor;
-        $this->contentDeploymentProcessor = $contentDeploymentProcessor;
     }
 
 
@@ -82,12 +65,6 @@ class CurrentBuildRunner implements BuildRunner {
             // Get the set of current deployment files as changed files array
             $deployFiles = $this->sourceService->getCurrentDeploymentChangedFiles($site);
             $deployFiles = ObjectArrayUtils::indexArrayOfObjectsByMember("objectKey", $deployFiles ?? []);
-
-            // Create site cache files for entity definition and content
-            $deployFiles = $this->metaDataDeploymentProcessor->createSiteDeploymentFiles($site, $build, $deployFiles);
-
-            // Get the content root and create the site cache files
-            $deployFiles = $this->contentDeploymentProcessor->createSiteDeploymentFiles($site, $build, $deployFiles);
 
             if ($deployFiles) {
                 // Replace all the source with the deploy files
