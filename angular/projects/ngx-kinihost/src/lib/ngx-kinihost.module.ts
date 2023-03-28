@@ -60,10 +60,10 @@ import { SitesComponent } from './components/site/sites/sites.component';
         SitePickerComponent
     ]
 })
-export class NgKinihostModule {
-    static forRoot(conf?: KinihostModuleConfig): ModuleWithProviders<NgKinihostModule> {
+export class NgxKinihostModule {
+    static forRoot(conf?: KinihostModuleConfig): ModuleWithProviders<NgxKinihostModule> {
         return {
-            ngModule: NgKinihostModule,
+            ngModule: NgxKinihostModule,
             providers: [
                 { provide: KinihostModuleConfig, useValue: conf || {} }
             ]

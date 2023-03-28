@@ -7,9 +7,9 @@
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
-        "build:lib": "ng build ng-kinihost",
-        "build:lib-p": "ng build ng-kinihost --prod",
-        "watch:lib": "ng build ng-kinihost --watch"
+        "build:lib": "ng build ngx-kinihost",
+        "build:lib-p": "ng build ngx-kinihost --prod",
+        "watch:lib": "ng build ngx-kinihost --watch"
     },
     "private": true,
     "dependencies": {

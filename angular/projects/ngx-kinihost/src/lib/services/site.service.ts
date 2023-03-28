@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {KinihostModuleConfig} from '../ng-kinihost.module';
+import {KinihostModuleConfig} from '../ngx-kinihost.module';
 import {BehaviorSubject} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {HttpClient} from '@angular/common/http';

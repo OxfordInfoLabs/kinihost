@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {KinihostModuleConfig} from '../ng-kinihost.module';
+import {KinihostModuleConfig} from '../ngx-kinihost.module';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
