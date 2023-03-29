@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {SiteService} from '../../services/site.service';
 import {debounceTime, map, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, merge, Subject} from 'rxjs';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateSiteComponent} from './create-site/create-site.component';
 
 @Component({
     selector: 'kh-sites',
@@ -20,7 +22,8 @@ export class SitesComponent implements OnInit {
 
     private reload = new Subject();
 
-    constructor(private siteService: SiteService) {
+    constructor(private siteService: SiteService,
+                private dialog: MatDialog) {
     }
 
     async ngOnInit(): Promise<any> {
@@ -44,7 +47,14 @@ export class SitesComponent implements OnInit {
     }
 
     public createSite() {
+        const dialogRef = this.dialog.open(CreateSiteComponent, {
+            width: '900px',
+            height: '900px'
+        });
 
+        dialogRef.afterClosed().subscribe(res => {
+
+        });
     }
 
     // tslint:disable-next-line:typedef
