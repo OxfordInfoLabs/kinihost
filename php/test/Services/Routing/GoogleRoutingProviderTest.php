@@ -589,6 +589,7 @@ class GoogleRoutingProviderTest extends TestBase {
         // Check unused buckets removed
         try {
             $this->computeService->backendBuckets->get("kinisite-test", $routingIdentifier . "-ut2kinihosttestsite-s");
+            print_r( $routingIdentifier . "-ut2kinihosttestsite-s");
             $this->fail("Should have been deleted");
         } catch (\Google_Service_Exception $e) {
             // Success
@@ -688,12 +689,12 @@ class GoogleRoutingProviderTest extends TestBase {
         }
 
 
-        sleep(2);
+        sleep(5);
 
         // Check all attached buckets removed
         try {
             $this->computeService->backendBuckets->get("kinisite-test", $routingIdentifier . "-ut3kinihosttestsite-i");
-            //$this->fail("Should have been deleted");
+            $this->fail("Should have been deleted");
         } catch (\Google_Service_Exception $e) {
             // Success
         }
