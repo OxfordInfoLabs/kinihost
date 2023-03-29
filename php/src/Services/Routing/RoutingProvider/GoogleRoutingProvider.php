@@ -390,8 +390,14 @@ class GoogleRoutingProvider implements RoutingProvider {
 
         // Now remove old certificates no longer in use.
         foreach ($currentCerts as $currentCertIdentifier => $value) {
-            $this->routingAPI->deleteSSLCert($currentCertIdentifier);
+            try {
+                $this->routingAPI->deleteSSLCert($currentCertIdentifier);
+            } catch (\Google_Service_Exception $e){
+                // OK
+            }
         }
+
+
 
         // Finally remove any backend buckets we no longer need.
         foreach ($oldBackendBuckets as $oldBackendBucket) {
