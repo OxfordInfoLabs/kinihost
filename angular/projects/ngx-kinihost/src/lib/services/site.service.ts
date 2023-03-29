@@ -9,16 +9,9 @@ import {HttpClient} from '@angular/common/http';
 })
 export class SiteService {
 
-    public activeSite: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
     constructor(private http: HttpClient,
                 private snackBar: MatSnackBar,
                 private config: KinihostModuleConfig) {
-
-        const activeSite = sessionStorage.getItem('activeSite');
-        if (activeSite) {
-            this.setActiveSite(JSON.parse(activeSite));
-        }
 
     }
 
@@ -30,54 +23,36 @@ export class SiteService {
 
     public saveSite(site) {
         return this.http.post(this.config.accessHttpURL + '/site/save', site)
-            .toPromise().then(() => {
-                this.setActiveSite(site);
-                return site;
-            });
+            .toPromise();
     }
 
     public saveSiteDomains(siteDomains, siteKey) {
         return this.http.post(this.config.accessHttpURL + '/site/siteDomains?siteKey=' + siteKey, siteDomains)
-            .toPromise().then(() => {
-                this.getSite(this.activeSite.getValue().siteKey);
-            });
+            .toPromise().then(this.getSite);
     }
 
     public removeSiteDomain(siteDomainId) {
         return this.http.get(this.config.accessHttpURL + '/site/removeSiteDomain', {
-            params: {
-                siteDomainId
-            }
-        }).toPromise().then(() => {
-            this.getSite(this.activeSite.getValue().siteKey);
-        });
+            params: {siteDomainId}
+        }).toPromise();
     }
 
     public getSite(siteKey) {
         return this.http.get(this.config.accessHttpURL + '/site', {
-            params: { siteKey }
-        }).toPromise().then(site => {
-            this.setActiveSite(site);
-            return site;
-        });
+            params: {siteKey}
+        }).toPromise();
     }
 
     public getSiteVersions(siteKey) {
         return this.http.get(this.config.accessHttpURL + '/site/versions', {
-            params: {
-                siteKey
-            }
-        })
-            .toPromise();
+            params: {siteKey}
+        }).toPromise();
     }
 
     public getSiteSettings(siteKey) {
         return this.http.get(this.config.accessHttpURL + '/site/settings', {
-            params: {
-                siteKey
-            }
-        })
-            .toPromise();
+            params: {siteKey}
+        }).toPromise();
     }
 
     public updateSiteSettings(siteKey, siteSettings) {
@@ -88,7 +63,7 @@ export class SiteService {
                     'Settings have been saved. You will be notified by email once they have' +
                     ' been successfully applied.',
                     'Close',
-                    { duration: 3000, verticalPosition: 'top' }
+                    {duration: 3000, verticalPosition: 'top'}
                 );
             });
     }
@@ -96,23 +71,8 @@ export class SiteService {
     public updateMaintenanceMode(siteKey, mode) {
         const maintenanceMode = mode ? '1' : '0';
         return this.http.get(this.config.accessHttpURL + '/site/maintenance', {
-            params: {
-                siteKey, maintenanceMode
-            }
-        })
-            .toPromise().then(site => {
-                return this.setActiveSite(site);
-            });
-    }
-
-    public setActiveSite(site) {
-        if (!site) {
-            sessionStorage.removeItem('activeSite');
-            this.activeSite.next(null);
-        } else {
-            sessionStorage.setItem('activeSite', JSON.stringify(site));
-            this.activeSite.next(site);
-        }
+            params: {siteKey, maintenanceMode}
+        }).toPromise();
     }
 
 

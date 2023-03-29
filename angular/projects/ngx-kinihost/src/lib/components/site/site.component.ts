@@ -4,6 +4,13 @@ import { SiteService } from '../../services/site.service';
 import { Subscription } from 'rxjs';
 import { BuildService } from '../../services/build.service';
 import * as moment from 'moment';
+import {MatSlideToggleChange} from '@angular/material/slide-toggle';
+import {MatDialog} from '@angular/material/dialog';
+import {DomainsComponent} from './domains/domains.component';
+import {PageSettingsComponent} from './page-settings/page-settings.component';
+import {BuildsComponent} from './builds/builds.component';
+import {SourceFilesComponent} from './source-files/source-files.component';
+import {VersionsComponent} from './versions/versions.component';
 
 @Component({
     selector: 'kh-site',
@@ -27,13 +34,11 @@ export class SiteComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute,
                 private siteService: SiteService,
-                private buildService: BuildService) {
+                private buildService: BuildService,
+                private dialog: MatDialog) {
     }
 
     ngOnInit() {
-        this.siteService.activeSite.subscribe(site => {
-            this.site = site;
-        });
         this.routeSub = this.route.params.subscribe(res => {
             if (this.buildSub) {
                 this.buildSub.unsubscribe();
@@ -65,7 +70,73 @@ export class SiteComponent implements OnInit, OnDestroy {
             .then(() => {
                 this.updateInProgress = false;
                 this.loadSite(this.site.siteKey);
-            })
+            });
+    }
+
+    public manageDomains() {
+        const dialogRef = this.dialog.open(DomainsComponent, {
+            width: '900px',
+            height: '900px',
+            data: {
+                site: this.site
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(res => {
+            if (res) {
+                this.loadSite(this.site.siteKey);
+            }
+        });
+    }
+
+    public changeMaintenanceMode(event: MatSlideToggleChange) {
+        this.siteService.updateMaintenanceMode(this.site.siteKey, event.checked);
+    }
+
+    public managePageSettings() {
+        const dialogRef = this.dialog.open(PageSettingsComponent, {
+            width: '900px',
+            height: '700px',
+            data: {
+                site: this.site
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(res => {
+            if (res) {
+                this.loadSite(this.site.siteKey);
+            }
+        });
+    }
+
+    public viewSourceFiles() {
+        const dialogRef = this.dialog.open(SourceFilesComponent, {
+            width: '1000px',
+            height: '1000px',
+            data: {
+                site: this.site
+            }
+        });
+    }
+
+    public viewBuilds() {
+        const dialogRef = this.dialog.open(BuildsComponent, {
+            width: '1000px',
+            height: '1000px',
+            data: {
+                site: this.site
+            }
+        });
+    }
+
+    public viewVersions() {
+        const dialogRef = this.dialog.open(VersionsComponent, {
+            width: '1000px',
+            height: '1000px',
+            data: {
+                site: this.site
+            }
+        });
     }
 
     private loadSite(siteKey) {
@@ -92,6 +163,8 @@ export class SiteComponent implements OnInit, OnDestroy {
             this.versions = versions.slice(0, 5);
             this.loadingVersions = false;
             return site;
+        }).catch(e => {
+            this.loadingVersions = false;
         });
     }
 

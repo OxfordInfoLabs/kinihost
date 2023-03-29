@@ -1,11 +1,13 @@
-import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
+import {Component, Inject, Injectable, } from '@angular/core';
+import { BehaviorSubject, merge, Observable, } from 'rxjs';
 import { SiteService } from '../../../services/site.service';
 import { SourceService } from '../../../services/source.service';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { map } from 'rxjs/operators';
 import { CollectionViewer, SelectionChange } from '@angular/cdk/collections';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import * as lodash from 'lodash';
+const _ = lodash.default;
 
 /** Flat node with expandable and level information */
 export class DynamicFlatNode {
@@ -133,9 +135,10 @@ export class SourceFilesComponent {
     public hasChild = (_: number, _nodeData: DynamicFlatNode) => _nodeData.expandable;
 
     constructor(public sourceService: SourceService,
-                private siteService: SiteService) {
+                public dialogRef: MatDialogRef<SourceFilesComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
 
-        this.site = this.siteService.activeSite.getValue();
+        this.site = _.cloneDeep(this.data.site);
         const database = new DynamicDatabase();
 
         this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);

@@ -1,63 +1,53 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-import {BuildsComponent} from './components/site/builds/builds.component';
-import {BuildComponent} from './components/site/builds/build/build.component';
-import {DomainsComponent} from './components/site/domains/domains.component';
-import {SettingsComponent} from './components/site/settings/settings.component';
-import {CyberSecuritySettingsComponent} from './components/site/settings/cyber-security-settings/cyber-security-settings.component';
-import {PageSettingsComponent} from './components/site/settings/page-settings/page-settings.component';
-import {SourceFilesComponent} from './components/site/source-files/source-files.component';
-import {VersionsComponent} from './components/site/versions/versions.component';
-import {SiteComponent} from './components/site/site.component';
-import {SecurityPolicyComponent} from './components/site/settings/cyber-security-settings/security-policy/security-policy.component';
 import {RouterModule} from '@angular/router';
-import {SitePickerComponent} from './components/site/site-picker/site-picker.component';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BrowserModule} from '@angular/platform-browser';
 import {CommonModule} from '@angular/common';
-import { SitesComponent } from './components/site/sites/sites.component';
+import {SitesComponent} from './components/sites/sites.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {SiteComponent} from './components/site/site.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatDialogModule} from '@angular/material/dialog';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {DomainsComponent} from './components/site/domains/domains.component';
+import {PageSettingsComponent} from './components/site/page-settings/page-settings.component';
+import {BuildsComponent} from './components/site/builds/builds.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {SourceFilesComponent} from './components/site/source-files/source-files.component';
+import {VersionsComponent} from './components/site/versions/versions.component';
 
 
 @NgModule({
     declarations: [
-        BuildsComponent,
-        BuildComponent,
-        DomainsComponent,
-        SettingsComponent,
-        CyberSecuritySettingsComponent,
-        PageSettingsComponent,
-        SourceFilesComponent,
-        VersionsComponent,
+        SitesComponent,
         SiteComponent,
-        SecurityPolicyComponent,
-        SitePickerComponent,
-        SitesComponent
+        DomainsComponent,
+        PageSettingsComponent,
+        BuildsComponent,
+        SourceFilesComponent,
+        VersionsComponent
     ],
     imports: [
         BrowserModule,
         CommonModule,
         HttpClientModule,
         RouterModule,
-        MatDialogModule,
+        MatSnackBarModule,
         MatIconModule,
-        MatButtonModule,
-        DragDropModule
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatSlideToggleModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatTreeModule
     ],
     exports: [
-        // BuildsComponent,
-        // BuildComponent,
-        // DomainsComponent,
-        // SettingsComponent,
-        // CyberSecuritySettingsComponent,
-        // PageSettingsComponent,
-        // SourceFilesComponent,
-        // VersionsComponent,
-        SiteComponent,
-        // SecurityPolicyComponent,
-        SitePickerComponent
+        SitesComponent,
+        SiteComponent
     ]
 })
 export class NgxKinihostModule {

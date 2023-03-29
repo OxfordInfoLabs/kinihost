@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from './views/login/login.component';
 import {SitesComponent} from './views/sites/sites.component';
 import {AuthGuard} from './guards/auth.guard';
+import {LoginComponent} from './views/login/login.component';
 import {SiteComponent} from './views/sites/site/site.component';
 
 const routes: Routes = [
     {
         path: '',
-        redirectTo: '/sites',
+        redirectTo: 'sites',
         pathMatch: 'full'
     },
     {
@@ -17,7 +17,7 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'site',
+        path: 'sites/:siteKey',
         component: SiteComponent,
         canActivate: [AuthGuard]
     },

@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
+import {Component, Inject, OnInit} from '@angular/core';
+import * as lodash from 'lodash';
+const _ = lodash.default;
 import {SiteService} from '../../../services/site.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'app-domains',
@@ -15,26 +16,19 @@ export class DomainsComponent implements OnInit {
     public maxRedirects = 5;
     public _ = _;
 
-    private siteSub: Subscription;
-
-    constructor(private siteService: SiteService) {
+    constructor(private siteService: SiteService,
+                public dialogRef: MatDialogRef<DomainsComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
-        this.siteSub = this.siteService.activeSite.subscribe(site => {
-            this.site = site;
-            if (site.siteDomains.length) {
-                this.siteDomains = site.siteDomains;
-            }
+        this.site = _.cloneDeep(this.data.site);
+        if (this.site.siteDomains.length) {
+            this.siteDomains = _.orderBy(this.site.siteDomains, ['type'], ['asc']);
+        }
 
-            this.setSiteDomains();
-        });
+        this.setSiteDomains();
     }
-
-    ngOnDestroy(): void {
-        this.siteSub.unsubscribe();
-    }
-
 
     public removeSiteDomain(index) {
         const message = 'Are you sure you would like to remove this domain from your site?';
@@ -44,12 +38,13 @@ export class DomainsComponent implements OnInit {
         }
     }
 
-    public saveSiteDomains() {
+    public async saveSiteDomains() {
         const domainNames = _(this.siteDomains)
             .map('domainName')
-            .reject(_.isNull)
+            .filter()
             .valueOf();
-        this.siteService.saveSiteDomains(domainNames, this.site.siteKey);
+        await this.siteService.saveSiteDomains(domainNames, this.site.siteKey);
+        this.dialogRef.close(true);
     }
 
     private setSiteDomains() {

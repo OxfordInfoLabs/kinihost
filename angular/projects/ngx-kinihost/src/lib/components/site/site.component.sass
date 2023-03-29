@@ -10,40 +10,78 @@
         background-color: #d20101
         color: white
 
-.right-panel
-    background-color: white
-    padding: 1rem
-    mat-spinner
-        margin: 2rem auto
-    h4
-        &:first-of-type
-            margin-top: 0
-    .panel-list
-        .list-item
-            border-bottom: 1px solid #e3e3e3
-            margin: .5rem 0
+.status-panel
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin: 1rem 0
+
+    .update-status
+        width: 100%
+        [mode="buffer"]
+            -webkit-transform: scaleX(-1)
+            transform: scaleX(-1)
+
+    .server
+        display: flex
+        height: 38px
+        align-items: center
+        border: 1px solid #e3e3e3
+        background-color: white
+
+        p
+            margin: 0 .5rem 0 0
+            padding-left: .25rem
+            text-transform: uppercase
+            font-size: .75rem
+            line-height: 1.2
+
+        span
             display: flex
-            flex-direction: column
-            > div
-                align-items: center
-                justify-content: space-between
-                display: flex
+            align-items: center
+            justify-content: center
+            height: 38px
+            width: 38px
+
+            &.done
+                background-color: #09E09D
+
+            &.warning
+                background-color: #FFB400
+
+            &.remove, &.QUEUED, &.PENDING
+                background-color: #c4c4c4
+
+            mat-icon
+                color: white
+
+
+.panel-list
+    .build-item
+        border-bottom: 1px solid #e3e3e3
+        margin: .5rem 0
+        display: flex
+        flex-direction: column
+        > div
+            align-items: center
+            justify-content: space-between
+            display: flex
+        &:last-child
+            border-bottom: none
+        p
+            font-size: .85rem
+            margin: 0
+            span
+                text-transform: lowercase
             &:last-child
-                border-bottom: none
-            p
-                font-size: .85rem
-                margin: 0
-                span
-                    text-transform: lowercase
-                &:last-child
-                    padding-bottom: .5rem
-            .toggle-row
-                cursor: pointer
-                padding-left: .5rem
-                &:hover
-                    background-color: whitesmoke
-            .sub-item
-                padding: .5rem 0
+                padding-bottom: .5rem
+        .toggle-row
+            cursor: pointer
+            padding-left: .5rem
+            &:hover
+                background-color: whitesmoke
+        .sub-item
+            padding: .5rem 0
 
 .actionpanel
     &.status
@@ -65,50 +103,7 @@
                 background-color: rgb(255, 180, 0)
                 border-color: rgb(255, 180, 0)
 
-    .status-panel
-        display: flex
-        align-items: center
-        justify-content: space-between
-        margin: 1rem 0
 
-        .update-status
-            width: 100%
-            [mode="buffer"]
-                -webkit-transform: scaleX(-1)
-                transform: scaleX(-1)
-
-        .server
-            display: flex
-            height: 38px
-            align-items: center
-            border: 1px solid #e3e3e3
-            background-color: white
-
-            p
-                margin: 0 .5rem 0 0
-                padding-left: .25rem
-                text-transform: uppercase
-                font-size: .75rem
-                line-height: 1.2
-
-            span
-                display: flex
-                align-items: center
-                justify-content: center
-                height: 38px
-                width: 38px
-
-                &.done
-                    background-color: #09E09D
-
-                &.warning
-                    background-color: #FFB400
-
-                &.remove, &.QUEUED, &.PENDING
-                    background-color: #c4c4c4
-
-                mat-icon
-                    color: white
 
 .changes-panel
     margin: 0 1rem 2rem 1rem

@@ -35,8 +35,11 @@ export class SessionInterceptor implements HttpInterceptor {
             });
         }
 
-        if (!request.headers.has('Content-Type')) {
+        const existingHeaders = request.headers.get('Content-Type');
+        if (!existingHeaders) {
             request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8') });
+        } else if (existingHeaders === 'file') {
+            request = request.clone({ headers: request.headers.delete('Content-Type') });
         }
 
         const sessionData = this.authService.sessionData.getValue();
@@ -51,9 +54,9 @@ export class SessionInterceptor implements HttpInterceptor {
                     },
                     error => {
                         if (error instanceof HttpErrorResponse) {
-                            if (error.error && error.error.message && error.error.message.includes('No CSRF token supplied for user authenticated request')) {
-                                this.authService.logout().then(() => {
-                                    this.router.navigate(['/login']);
+                            if (error.error && error.error.message &&  error.error.message.includes('No CSRF token supplied for user authenticated request')) {
+                                return this.authService.logout().then(() => {
+                                    return this.router.navigate(['/login']);
                                 });
                             } else {
                                 // const message = error.error.message;
@@ -66,6 +69,7 @@ export class SessionInterceptor implements HttpInterceptor {
                                 return throwError(error);
                             }
                         }
+                        return error;
                     }
                 ),
                 finalize(() => {

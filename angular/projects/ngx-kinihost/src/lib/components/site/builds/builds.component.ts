@@ -1,8 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
 import {SiteService} from '../../../services/site.service';
 import {BuildService} from '../../../services/build.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import * as lodash from 'lodash';
+const _ = lodash.default;
 
 @Component({
     selector: 'app-builds',
@@ -16,22 +19,15 @@ export class BuildsComponent implements OnInit {
     public moment = moment;
     public loading: boolean;
 
-    private siteSub: Subscription;
-
     constructor(private siteService: SiteService,
-                private buildService: BuildService) {
+                private buildService: BuildService,
+                public dialogRef: MatDialogRef<BuildsComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
-        this.siteSub = this.siteService.activeSite.subscribe(site => {
-            this.site = site;
-            this.loading = true;
-            this.getBuilds(site);
-        });
-    }
-
-    ngOnDestroy(): void {
-        this.siteSub.unsubscribe();
+        this.site = _.cloneDeep(this.data.site);
+        this.getBuilds(this.site);
     }
 
     private getBuilds(site) {
@@ -41,7 +37,7 @@ export class BuildsComponent implements OnInit {
             }
             this.loading = false;
             return site;
-        })
+        });
     }
 
 }
