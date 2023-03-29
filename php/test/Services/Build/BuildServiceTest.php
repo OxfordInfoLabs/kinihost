@@ -183,12 +183,12 @@ class BuildServiceTest extends TestBase {
         $mockBuildRunner = $mockObjectProvider->getMockInstance(CurrentBuildRunner::class);
         Container::instance()->set(CurrentBuildRunner::class, $mockBuildRunner);
 
-        $site = $this->siteService->createSite(new SiteDescriptor("Pineapple"));
+        $site = $this->siteService->createSite(new SiteDescriptor("Zulu"));
         $this->siteService->activateSite($site->getSiteId());
 
         $this->assertEquals(null, $site->getLastPreviewed());
 
-        $build = $this->buildService->createBuild("pineapple", Build::TYPE_CURRENT,  Build::STATUS_PENDING, ["Hello"]);
+        $build = $this->buildService->createBuild("zulu", Build::TYPE_CURRENT,  Build::STATUS_PENDING, ["Hello"]);
 
         $this->buildService->runBuild($build->getId());
 

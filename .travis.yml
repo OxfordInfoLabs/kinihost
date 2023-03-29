@@ -13,4 +13,4 @@ install:
   - composer clearcache
   - composer update
 script:
-  - composer test
+  - cd test; phpunit --exclude-group nontravis .
