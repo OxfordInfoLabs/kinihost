@@ -18,6 +18,7 @@ import {BuildsComponent} from './components/site/builds/builds.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {SourceFilesComponent} from './components/site/source-files/source-files.component';
 import {VersionsComponent} from './components/site/versions/versions.component';
+import { CreateSiteComponent } from './components/sites/create-site/create-site.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {VersionsComponent} from './components/site/versions/versions.component';
         PageSettingsComponent,
         BuildsComponent,
         SourceFilesComponent,
-        VersionsComponent
+        VersionsComponent,
+        CreateSiteComponent
     ],
     imports: [
         BrowserModule,
