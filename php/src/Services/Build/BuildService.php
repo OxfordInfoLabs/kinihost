@@ -86,12 +86,22 @@ class BuildService {
 
 
     /**
+     * Create a preview build
+     *
+     * @param $siteKey
+     */
+    public function createPreviewBuild($siteKey) {
+        return $this->createBuild($siteKey, Build::TYPE_PREVIEW);
+    }
+
+
+    /**
      * Create a production build
      *
      * @param $siteKey
      */
     public function createProductionBuild($siteKey) {
-        return $this->createBuild($siteKey, Build::TYPE_CURRENT);
+        return $this->createBuild($siteKey, Build::TYPE_PUBLISH);
     }
 
 
