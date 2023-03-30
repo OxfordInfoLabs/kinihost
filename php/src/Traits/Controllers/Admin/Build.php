@@ -50,6 +50,18 @@ trait Build {
     }
 
     /**
+     * Create preview build
+     *
+     * @http GET /preview/$siteKey
+     *
+     * @param string $siteKey
+     */
+    public function createPreviewBuild($siteKey) {
+        $this->buildService->createPreviewBuild($siteKey);
+    }
+
+
+    /**
      * Create production build
      *
      * @http GET /production/$siteKey
