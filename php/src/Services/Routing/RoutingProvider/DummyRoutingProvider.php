@@ -70,7 +70,7 @@ class DummyRoutingProvider implements RoutingProvider {
         foreach ($routingConfig->getBackends() as $backend) {
             foreach ($backend->getInsecureCNames() as $secureCName) {
                 $cNames[] = new CNameStatus($secureCName, true, 200,
-                    substr($secureCName, 0, 4) == "mark" ? 200 : 500);
+                    200);
             }
         }
 

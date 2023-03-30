@@ -85,7 +85,7 @@ class SiteActivationManager {
 
 
     /**
-     * Get the activation status for a
+     * Get the activation status for a site
      *
      * @param $site
      */
