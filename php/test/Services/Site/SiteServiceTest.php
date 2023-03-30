@@ -530,7 +530,7 @@ class SiteServiceTest extends TestBase {
 
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("update-static-settings", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("update-site-settings", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals(["siteKey" => "testsettings", "initiatingUserId" => 2, "previewBuild" => true], $queuedTasks[0]->getConfiguration());
 
         $this->assertEquals(new SiteSettings("myindex.html", "notfound.html", "dist"),
@@ -545,7 +545,7 @@ class SiteServiceTest extends TestBase {
 
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("update-static-settings", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("update-site-settings", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals(["siteKey" => "testsettings", "initiatingUserId" => 2, "storageUpdate" => true], $queuedTasks[0]->getConfiguration());
 
         $this->assertEquals(new SiteSettings("myindex.html", "404.html", "dist"),
@@ -559,7 +559,7 @@ class SiteServiceTest extends TestBase {
             "index.html", "404.html", "dist"));
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("update-static-settings", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("update-site-settings", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals(["siteKey" => "testsettings", "initiatingUserId" => 2, "storageUpdate" => true], $queuedTasks[0]->getConfiguration());
 
 
@@ -574,7 +574,7 @@ class SiteServiceTest extends TestBase {
             "index.html", "404.html", "dist"));
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("update-static-settings", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("update-site-settings", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals(["siteKey" => "testsettings", "initiatingUserId" => 2], $queuedTasks[0]->getConfiguration());
 
 
@@ -590,7 +590,7 @@ class SiteServiceTest extends TestBase {
             "index2.html", "broken.html", "public"));
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("update-static-settings", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("update-site-settings", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals(["siteKey" => "testsettings", "initiatingUserId" => 2, "storageUpdate" => true, "previewBuild" => true], $queuedTasks[0]->getConfiguration());
 
         $this->assertEquals(new SiteSettings("index2.html", "broken.html", "public"),
@@ -614,7 +614,7 @@ class SiteServiceTest extends TestBase {
         $this->assertTrue($site->isMaintenanceMode());
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("update-static-maintenance", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("update-site-maintenance", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals(["siteKey" => "testsettings", "initiatingUserId" => 2, "maintenance" => true], $queuedTasks[0]->getConfiguration());
 
 
@@ -626,7 +626,7 @@ class SiteServiceTest extends TestBase {
         $this->assertFalse($site->isMaintenanceMode());
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("update-static-maintenance", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("update-site-maintenance", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals(["siteKey" => "testsettings", "initiatingUserId" => 2, "maintenance" => false], $queuedTasks[0]->getConfiguration());
 
     }

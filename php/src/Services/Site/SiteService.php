@@ -467,7 +467,7 @@ class SiteService {
         // Queue task to update routing.
         $this->queuedTaskService->queueTask(
             Configuration::readParameter("queue.name"),
-            "update-static-settings",
+            "update-site-settings",
             "Update routing for site " . $site->getSiteKey(),
             ["siteKey" => $siteKey, "initiatingUserId" => $initiatingUserId, "routingUpdate" => true, "storageUpdate" => true]
         );
@@ -524,7 +524,7 @@ class SiteService {
 
         // Queue task to update settings.
         $this->queuedTaskService->queueTask(
-            Configuration::readParameter("queue.name"), "update-static-settings", "Update settings for site " . $site->getSiteKey(), $updateConfig);
+            Configuration::readParameter("queue.name"), "update-site-settings", "Update settings for site " . $site->getSiteKey(), $updateConfig);
 
 
     }
@@ -546,7 +546,7 @@ class SiteService {
 
         // Queue task to update settings.
         $this->queuedTaskService->queueTask(
-            Configuration::readParameter("queue.name"), "update-static-maintenance", "Update maintenance mode for site " . $site->getSiteKey(),
+            Configuration::readParameter("queue.name"), "update-site-maintenance", "Update maintenance mode for site " . $site->getSiteKey(),
             ["siteKey" => $siteKey, "initiatingUserId" => $initiatingUserId, "maintenance" => $maintenanceMode]);
 
 

@@ -6,7 +6,8 @@
   "config": {
     "process-timeout": 0,
     "source-directory": "src",
-    "test-directory": "test"
+    "test-directory": "test",
+    "queue-name": "kinihost"
   },
   "scripts": {
     "serve": "php -S 127.0.0.1:3000 -t src",
