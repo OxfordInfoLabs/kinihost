@@ -21,6 +21,12 @@ export class SiteService {
         });
     }
 
+    public createSite(newTitle: string) {
+        return this.http.post(this.config.adminHttpURL + '/site', {
+            title: newTitle
+        }).toPromise();
+    }
+
     public saveSite(site) {
         return this.http.post(this.config.adminHttpURL + '/site/save', site)
             .toPromise();

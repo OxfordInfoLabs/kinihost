@@ -16,8 +16,7 @@ export class BuildService {
     public getBuilds(site, limit = '5') {
         return this.http.get(this.config.adminHttpURL + '/build/list', {
             params: {
-                siteId: site.siteId,
-                limit
+                siteId: site.siteId
             }
         }).toPromise();
     }
