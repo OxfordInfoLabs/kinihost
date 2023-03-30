@@ -14,16 +14,15 @@ export class BuildService {
     }
 
     public getBuilds(site, limit = '5') {
-        return this.http.get(this.config.accessHttpURL + '/build/list', {
+        return this.http.get(this.config.adminHttpURL + '/build/list', {
             params: {
-                siteId: site.siteId,
-                limit
+                siteId: site.siteId
             }
         }).toPromise();
     }
 
     public getBuild(buildId) {
-        return this.http.get(this.config.accessHttpURL + '/build', {
+        return this.http.get(this.config.adminHttpURL + '/build', {
             params: {
                 buildId
             }
@@ -34,7 +33,7 @@ export class BuildService {
         return interval(5000)
             .pipe(
                 switchMap(() =>
-                    this.http.get(this.config.accessHttpURL + '/build/list', {
+                    this.http.get(this.config.adminHttpURL + '/build/list', {
                         params: {
                             siteId: site.siteId
                         }
@@ -47,12 +46,12 @@ export class BuildService {
     }
 
     public createProductionBuild(siteKey) {
-        return this.http.get(this.config.accessHttpURL + '/build/production/' + siteKey)
+        return this.http.get(this.config.adminHttpURL + '/build/production/' + siteKey)
             .toPromise();
     }
 
     public createVersionRevertBuild(siteKey, targetVersion) {
-        return this.http.get(this.config.accessHttpURL + '/build/versionRevert/' + siteKey + '/' + targetVersion)
+        return this.http.get(this.config.adminHttpURL + '/build/versionRevert/' + siteKey + '/' + targetVersion)
             .toPromise();
     }
 }

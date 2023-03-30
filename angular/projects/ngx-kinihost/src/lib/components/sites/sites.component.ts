@@ -49,11 +49,13 @@ export class SitesComponent implements OnInit {
     public createSite() {
         const dialogRef = this.dialog.open(CreateSiteComponent, {
             width: '900px',
-            height: '900px'
+            height: '500px'
         });
 
         dialogRef.afterClosed().subscribe(res => {
-
+            if (res) {
+                this.reload.next(Date.now());
+            }
         });
     }
 

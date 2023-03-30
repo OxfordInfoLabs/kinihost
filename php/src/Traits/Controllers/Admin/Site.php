@@ -43,6 +43,23 @@ trait Site {
         return $this->siteService->getSiteByKey($siteKey);
     }
 
+    /**
+     * List all sites optionally limiting by a search string with offsets and limits
+     *
+     * @http GET /list
+     *
+     * @param string $searchString
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return SiteSummary[]
+     */
+    public function listSites($searchString = "", $offset = 0, $limit = 10) {
+        return array_map(function ($element) {
+            return new SiteSummary($element);
+        }, $this->siteService->listSites($searchString, $offset, $limit));
+    }
+
 
     /**
      * Get the settings for the site
@@ -84,22 +101,7 @@ trait Site {
     }
 
 
-    /**
-     * List all sites optionally limiting by a search string with offsets and limits
-     *
-     * @http GET /
-     *
-     * @param string $searchString
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return SiteSummary[]
-     */
-    public function listSites($searchString = "", $offset = 0, $limit = 10) {
-        return array_map(function ($element) {
-            return new SiteSummary($element);
-        }, $this->siteService->listSites($searchString, $offset, $limit));
-    }
+
 
 
     /**

@@ -16,47 +16,53 @@ export class SiteService {
     }
 
     public getSites(searchString = '', limit = '10', offset = '0') {
-        return this.http.get(this.config.accessHttpURL + '/site/list', {
+        return this.http.get(this.config.adminHttpURL + '/site/list', {
             params: {searchString, limit, offset}
         });
     }
 
+    public createSite(newTitle: string) {
+        return this.http.post(this.config.adminHttpURL + '/site', {
+            title: newTitle
+        }).toPromise();
+    }
+
     public saveSite(site) {
-        return this.http.post(this.config.accessHttpURL + '/site/save', site)
+        return this.http.post(this.config.adminHttpURL + '/site/save', site)
             .toPromise();
     }
 
     public saveSiteDomains(siteDomains, siteKey) {
-        return this.http.post(this.config.accessHttpURL + '/site/siteDomains?siteKey=' + siteKey, siteDomains)
+        return this.http.post(this.config.adminHttpURL + '/site/siteDomains?siteKey=' + siteKey, siteDomains)
             .toPromise().then(this.getSite);
     }
 
     public removeSiteDomain(siteDomainId) {
-        return this.http.get(this.config.accessHttpURL + '/site/removeSiteDomain', {
+        return this.http.get(this.config.adminHttpURL + '/site/removeSiteDomain', {
             params: {siteDomainId}
         }).toPromise();
     }
 
     public getSite(siteKey) {
-        return this.http.get(this.config.accessHttpURL + '/site', {
+        return this.http.get(this.config.adminHttpURL + '/site', {
             params: {siteKey}
         }).toPromise();
     }
 
     public getSiteVersions(siteKey) {
-        return this.http.get(this.config.accessHttpURL + '/site/versions', {
+        return this.http.get(this.config.adminHttpURL + '/site/versions', {
             params: {siteKey}
         }).toPromise();
     }
 
     public getSiteSettings(siteKey) {
-        return this.http.get(this.config.accessHttpURL + '/site/settings', {
+        return this.http.get(this.config.adminHttpURL + '/site/settings', {
             params: {siteKey}
         }).toPromise();
     }
 
     public updateSiteSettings(siteKey, siteSettings) {
-        return this.http.post(this.config.accessHttpURL +
+        return this.http.post(this.config.adminHttpURL +
             '/site/updateSettings?siteKey=' + siteKey, siteSettings)
             .toPromise().then(() => {
                 this.snackBar.open(
@@ -70,7 +76,7 @@ export class SiteService {
 
     public updateMaintenanceMode(siteKey, mode) {
         const maintenanceMode = mode ? '1' : '0';
-        return this.http.get(this.config.accessHttpURL + '/site/maintenance', {
+        return this.http.get(this.config.adminHttpURL + '/site/maintenance', {
             params: {siteKey, maintenanceMode}
         }).toPromise();
     }

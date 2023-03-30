@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { SiteService } from '../../services/site.service';
 import { Subscription } from 'rxjs';
 import { BuildService } from '../../services/build.service';
-import * as moment from 'moment';
 import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 import {MatDialog} from '@angular/material/dialog';
 import {DomainsComponent} from './domains/domains.component';
@@ -11,6 +10,7 @@ import {PageSettingsComponent} from './page-settings/page-settings.component';
 import {BuildsComponent} from './builds/builds.component';
 import {SourceFilesComponent} from './source-files/source-files.component';
 import {VersionsComponent} from './versions/versions.component';
+import * as moment from 'moment';
 
 @Component({
     selector: 'kh-site',
@@ -28,6 +28,10 @@ export class SiteComponent implements OnInit, OnDestroy {
     public updateInProgress = false;
     public moment = moment;
     public loadingVersions = true;
+    public latestProduction = null;
+    public latestPreview = null;
+    public latestUpload = null;
+
 
     private routeSub: Subscription;
     private buildSub: Subscription;
@@ -139,6 +143,14 @@ export class SiteComponent implements OnInit, OnDestroy {
         });
     }
 
+    public pushProduction() {
+
+    }
+
+    public pushPreview() {
+
+    }
+
     private loadSite(siteKey) {
         this.builds = [];
         this.lastBuild = null;
@@ -160,7 +172,7 @@ export class SiteComponent implements OnInit, OnDestroy {
         this.versions = [];
         this.loadingVersions = true;
         return this.siteService.getSiteVersions(site.siteKey).then((versions: any) => {
-            this.versions = versions.slice(0, 5);
+            this.versions = versions.slice(0, 4);
             this.loadingVersions = false;
             return site;
         }).catch(e => {
@@ -170,8 +182,38 @@ export class SiteComponent implements OnInit, OnDestroy {
 
     private setBuildStatus(builds) {
         if (builds.length) {
-            this.builds = builds;
-            this.lastBuild = builds[0];
+            this.builds = builds.slice(0, 4);
+            this.builds.map(build => {
+                if (build.completedDate && build.completedDate.timestamp) {
+                    build.completed = moment.unix(build.completedDate.timestamp).format('Do MMM @ HH:mm');
+                }
+                return build;
+            });
+            this.lastBuild = this.builds[0];
+
+            this.latestProduction = null;
+            this.latestPreview = null;
+            this.latestUpload = null;
+
+            for (const build of builds) {
+                if (!this.latestUpload && build.buildType === 'SOURCE_UPLOAD') {
+                    this.latestUpload = build.completedDate.timestamp;
+                }
+
+                if (!this.latestPreview && build.builtType === 'PREVIEW') {
+                    this.latestPreview = build.completedDate.timestamp;
+                }
+
+                if (!this.latestProduction && build.buildType === 'PUBLISH') {
+                    this.latestProduction = build.completedDate.timestamp;
+                }
+
+                if (this.latestProduction && this.latestPreview && this.latestUpload) {
+                    break;
+                }
+            }
+
+            console.log(this.latestProduction, this.latestPreview, this.latestUpload);
 
             switch (this.lastBuild.buildTarget) {
                 case 'PREVIEW':

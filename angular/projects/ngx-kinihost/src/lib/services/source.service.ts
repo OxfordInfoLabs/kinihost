@@ -17,7 +17,7 @@ export class SourceService {
             params.subFolder = subFolder;
         }
 
-        return this.http.get(this.config.accessHttpURL + '/account/staticwebsite/source/list', {
+        return this.http.get(this.config.adminHttpURL + '/account/staticwebsite/source/list', {
             params
         }).toPromise();
     }
