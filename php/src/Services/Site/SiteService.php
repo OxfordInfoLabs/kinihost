@@ -362,7 +362,7 @@ class SiteService {
             $checkNumber++;
 
             if ($checkNumber < 25) {
-                $this->queuedTaskService->queueTask(Configuration::readParameter("queue.name"), "check-activation-static", "Check Static Site Activation - " . $site->getSiteKey() . " $checkNumber / 24",
+                $this->queuedTaskService->queueTask(Configuration::readParameter("queue.name"), "check-site-activation", "Check Static Site Activation - " . $site->getSiteKey() . " $checkNumber / 24",
                     ["siteId" => $siteId, "checkNumber" => $checkNumber], null, 300);
             } else {
                 $this->emailService->send(new SuperUserTemplatedEmail("superuser/activation-failure", ["site" => $site]));
