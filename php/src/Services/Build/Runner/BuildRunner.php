@@ -8,6 +8,8 @@ use Kinihost\Objects\Site\Site;
 /**
  *
  * @implementation CURRENT Kinihost\Services\Build\Runner\CurrentBuildRunner
+ * @implementation PREVIEW Kinihost\Services\Build\Runner\CurrentBuildRunner
+ * @implementation PUBLISH Kinihost\Services\Build\Runner\CurrentBuildRunner
  * @implementation SOURCE_UPLOAD Kinihost\Services\Build\Runner\SourceUploadBuildRunner
  * @implementation VERSION_REVERT Kinihost\Services\Build\Runner\VersionRevertBuildRunner
  *
