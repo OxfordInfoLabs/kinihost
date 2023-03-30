@@ -11,6 +11,8 @@ use Kiniauth\Services\Security\ScopeManager;
 use Kiniauth\Services\Security\SecurityService;
 use Kiniauth\Services\Workflow\Task\Queued\QueuedTaskService;
 use Kiniauth\Test\Services\Security\AuthenticationHelper;
+use Kinihost\ValueObjects\Routing\Status\RoutingStatus;
+use Kinihost\ValueObjects\Site\SiteActivationStatus;
 use Kinikit\Core\Configuration\Configuration;
 use Kinikit\Core\DependencyInjection\Container;
 use Kinikit\Core\Exception\AccessDeniedException;
@@ -54,6 +56,12 @@ class SiteServiceTest extends TestBase {
      */
     private $emailService;
 
+
+    /**
+     * @var MockObject
+     */
+    private $siteActivationManager;
+
     public function setUp(): void {
         $this->queuedTaskService = Container::instance()->get(QueuedTaskService::class);
 
@@ -62,9 +70,12 @@ class SiteServiceTest extends TestBase {
          */
         $mockObjectProvider = Container::instance()->get(MockObjectProvider::class);
         $this->emailService = $mockObjectProvider->getMockInstance(EmailService::class);
+        $this->siteActivationManager = $mockObjectProvider->getMockInstance(SiteActivationManager::class);
 
         $this->siteService = Container::instance()->get(SiteService::class);
         $this->siteService->setEmailService($this->emailService);
+        $this->siteService->setSiteActivationManager($this->siteActivationManager);
+
 
         $this->authenticationService = Container::instance()->get(AuthenticationService::class);
 
@@ -422,6 +433,11 @@ class SiteServiceTest extends TestBase {
 
         $site = $this->siteService->getSiteByKey("markrobertshaw");
         $this->assertEquals(Site::STATUS_PENDING, $site->getStatus());
+
+        $this->siteActivationManager->returnValue("getActivationStatus",
+            new SiteActivationStatus("markrobertshaw", new RoutingStatus([])), [
+                $site
+            ]);
 
         // Check activation
         $this->siteService->checkForSiteActivation($site->getSiteId());

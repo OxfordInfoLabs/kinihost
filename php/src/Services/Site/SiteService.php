@@ -108,6 +108,17 @@ class SiteService {
         $this->emailService = $emailService;
     }
 
+
+    /**
+     * Set site activation manager
+     *
+     * @param SiteActivationManager $siteActivationManager
+     */
+    public function setSiteActivationManager($siteActivationManager) {
+        $this->siteActivationManager = $siteActivationManager;
+    }
+
+
     /**
      * Return a boolean determining whether or not a site key is available.
      *
