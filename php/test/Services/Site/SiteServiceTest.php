@@ -451,7 +451,7 @@ class SiteServiceTest extends TestBase {
 
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("check-activation-static", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("check-site-activation", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals($site->getSiteId(), $queuedTasks[0]->getConfiguration()["siteId"]);
         $this->assertEquals(6, $queuedTasks[0]->getConfiguration()["checkNumber"]);
 
@@ -470,7 +470,7 @@ class SiteServiceTest extends TestBase {
 
 
         $queuedTasks = $this->queuedTaskService->listQueuedTasks(Configuration::readParameter("queue.name"));
-        $this->assertEquals("check-activation-static", $queuedTasks[0]->getTaskIdentifier());
+        $this->assertEquals("check-site-activation", $queuedTasks[0]->getTaskIdentifier());
         $this->assertEquals($site->getSiteId(), $queuedTasks[0]->getConfiguration()["siteId"]);
         $this->assertEquals(24, $queuedTasks[0]->getConfiguration()["checkNumber"]);
 

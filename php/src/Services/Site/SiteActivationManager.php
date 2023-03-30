@@ -66,9 +66,7 @@ class SiteActivationManager {
         $storageProviderKey = $this->storageManager->createStorage($site);
         $site->setStorageProviderKey($storageProviderKey);
 
-
         $this->sourceService->installBlankContent($site);
-
 
         // Initialise production content
         $this->sourceService->initialiseProductionContent($site);
