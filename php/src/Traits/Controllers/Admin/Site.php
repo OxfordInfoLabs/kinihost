@@ -112,7 +112,8 @@ trait Site {
      * @param SiteDescriptor $siteDescriptor
      */
     public function createSite($siteDescriptor) {
-        $this->siteService->createSite($siteDescriptor, 0);
+        $site = $this->siteService->createSite($siteDescriptor, 0);
+        $this->siteService->activateSite($site->getSiteId());
     }
 
 
