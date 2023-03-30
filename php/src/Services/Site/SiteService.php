@@ -298,6 +298,10 @@ class SiteService {
             $this->emailService->send(new AccountTemplatedEmail($accountId, "setting-up",
                 ["site" => $newSite]));
 
+        } else {
+            $this->emailService->send(new SuperUserTemplatedEmail("setting-up", [
+                "site" => $newSite
+            ]));
         }
 
         return $newSite;
