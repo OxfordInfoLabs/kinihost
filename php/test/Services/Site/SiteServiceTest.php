@@ -219,6 +219,24 @@ class SiteServiceTest extends TestBase {
     }
 
 
+    public function testCanCreateSiteOwnedBySuperAdmin() {
+
+        AuthenticationHelper::login("admin@kinicart.com", "password");
+
+
+        // Create descriptor for new site
+        $newSite = new SiteDescriptor("Bob Jones Admin Site");
+
+
+        // Do real one.
+        $site = $this->siteService->createSite($newSite, 0);
+        $this->assertNotNull($site->getSiteId());
+        $this->assertEquals("bobjonesadminsite", $site->getSiteKey());
+        $this->assertEquals("Bob Jones Admin Site", $site->getTitle());
+
+    }
+
+
     public function testCanGetSiteByKeyIfPermissions() {
 
         // Confirm we can't access as guest
@@ -275,8 +293,6 @@ class SiteServiceTest extends TestBase {
         $site = $this->siteService->getSiteByKey("paperchase");
         $this->assertEquals("The Paper Chasing Machine", $site->getTitle());
         $this->assertEquals("paperchase", $site->getSiteKey());
-
-
 
 
     }

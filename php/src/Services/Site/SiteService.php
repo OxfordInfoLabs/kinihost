@@ -292,10 +292,13 @@ class SiteService {
             }
         }
 
-        // Send the setting up email if a site
-        $this->emailService->send(new AccountTemplatedEmail($accountId, "setting-up",
-            ["site" => $newSite]));
 
+        if ($accountId !== 0) {
+            // Send the setting up email if a site
+            $this->emailService->send(new AccountTemplatedEmail($accountId, "setting-up",
+                ["site" => $newSite]));
+
+        }
 
         return $newSite;
 
