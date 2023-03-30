@@ -66,4 +66,5 @@ export class NgxKinihostModule {
 export class KinihostModuleConfig {
     guestHttpURL: string;
     accessHttpURL: string;
+    adminHttpURL?: string;
 }

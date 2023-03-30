@@ -227,6 +227,12 @@
 
                 <div class="panel-list">
                     <div *ngFor="let build of builds" class="build-item">
+
+                        <ng-template [ngIf]="build.buildType">
+
+                        </ng-template>
+
+
                         <p class="production"
                            *ngIf="build.buildType === 'CURRENT' && build.buildTarget === 'PRODUCTION'">
                             <ng-template [ngIf]="build.status === 'SUCCEEDED'">

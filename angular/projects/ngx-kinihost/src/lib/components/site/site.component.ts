@@ -76,7 +76,7 @@ export class SiteComponent implements OnInit, OnDestroy {
     public manageDomains() {
         const dialogRef = this.dialog.open(DomainsComponent, {
             width: '900px',
-            height: '900px',
+            height: '800px',
             data: {
                 site: this.site
             }

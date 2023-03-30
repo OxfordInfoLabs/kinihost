@@ -57,7 +57,6 @@ export class SitesComponent implements OnInit {
         });
     }
 
-    // tslint:disable-next-line:typedef
     private getSites() {
         return this.siteService.getSites(
             this.searchText.getValue() || '',

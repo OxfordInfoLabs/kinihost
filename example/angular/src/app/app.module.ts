@@ -26,7 +26,8 @@ import { SiteComponent } from './views/sites/site/site.component';
         AppRoutingModule,
         NgxKinihostModule.forRoot({
             accessHttpURL: environment.backendURL + '/account',
-            guestHttpURL: environment.backendURL + '/guest'
+            guestHttpURL: environment.backendURL + '/guest',
+            adminHttpURL: environment.backendURL + '/admin'
         }),
         BrowserAnimationsModule,
         MatSnackBarModule,
