@@ -87,7 +87,6 @@ class SourceUploadBuildRunnerTest extends TestBase {
 
         // Return our mock storage root if get preview root called.
         $this->siteStorageManager->returnValue("getPreviewRoot", $this->storageRoot, [$site]);
-        $this->siteStorageManager->returnValue("getProcessingRoot", $processingRoot, [$site]);
         $this->siteSourceService->returnValue("getCurrentDeploymentChangedFiles", $changes, [$site]);
 
 

@@ -124,10 +124,7 @@ class SiteSourceService {
             if (substr($key, 0, strlen($publishDirectory)) == $publishDirectory) {
                 $filename = $contentStorageProvider->getFileSystemPath($contentRoot->getContainerKey(), $contentRoot->getPath() . "/source/" . $key);
                 if ($publishDirectory) $key = substr($key, strlen($publishDirectory) + 1);
-                // Ensure we ignore oxfordcyber control files.
-                if (substr($key, 0, 11) != "oxfordcyber" && substr($key, 0, 12) != ".oxfordcyber") {
-                    $changedObjects[$key] = new ChangedObject($key, ChangedObject::CHANGE_TYPE_UPDATE, null, $filename, $md5);
-                }
+                $changedObjects[$key] = new ChangedObject($key, ChangedObject::CHANGE_TYPE_UPDATE, null, $filename, $md5);
             }
         }
         return $changedObjects;

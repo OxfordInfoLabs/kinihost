@@ -130,43 +130,6 @@ class SiteStorageManager {
     }
 
 
-    /**
-     * Get a processing root for this site
-     *
-     * @param $site
-     * @return StorageRoot
-     */
-    public function getProcessingRoot($site) {
-        list($storageProviderKey, $containerKey) = $this->getStorageKeyAndContainerKey($site, "content");
-        return new StorageRoot($storageProviderKey, $containerKey, "processing/" . $site->getLastBuildNumber());
-    }
-
-
-    /**
-     * Get a storage root for a published version of a site - only used for components
-     *
-     * @param $site
-     * @param $version
-     *
-     * @return StorageRoot
-     */
-    public function getPublishedVersionRoot($site, $version) {
-        list($storageProviderKey, $containerKey) = $this->getStorageKeyAndContainerKey($site, "content");
-        return new StorageRoot($storageProviderKey, $containerKey, "published/" . $version);
-    }
-
-
-    /**
-     * Get the media root for the passed site
-     *
-     * @param $site
-     */
-    public function getMediaRoot($site) {
-        list($storageProviderKey, $containerKey) = $this->getStorageKeyAndContainerKey($site, "content");
-        return new StorageRoot($storageProviderKey, $containerKey, "media");
-
-    }
-
 
     /**
      * Convenience wrapper to the deployment root function for the standard production

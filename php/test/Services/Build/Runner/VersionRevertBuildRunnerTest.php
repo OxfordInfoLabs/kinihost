@@ -57,13 +57,8 @@ class VersionRevertBuildRunnerTest extends TestBase {
         $site = new Site("My New Site", "mynewsite");
         $build = new Build($site, Build::TYPE_CURRENT, null, null, ["targetVersion" => 3]);
 
-        $changes = [new ChangedObject("test1.txt", ChangedObject::CHANGE_TYPE_UPDATE)];
-
-        $processingRoot = MockObjectProvider::instance()->getMockInstance(StorageRoot::class);
-
         // Return our mock storage root if get preview root called.
         $this->siteStorageManager->returnValue("getContentRoot", $this->contentStorageRoot, [$site]);
-        $this->siteStorageManager->returnValue("getProcessingRoot", $processingRoot, [$site]);
 
 
         $this->buildRunner->runBuild($build, $site);

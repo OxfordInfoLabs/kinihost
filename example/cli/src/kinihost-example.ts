@@ -3,4 +3,4 @@
 // Construct the kinihost CLI
 import KinihostCli from "kinihost-cli/dist/kinihost-cli";
 
-new KinihostCli("http://localhost:3000", "kinihost-example.json", "Kinihost Example");
+new KinihostCli("http://localhost:3050", "kinihost-example.json", "Kinihost Example");

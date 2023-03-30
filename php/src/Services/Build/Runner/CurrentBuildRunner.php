@@ -29,7 +29,6 @@ class CurrentBuildRunner implements BuildRunner {
     protected $siteStorageManager;
 
 
-
     /**
      * CurrentBuildRunner constructor.
      *
@@ -52,9 +51,9 @@ class CurrentBuildRunner implements BuildRunner {
 
 
         $targetRoot = null;
-        if ($build->getBuildTarget() == Build::BUILD_TARGET_PREVIEW) {
+        if ($build->getBuildType() == Build::TYPE_PREVIEW) {
             $targetRoot = $this->siteStorageManager->getPreviewRoot($site);
-        } else if ($build->getBuildTarget() == Build::BUILD_TARGET_PRODUCTION) {
+        } else if ($build->getBuildType() == Build::TYPE_PUBLISH) {
             $targetRoot = $this->siteStorageManager->getProductionRoot($site);
         }
 
@@ -70,28 +69,6 @@ class CurrentBuildRunner implements BuildRunner {
                 // Replace all the source with the deploy files
                 $targetRoot->replaceAll($deployFiles);
             }
-
-
-            // Blat processing root once complete
-            $processingRoot = $this->siteStorageManager->getProcessingRoot($site);
-            $processingRoot->remove();
-
-
-            // If production build and the site is a component, create/replace the published version
-            if ($build->getBuildTarget() == Build::BUILD_TARGET_PRODUCTION && $site->getType() !== Site::TYPE_SITE) {
-
-
-                // Grab the publish root for the next published version
-                $publishedVersion = $site->getPublishedVersion() ?? 0;
-                $publishRoot = $this->siteStorageManager->getPublishedVersionRoot($site, $publishedVersion + 1);
-
-                // Grab the content root
-                $contentRoot = $this->siteStorageManager->getContentRoot($site);
-
-                // Synchronise the source into the publish root
-                $publishRoot->synchronise($contentRoot, null, "source");
-            }
-
 
         }
 
