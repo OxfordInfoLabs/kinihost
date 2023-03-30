@@ -264,9 +264,21 @@ var SourceService = /** @class */ (function () {
     SourceService.prototype.uploadFile = function (localFilename, uploadUrl) {
         var _this = this;
         return new Promise(function (resolve) {
-            asyncRequest("PUT", uploadUrl, { body: fs.readFileSync(_this._siteConfig.contentRoot + "/" + localFilename) }).done(function (res) {
-                resolve(res.statusCode);
-            });
+            // Ensure we qualify with api endpoint if relative url supplied
+            if (uploadUrl.startsWith("/")) {
+                _this._api.callMethod("/cli/upload", "PUT", null, {
+                    siteKey: _this._siteConfig.siteKey,
+                    url: uploadUrl,
+                    body: fs.readFileSync(_this._siteConfig.contentRoot + "/" + localFilename).toString()
+                }).then(function (result) {
+                    resolve(200);
+                });
+            }
+            else {
+                asyncRequest("PUT", uploadUrl, { body: fs.readFileSync(_this._siteConfig.contentRoot + "/" + localFilename) }).done(function (res) {
+                    resolve(res.statusCode);
+                });
+            }
         });
     };
     /**

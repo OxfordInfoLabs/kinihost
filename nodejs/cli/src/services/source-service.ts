@@ -4,6 +4,7 @@ import ChangedObject from "../objects/changed-object";
 import SourceUploadBuild from "../objects/source-upload-build";
 import chalk from "chalk";
 import Container from "../core/container";
+import Config from "../core/config";
 
 const rimraf = require("rimraf");
 const fs = require('fs');
@@ -21,6 +22,7 @@ export default class SourceService {
 
     // Site config
     private _siteConfig: SiteConfig;
+
 
     private _excludedPaths = ["node_modules", ".git", ".svn", ".oc-cache"];
 
@@ -260,9 +262,20 @@ export default class SourceService {
 
         return new Promise<number>(resolve => {
 
-            asyncRequest("PUT", uploadUrl, {body: fs.readFileSync(this._siteConfig.contentRoot + "/" + localFilename)}).done((res: any) => {
-                resolve(res.statusCode);
-            });
+            // Ensure we qualify with api endpoint if relative url supplied
+            if (uploadUrl.startsWith("/")) {
+                this._api.callMethod("/cli/upload", "PUT", null, {
+                    siteKey: this._siteConfig.siteKey,
+                    url: uploadUrl,
+                    body: fs.readFileSync(this._siteConfig.contentRoot + "/" + localFilename).toString()
+                }).then((result: any) => {
+                    resolve(200);
+                });
+            } else {
+                asyncRequest("PUT", uploadUrl, {body: fs.readFileSync(this._siteConfig.contentRoot + "/" + localFilename)}).done((res: any) => {
+                    resolve(res.statusCode);
+                });
+            }
 
 
         });
