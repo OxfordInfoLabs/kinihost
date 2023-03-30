@@ -1,5 +1,5 @@
 activate-site = Kinihost\Services\QueuedTasks\ActivateStaticTask
-check-site-activation = Kinihost\Services\QueuedTasks\CheckActivationTask
+check-site-activation = Kinihost\Services\QueuedTasks\CheckSiteActivationTask
 run-site-build = Kinihost\Services\QueuedTasks\RunSiteBuildTask
 update-site-settings =  Kinihost\Services\QueuedTasks\UpdateSiteSettingsTask
 update-site-maintenance = Kinihost\Services\QueuedTasks\MaintenanceModeTask
