@@ -108,7 +108,7 @@
                             <span *ngIf="lastBuild.status === 'PENDING'">
                                 pending source file upload
                             </span>
-                            <span *ngIf="lastBuild.completedDate">{{(lastBuild.buildTarget).toLowerCase()}}
+                            <span *ngIf="lastBuild.completedDate">
                                 updated on {{moment.unix(lastBuild.completedDate.timestamp).format('Do MMM @ HH:mm:ss')}}
                                 with {{lastBuild.data.changedObjects.length}} changes</span>
                         </p>
@@ -210,9 +210,18 @@
         </main>
 
         <aside class=" sticky top-8 mb-4 lg:w-96 shrink-0 w-full">
-            <button type="button" (click)="viewSourceFiles()"
-                    class="flex items-center justify-center w-full mb-4 rounded-md bg-white shadow px-3 py-2 text-sm font-semibold text-primary shadow-sm">
-                View Source Files
+            <button type="button" (click)="pushProduction()"
+                    class="flex items-center justify-center w-full mb-4 rounded-md bg-green-500 shadow px-3 py-2 text-sm font-semibold text-white shadow-sm">
+                Push to Production
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-2 w-4 h-4">
+                    <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <button type="button" (click)="pushPreview()"
+                    class="flex items-center justify-center w-full mb-4 rounded-md bg-yellow-500 shadow px-3 py-2 text-sm font-semibold text-white shadow-sm">
+                Push to Preview
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-2 w-4 h-4">
                     <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
                     <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
@@ -225,62 +234,32 @@
                     <a class="text-sm font-semibold text-primary hover:underline cursor-pointer" (click)="viewBuilds()">view all</a>
                 </div>
 
-                <div class="panel-list">
-                    <div *ngFor="let build of builds" class="build-item">
+                <div class="flow-root">
+                    <ul role="list" class="-mb-8">
+                        <li *ngFor="let build of builds">
+                            <div class="relative pb-8">
+                                <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                <div class="relative flex space-x-3">
+                                    <div>
+                                    <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                                      <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                                      </svg>
+                                    </span>
+                                    </div>
+                                    <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Applied to <a href="#" class="font-medium text-gray-900">Front End Developer</a></p>
+                                        </div>
+                                        <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                                            <time datetime="2020-09-20">Sep 20</time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
 
-                        <ng-template [ngIf]="build.buildType">
-
-                        </ng-template>
-
-
-                        <p class="production"
-                           *ngIf="build.buildType === 'CURRENT' && build.buildTarget === 'PRODUCTION'">
-                            <ng-template [ngIf]="build.status === 'SUCCEEDED'">
-                                <b>Deployed to Production</b>
-                            </ng-template>
-                            <ng-template [ngIf]="build.status === 'QUEUED'">
-                                <b style="color: #333">Pending production build</b>
-                            </ng-template>
-                            <ng-template [ngIf]="build.status === 'RUNNING'">
-                                <b style="color: #12a6d3">Processing production build</b>
-                            </ng-template>
-
-                        </p>
-
-                        <p class="preview"
-                           *ngIf="build.buildType === 'CURRENT' && build.buildTarget !== 'PRODUCTION'">
-                            Preview site updated
-                        </p>
-
-                        <ng-template [ngIf]="build.buildType === 'SOURCE_UPLOAD'">
-                            <p>
-                                <ng-template [ngIf]="build.status === 'SUCCEEDED'">
-                                    <b [ngClass]="{preview: build.buildTarget === 'PREVIEW', production: build.buildTarget === 'PRODUCTION'}">
-                                        New source uploaded to
-                                        <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
-                                </ng-template>
-                                <ng-template [ngIf]="build.status === 'QUEUED'">
-                                    <b>Pending source upload to
-                                        <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
-                                </ng-template>
-                                <ng-template [ngIf]="build.status === 'RUNNING'">
-                                    <b style="color: #12a6d3">Processing source upload to
-                                        <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
-                                </ng-template>
-
-                                {{build.data.changedObjects.length}} changed files
-                            </p>
-                        </ng-template>
-
-                        <ng-template [ngIf]="build.buildType === 'VERSION_REVERT'">
-                            <p class="preview"><b>Reverted to:</b> version {{build.data.targetVersion}}</p>
-                        </ng-template>
-
-                        <p *ngIf="build.completedDate">
-                            <b>Completed: </b> {{moment.unix(build.completedDate.timestamp).format('DD/MM/YYYY HH:mm:ss')}}
-                        </p>
-
-                    </div>
+                    </ul>
                 </div>
 
                 <div class="flex items-center justify-between mt-6 mb-4">
@@ -310,6 +289,15 @@
                     </div>
                 </div>
             </div>
+
+            <button type="button" (click)="viewSourceFiles()"
+                    class="flex items-center justify-center w-full mb-4 rounded-md bg-white shadow px-3 py-2 text-sm font-semibold text-primary shadow-sm">
+                View Source Files
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-2 w-4 h-4">
+                    <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
+                </svg>
+            </button>
 
             <div class="w-full shadow rounded-md mb-4">
                 <div class="flex ">

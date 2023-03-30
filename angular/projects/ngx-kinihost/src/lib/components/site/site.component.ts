@@ -139,6 +139,14 @@ export class SiteComponent implements OnInit, OnDestroy {
         });
     }
 
+    public pushProduction() {
+
+    }
+
+    public pushPreview() {
+
+    }
+
     private loadSite(siteKey) {
         this.builds = [];
         this.lastBuild = null;
