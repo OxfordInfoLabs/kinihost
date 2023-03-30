@@ -1,0 +1,330 @@
+<div *ngIf="productionStatus === 'warning'"
+    class="my-2 rounded-md shadow bg-orange-400 text-sm px-4 py-2">
+    <div class="flex items-center">
+        <mat-icon class="mr-2">history</mat-icon>
+        <b>Changes detected:&nbsp;</b>
+        update your production server with the changes in preview
+    </div>
+</div>
+<div *ngIf="site && site.maintenanceMode"
+    class="my-2 rounded-md shadow bg-red-700 text-white text-sm px-4 py-2">
+    <div class="flex items-center">
+        <mat-icon class="mr-2">developer_mode</mat-icon>
+        <b>Maintenance Mode:&nbsp;</b>
+        Your production site is currently in maintenance mode.
+    </div>
+</div>
+
+<div *ngIf="site" class="flex min-h-full flex-col">
+
+    <div class="mt-6 mb-4 flex flex-col text-2xl">
+        <div class="flex items-center">
+            <h1 class="ml-3 text-3xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                Site Overview
+            </h1>
+        </div>
+        <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
+            <dd class="flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                     class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                </svg>
+
+                {{site.title}}
+            </dd>
+        </dl>
+    </div>
+
+    <div class="mx-auto flex w-full max-w-7xl items-end gap-x-4 py-6 flex-wrap-reverse md:flex-wrap-nowrap">
+        <main class="flex-1">
+
+            <div class="w-full shadow rounded-md mb-4">
+                <div class="flex ">
+                    <div class="w-2/3 px-6 py-10">
+                        <div class="mb-4 font-semibold text-xl">Current Status</div>
+
+                        <div class="status-panel">
+
+                            <div class="server {{previewStatus}}">
+                                <p>Preview<br>Server</p>
+                                <span [class]="previewStatus">
+                                        <mat-icon
+                                            *ngIf="previewStatus !== 'RUNNING' && previewStatus !== 'QUEUED' && previewStatus !== 'PENDING'">{{previewStatus}}</mat-icon>
+                                        <mat-icon *ngIf="previewStatus === 'QUEUED'">dynamic_feed</mat-icon>
+                                        <mat-icon *ngIf="previewStatus === 'PENDING'">backup</mat-icon>
+                                        <mat-spinner *ngIf="previewStatus === 'RUNNING'" diameter="25"></mat-spinner>
+                                    </span>
+                            </div>
+                            <div class="update-status">
+                                <mat-progress-bar mode="determinate" value="0"
+                                                  *ngIf="productionStatus !== 'RUNNING' && productionStatus !== 'QUEUED'">
+                                </mat-progress-bar>
+                                <mat-progress-bar mode="buffer"
+                                                  *ngIf="productionStatus === 'QUEUED'"></mat-progress-bar>
+                                <mat-progress-bar mode="indeterminate"
+                                                  *ngIf="productionStatus === 'RUNNING'"></mat-progress-bar>
+                            </div>
+                            <div class="server {{productionStatus}}">
+                                <p>Production<br>Server</p>
+                                <span [class]="productionStatus">
+                                        <mat-icon
+                                            *ngIf="productionStatus !== 'RUNNING' && productionStatus !== 'QUEUED'">{{productionStatus}}</mat-icon>
+                                        <mat-icon *ngIf="productionStatus === 'QUEUED'">dynamic_feed</mat-icon>
+                                        <mat-spinner *ngIf="productionStatus === 'RUNNING'" diameter="25"></mat-spinner>
+                                    </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="w-1/3 bg-gray-100 flex items-center justify-center">
+                        <button
+                            class="font-medium bg-white rounded-md flex items-center px-4 py-2 tracking-wide uppercase text-sm {{productionStatus}}"
+                            [disabled]="productionStatus !== 'warning'"
+                            [ngStyle]="{opacity: productionStatus !== 'warning' ? .5 : 1, cursor: productionStatus !== 'warning' ? 'not-allowed' : 'pointer'}"
+                            (click)="updateProduction()">
+                            Update
+                            <mat-icon>keyboard_arrow_right</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex text-xs font-semibold items-center rounded-b-md bg-white p-4">
+                    <ng-template [ngIf]="!lastBuild">
+                        <p class="mb-0">
+                            There are currently no builds of this site. To submit a new build please publish your site
+                            using the Oxford Cyber command line CLI tool.
+                        </p>
+                    </ng-template>
+
+                    <ng-template [ngIf]="lastBuild">
+                        <p class="mb-0" *ngIf="lastBuild.buildType === 'SOURCE_UPLOAD'">
+                            <b>Latest changes: </b>
+                            <span *ngIf="lastBuild.status === 'QUEUED'">
+                                current uploaded source files are queued for processing.
+                            </span>
+                            <span *ngIf="lastBuild.status === 'RUNNING'">
+                                processing source file changes
+                            </span>
+                            <span *ngIf="lastBuild.status === 'PENDING'">
+                                pending source file upload
+                            </span>
+                            <span *ngIf="lastBuild.completedDate">{{(lastBuild.buildTarget).toLowerCase()}}
+                                updated on {{moment.unix(lastBuild.completedDate.timestamp).format('Do MMM @ HH:mm:ss')}}
+                                with {{lastBuild.data.changedObjects.length}} changes</span>
+                        </p>
+                        <p class="mb-0" *ngIf="lastBuild.buildType === 'VERSION_REVERT'">
+                            <span *ngIf="lastBuild.status === 'QUEUED'">
+                                <b>Pending: </b>version {{lastBuild.data.targetVersion}} has been queued for processing.
+                            </span>
+                            <span *ngIf="lastBuild.status === 'RUNNING'">
+                                <b>Processing: </b>version {{lastBuild.data.targetVersion}}
+                            </span>
+                            <span *ngIf="lastBuild.status === 'PENDING'">
+                                <b>Pending: </b>version {{lastBuild.data.targetVersion}} revert
+                            </span>
+                            <span *ngIf="lastBuild.status === 'SUCCEEDED'">
+                                Site has been reverted to version {{lastBuild.data.targetVersion}}
+                            </span>
+                        </p>
+                        <p class="mb-0"
+                           *ngIf="lastBuild.buildType === 'CURRENT' && lastBuild.buildTarget === 'PRODUCTION'">
+                            <ng-template [ngIf]="lastBuild.status === 'SUCCEEDED'">
+                                <b>Production version is up to date.</b>
+                            </ng-template>
+                            <ng-template [ngIf]="lastBuild.status === 'QUEUED'">
+                                <b>Pending: </b> the production build is queued for processing and will begin shortly.
+                            </ng-template>
+                            <ng-template [ngIf]="lastBuild.status === 'RUNNING'">
+                                <b>Deploying: </b> the production build is currently processing.
+                            </ng-template>
+                        </p>
+                        <p class="mb-0"
+                           *ngIf="lastBuild.buildType === 'CURRENT' && lastBuild.buildTarget !== 'PRODUCTION'">
+                            <span>Preview site updated</span>
+                        </p>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="w-full shadow rounded-md mb-4">
+                <div class="flex ">
+                    <div class="rounded-l-md w-2/3 px-6 py-10 bg-white">
+                        <div class="mb-4 font-semibold text-xl">Service URLs</div>
+
+                        <div class="mb-4 text-sm">
+                            <b>Preview URL</b><br>
+                            <a class="font-semibold text-primary hover:underline"
+                               href="https://{{site.siteKey}}-preview.{{site.serviceDomain}}" target="_blank">
+                                https://{{site.siteKey}}-preview.{{site.serviceDomain}}
+                            </a>
+                        </div>
+                        <div class="mb-2 text-sm">
+                            <b>Production URL<span *ngIf="site.siteDomains.length > 1">s</span></b><br>
+                            <ng-template ngFor let-siteDomain [ngForOf]="site.siteDomains">
+                                <a class="font-semibold text-primary hover:underline block"
+                                   href="https://{{siteDomain.domainName}}" target="_blank">
+                                    https://{{siteDomain.domainName}}</a><br>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="rounded-r-md w-1/3 bg-gray-100 flex items-center justify-center">
+                        <button class="font-medium bg-white rounded-md flex items-center px-4 py-2 tracking-wide uppercase text-sm"
+                                (click)="manageDomains()">
+                            Manage Domains
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full shadow rounded-md mb-4">
+                <div class="flex ">
+                    <div class="rounded-l-md w-2/3 px-6 py-10 bg-white">
+                        <div class="mb-4 font-semibold text-xl">Page Settings</div>
+
+                        <ng-template [ngIf]="site.config">
+                            <div class="mb-4 text-sm" *ngIf="site.config.publishDirectory">
+                                <b>Publish directory: </b><br>
+                                {{site.config.publishDirectory}}
+                            </div>
+
+                            <div class="mb-4 text-sm" *ngIf="site.config.indexPage">
+                                <b>Site Index Page: </b><br>
+                                {{site.config.indexPage}}
+                            </div>
+
+                            <div class="mb-2 text-sm" *ngIf="site.config.notFoundPage">
+                                <b>Not Found Page: </b><br>
+                                {{site.config.notFoundPage}}
+                            </div>
+                        </ng-template>
+                    </div>
+                    <div class="rounded-r-md w-1/3 bg-gray-100 flex items-center justify-center">
+                        <button class="font-medium bg-white rounded-md flex items-center px-4 py-2 tracking-wide uppercase text-sm"
+                                (click)="managePageSettings()">
+                            Manage Page Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <aside class=" sticky top-8 mb-4 lg:w-96 shrink-0 w-full">
+            <button type="button" (click)="viewSourceFiles()"
+                    class="flex items-center justify-center w-full mb-4 rounded-md bg-white shadow px-3 py-2 text-sm font-semibold text-primary shadow-sm">
+                View Source Files
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-2 w-4 h-4">
+                    <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <div class="py-4 px-6 bg-white rounded-md shadow w-full mb-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-semibold text-xl mb-0">Builds</h4>
+                    <a class="text-sm font-semibold text-primary hover:underline cursor-pointer" (click)="viewBuilds()">view all</a>
+                </div>
+
+                <div class="panel-list">
+                    <div *ngFor="let build of builds" class="build-item">
+                        <p class="production"
+                           *ngIf="build.buildType === 'CURRENT' && build.buildTarget === 'PRODUCTION'">
+                            <ng-template [ngIf]="build.status === 'SUCCEEDED'">
+                                <b>Deployed to Production</b>
+                            </ng-template>
+                            <ng-template [ngIf]="build.status === 'QUEUED'">
+                                <b style="color: #333">Pending production build</b>
+                            </ng-template>
+                            <ng-template [ngIf]="build.status === 'RUNNING'">
+                                <b style="color: #12a6d3">Processing production build</b>
+                            </ng-template>
+
+                        </p>
+
+                        <p class="preview"
+                           *ngIf="build.buildType === 'CURRENT' && build.buildTarget !== 'PRODUCTION'">
+                            Preview site updated
+                        </p>
+
+                        <ng-template [ngIf]="build.buildType === 'SOURCE_UPLOAD'">
+                            <p>
+                                <ng-template [ngIf]="build.status === 'SUCCEEDED'">
+                                    <b [ngClass]="{preview: build.buildTarget === 'PREVIEW', production: build.buildTarget === 'PRODUCTION'}">
+                                        New source uploaded to
+                                        <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
+                                </ng-template>
+                                <ng-template [ngIf]="build.status === 'QUEUED'">
+                                    <b>Pending source upload to
+                                        <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
+                                </ng-template>
+                                <ng-template [ngIf]="build.status === 'RUNNING'">
+                                    <b style="color: #12a6d3">Processing source upload to
+                                        <span>{{build.buildTarget === 'PREVIEW' ? 'Preview' : 'Production'}}</span></b><br>
+                                </ng-template>
+
+                                {{build.data.changedObjects.length}} changed files
+                            </p>
+                        </ng-template>
+
+                        <ng-template [ngIf]="build.buildType === 'VERSION_REVERT'">
+                            <p class="preview"><b>Reverted to:</b> version {{build.data.targetVersion}}</p>
+                        </ng-template>
+
+                        <p *ngIf="build.completedDate">
+                            <b>Completed: </b> {{moment.unix(build.completedDate.timestamp).format('DD/MM/YYYY HH:mm:ss')}}
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mt-6 mb-4">
+                    <h4 class="font-semibold text-xl mb-0">Versions</h4>
+                    <a class="text-sm font-semibold text-primary hover:underline cursor-pointer" (click)="viewVersions()">view all</a>
+                </div>
+
+                <div class="flex justify-center">
+                    <mat-spinner *ngIf="loadingVersions" diameter="30"></mat-spinner>
+                </div>
+
+                <div class="panel-list" *ngIf="!loadingVersions">
+                    <div *ngFor="let version of versions" class="list-item">
+                        <div class="toggle-row" (click)="version.toggle = !version.toggle">
+                            <p><b>v.</b>{{version.version}} - <small>{{version.createdDateTime}}</small></p>
+                            <button *ngIf="!version.toggle" mat-icon-button>
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <button *ngIf="version.toggle" mat-icon-button>
+                                <mat-icon>keyboard_arrow_up</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="sub-item" *ngIf="version.toggle">
+                            <a href="javascript:void(0)" (click)="revertVersion(version.version)">Revert</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full shadow rounded-md mb-4">
+                <div class="flex ">
+                    <div class="rounded-l-md w-2/3 px-6 py-10 bg-white">
+                        <div class="mb-1 font-semibold text-xl">Maintenance Mode</div>
+
+                        <div class="mb-1 text-sm text-gray-500">
+                            This redirects your production site to a temporary maintenance page.
+                        </div>
+
+                    </div>
+                    <div class="rounded-r-md w-1/3 bg-gray-100 flex items-center justify-center">
+                        <mat-slide-toggle color="primary" (change)="changeMaintenanceMode($event)"
+                                          [checked]="site.maintenanceMode === 1">
+                            <b *ngIf="site.maintenanceMode">On</b>
+                            <b *ngIf="!site.maintenanceMode">Off</b>
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+    </div>
+</div>

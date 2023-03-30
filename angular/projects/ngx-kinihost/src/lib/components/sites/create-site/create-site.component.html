@@ -1,0 +1,63 @@
+<div class="flex flex-col justify-between h-full">
+
+    <div class="p-4 border-b border-gray-200 flex flex-col text-2xl">
+        <div class="flex items-center">
+            <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                New Site
+            </h1>
+        </div>
+        <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
+            <dd class="flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor"
+                     class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/>
+                </svg>
+
+                {{newSite.title}}
+            </dd>
+        </dl>
+    </div>
+
+    <div class="p-4 h-full bg-gray-50">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
+            <div class="px-4 sm:px-0">
+                <h2 class="text-base font-semibold leading-7 text-gray-900">Create Site</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">
+                    Complete all the fields below to setup your new site.
+                </p>
+            </div>
+
+            <div class="col-span-2">
+                <div class="px-4 py-6 sm:p-8">
+                    <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+                        <div class="col-span-full">
+                            <label class="block text-sm font-medium leading-6 text-gray-900">
+                                Site Name
+                            </label>
+                            <div class="mt-2">
+                                <input type="text" placeholder="eg. My Fantastic Site"
+                                       [(ngModel)]="newSite.title"
+                                       class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="flex items-center justify-between border-t bg-gray-100 border-gray-900/10 px-4 py-4">
+        <button type="button" [mat-dialog-close]="false"
+                class="rounded-md  px-3 py-2 text-sm border font-semibold leading-6 text-gray-900">Cancel</button>
+        <button type="button" (click)="createSite()"
+                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Create New Site
+        </button>
+    </div>
+</div>

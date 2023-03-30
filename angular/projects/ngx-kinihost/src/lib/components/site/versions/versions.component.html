@@ -1,0 +1,111 @@
+<div class="flex flex-col justify-between h-full">
+
+    <div class="p-4 border-b border-gray-200 flex flex-col text-2xl">
+        <div class="flex items-center">
+            <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                Site Builds
+            </h1>
+        </div>
+        <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
+            <dd class="flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor"
+                     class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/>
+                </svg>
+
+                {{site.title}}
+            </dd>
+        </dl>
+    </div>
+
+    <div class="h-full bg-gray-50">
+        <div class="flow-root">
+            <div class="-my-2">
+                <div class="inline-block min-w-full py-2 align-middle">
+                    <table class="min-w-full">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="sticky top-0 z-10 border-b border-gray-300 bg-gray-100 bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8">
+                                Version
+                            </th>
+                            <th scope="col" class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-100 bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell">
+                                Created
+                            </th>
+                            <th scope="col" class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-gray-100 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter">
+                                Action
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngFor="let version of versions">
+                        <tr>
+                            <td class="capitalize whitespace-nowrap border-b border-gray-200 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">
+                                {{version.version}}
+                            </td>
+                            <td class="capitalize whitespace-nowrap border-b border-gray-200  px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                {{version.createdDateTime}}
+                            </td>
+                            <td class="capitalize whitespace-nowrap border-b border-gray-200 px-3 py-4 text-sm text-gray-500">
+                                <a (click)="revertVersion(version.version)" class="cursor-pointer flex items-center text-primary hover:underline">
+                                    <mat-icon>history</mat-icon>
+                                    Revert to this version
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="text-center mt-4" *ngIf="!versions.length && !loading">
+                        There are no versions for this site yet.</p>
+
+                    <p class="text-center mt-4" *ngIf="loading">
+                        Loading ...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="flex items-center justify-between border-t bg-gray-100 border-gray-900/10 px-4 py-4">
+        <div></div>
+        <button type="button" [mat-dialog-close]="false"
+                class="rounded-md bg-white px-3 py-2 text-sm border font-semibold leading-6 text-gray-900">
+            Close</button>
+    </div>
+</div>
+
+
+<div class="grid grid-desktop my3 px1">
+
+    <ng-template [ngIf]="site">
+
+        <h4 class="ml1">Site manager: {{site.title}} | <span>Builds</span></h4>
+
+        <table cellspacing="0">
+            <thead>
+            <tr>
+                <th>Version</th>
+                <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let version of versions" [routerLink]="[version.id]">
+                <td>{{version.version}}</td>
+                <td>{{version.createdDateTime}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="thin text-center mt2" *ngIf="!versions.length && !loading">
+            There are no versions for this site yet.</p>
+
+        <p class="thin text-center mt2" *ngIf="loading">
+            Loading ...
+        </p>
+
+    </ng-template>
+
+
+</div>
