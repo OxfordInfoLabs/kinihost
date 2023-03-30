@@ -31,7 +31,7 @@ export class SiteComponent implements OnInit, OnDestroy {
     public latestProduction = null;
     public latestPreview = null;
     public latestUpload = null;
-
+    public lastUpload: string;
 
     private routeSub: Subscription;
     private buildSub: Subscription;
@@ -143,12 +143,12 @@ export class SiteComponent implements OnInit, OnDestroy {
         });
     }
 
-    public pushProduction() {
-
+    public async pushProduction() {
+        await this.buildService.createProductionBuild(this.site.siteKey);
     }
 
-    public pushPreview() {
-
+    public async pushPreview() {
+        await this.buildService.createPreviewBuild(this.site.siteKey);
     }
 
     private loadSite(siteKey) {
@@ -196,15 +196,15 @@ export class SiteComponent implements OnInit, OnDestroy {
             this.latestUpload = null;
 
             for (const build of builds) {
-                if (!this.latestUpload && build.buildType === 'SOURCE_UPLOAD') {
+                if (!this.latestUpload && build.buildType === 'SOURCE_UPLOAD' && build.completedDate) {
                     this.latestUpload = build.completedDate.timestamp;
                 }
 
-                if (!this.latestPreview && build.builtType === 'PREVIEW') {
+                if (!this.latestPreview && build.buildType === 'PREVIEW' && build.completedDate) {
                     this.latestPreview = build.completedDate.timestamp;
                 }
 
-                if (!this.latestProduction && build.buildType === 'PUBLISH') {
+                if (!this.latestProduction && build.buildType === 'PUBLISH' && build.completedDate) {
                     this.latestProduction = build.completedDate.timestamp;
                 }
 
@@ -213,7 +213,9 @@ export class SiteComponent implements OnInit, OnDestroy {
                 }
             }
 
-            console.log(this.latestProduction, this.latestPreview, this.latestUpload);
+            if (this.latestUpload) {
+                this.lastUpload = moment.unix(this.latestUpload).format('Do MMMM @ HH:mm');
+            }
 
             switch (this.lastBuild.buildTarget) {
                 case 'PREVIEW':

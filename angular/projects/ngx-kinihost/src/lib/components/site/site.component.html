@@ -59,6 +59,9 @@
                                         </svg>
                                     </div>
                                 </div>
+                                <div *ngIf="lastUpload" class="mt-2 text-xs font-medium">
+                                    Updated {{lastUpload}}
+                                </div>
                             </div>
                             <div class="w-1/4 flex flex-col items-center">
                                 <div [ngClass]="{'opacity-50': (latestUpload > latestPreview) || !latestPreview}"
@@ -73,14 +76,11 @@
                                         </svg>
                                     </div>
                                 </div>
-                                <div class="mt-2 text-xs font-medium">
+                                <div *ngIf="latestPreview > latestUpload" class="mt-2 text-xs font-medium">
                                    Server Up-to-date
                                 </div>
-                                <div class="mt-2 text-xs font-medium">
+                                <div *ngIf="latestUpload > latestPreview" class="mt-2 text-xs font-medium">
                                     Server Behind Source
-                                </div>
-                                <div class="mt-2 text-xs font-medium">
-                                    Server Behind Production
                                 </div>
                             </div>
                             <div class="w-1/4 flex flex-col items-center">
@@ -102,7 +102,7 @@
                                 <div *ngIf="latestUpload > latestProduction" class="mt-2 text-xs font-medium">
                                     Server Behind Source
                                 </div>
-                                <div *ngIf="" class="mt-2 text-xs font-medium">
+                                <div *ngIf="latestPreview > latestProduction" class="mt-2 text-xs font-medium">
                                     Server Behind Preview
                                 </div>
                             </div>
@@ -362,7 +362,7 @@
                                             </p>
                                         </div>
                                         <div *ngIf="build.buildType === 'PUBLISH'">
-                                            <p class="font-semibold text-sm text-yellow-500">
+                                            <p class="font-semibold text-sm text-green-500">
                                                 Deployed to Production
                                             </p>
                                         </div>

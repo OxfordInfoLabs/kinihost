@@ -16,7 +16,8 @@ export class BuildService {
     public getBuilds(site, limit = '5') {
         return this.http.get(this.config.adminHttpURL + '/build/list', {
             params: {
-                siteId: site.siteId
+                siteId: site.siteId,
+                limit: 100
             }
         }).toPromise();
     }
@@ -35,7 +36,8 @@ export class BuildService {
                 switchMap(() =>
                     this.http.get(this.config.adminHttpURL + '/build/list', {
                         params: {
-                            siteId: site.siteId
+                            siteId: site.siteId,
+                            limit: 100
                         }
                     }).pipe(
                         map(result => {
@@ -43,6 +45,11 @@ export class BuildService {
                         }))
                 )
             );
+    }
+
+    public createPreviewBuild(siteKey) {
+        return this.http.get(this.config.adminHttpURL + '/build/preview/' + siteKey)
+            .toPromise();
     }
 
     public createProductionBuild(siteKey) {
