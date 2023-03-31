@@ -100,26 +100,6 @@ class SiteService {
 
 
     /**
-     * Set email service
-     *
-     * @param EmailService $emailService
-     */
-    public function setEmailService($emailService) {
-        $this->emailService = $emailService;
-    }
-
-
-    /**
-     * Set site activation manager
-     *
-     * @param SiteActivationManager $siteActivationManager
-     */
-    public function setSiteActivationManager($siteActivationManager) {
-        $this->siteActivationManager = $siteActivationManager;
-    }
-
-
-    /**
      * Return a boolean determining whether or not a site key is available.
      *
      * @param $proposedSiteKey

@@ -72,9 +72,15 @@ class SiteServiceTest extends TestBase {
         $this->emailService = $mockObjectProvider->getMockInstance(EmailService::class);
         $this->siteActivationManager = $mockObjectProvider->getMockInstance(SiteActivationManager::class);
 
-        $this->siteService = Container::instance()->get(SiteService::class);
-        $this->siteService->setEmailService($this->emailService);
-        $this->siteService->setSiteActivationManager($this->siteActivationManager);
+        $this->siteService = new SiteService(
+            Container::instance()->get(Validator::class),
+            $this->siteActivationManager,
+            $this->queuedTaskService,
+            $this->emailService,
+            Container::instance()->get(SecurityService::class),
+            Container::instance()->get(ScopeManager::class),
+            Container::instance()->get(SiteStorageManager::class)
+        );
 
 
         $this->authenticationService = Container::instance()->get(AuthenticationService::class);
@@ -195,7 +201,7 @@ class SiteServiceTest extends TestBase {
 
 
         // Do real one.
-        $site = $this->siteService->createSite($newSite);
+        $site = $this->siteService->createSite($newSite,2);
         $this->assertNotNull($site->getSiteId());
         $this->assertEquals("marypoppinshairdispl", $site->getSiteKey());
         $this->assertEquals("Mary Poppins Hair Display", $site->getTitle());
@@ -331,7 +337,7 @@ class SiteServiceTest extends TestBase {
 
         // Create descriptor for new site
         $newSite = new SiteDescriptor("My Friendly Giant");
-        $this->siteService->createSite($newSite);
+        $this->siteService->createSite($newSite, 1);
 
         // Test bad removes are caught
         try {
@@ -363,7 +369,7 @@ class SiteServiceTest extends TestBase {
 
         AuthenticationHelper::login("sam@samdavisdesign.co.uk", "password");
 
-        $sites = $this->siteService->listSiteTitlesAndKeysForUser();
+        $sites = $this->siteService->listSiteTitlesAndKeysForUser(2);
         $this->assertEquals(4, sizeof($sites));
         $this->assertContains(["title" => "Sam Davis Design .COM", "siteKey" => "samdavisdotcom"], $sites);
         $this->assertContains(["title" => "Woollen Mill Site", "siteKey" => "woollenmill"], $sites);
@@ -378,7 +384,7 @@ class SiteServiceTest extends TestBase {
         // Create descriptor for new site
         for ($i = 0; $i < 11; $i++) {
             $newSite = new SiteDescriptor("My Recent Site $i");
-            $this->siteService->createSite($newSite);
+            $this->siteService->createSite($newSite, 1);
         }
 
         $recentSites = $this->siteService->listRecentSitesForAccount(1);
@@ -525,7 +531,7 @@ class SiteServiceTest extends TestBase {
 
     public function testCanGetSiteSettings() {
 
-        $site = $this->siteService->createSite(new SiteDescriptor("Test Settings", "testsettings"));
+        $site = $this->siteService->createSite(new SiteDescriptor("Test Settings", "testsettings"), 1);
 
         // Check initial values
         $settings = $this->siteService->getSiteSettings("testsettings");
