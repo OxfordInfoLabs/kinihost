@@ -2,7 +2,7 @@
  * Main kinihost CLI class
  */
 
-import program from "commander";
+const {program} = require("commander");
 import chalk from "chalk";
 
 import Container from "./core/container";
@@ -97,7 +97,7 @@ export default class KinihostCli {
         // Apply all commands
         builtInCommands.concat(additionalCommands).forEach((command: any) => {
 
-            program.command(command.name).description(command.description).action((...params) => {
+            program.command(command.name).description(command.description).action((...params:any[]) => {
                 this._handled = true;
                 command.action.apply(this, params);
             });

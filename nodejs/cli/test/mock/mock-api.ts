@@ -31,6 +31,8 @@ export default class MockApi extends Api {
         this._callResults[md5(paramKey)] = result;
     }
 
+
+
     /**
      * Return programmed result
      */

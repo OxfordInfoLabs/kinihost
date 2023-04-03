@@ -6,7 +6,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var commander_1 = __importDefault(require("commander"));
+var program = require("commander").program;
 var chalk_1 = __importDefault(require("chalk"));
 var container_1 = __importDefault(require("./core/container"));
 var check_1 = __importDefault(require("./commands/check"));
@@ -31,7 +31,7 @@ var KinihostCli = /** @class */ (function () {
     KinihostCli.prototype.initialise = function (cliDisplayName, defaultConfigFilename, additionalCommands) {
         var _this = this;
         // Define version and description for the Site Atomic CLI
-        commander_1.default
+        program
             .version('0.0.1')
             .description(cliDisplayName + " CLI");
         var authenticationService = container_1.default.getInstance("AuthenticationService");
@@ -88,7 +88,7 @@ var KinihostCli = /** @class */ (function () {
         ];
         // Apply all commands
         builtInCommands.concat(additionalCommands).forEach(function (command) {
-            commander_1.default.command(command.name).description(command.description).action(function () {
+            program.command(command.name).description(command.description).action(function () {
                 var params = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     params[_i] = arguments[_i];
@@ -97,9 +97,9 @@ var KinihostCli = /** @class */ (function () {
                 command.action.apply(_this, params);
             });
         });
-        commander_1.default.option('-c, --siteconfig <path>', 'Alternative path to a config file to use for site configuration (defaults to ' + defaultConfigFilename + ')');
+        program.option('-c, --siteconfig <path>', 'Alternative path to a config file to use for site configuration (defaults to ' + defaultConfigFilename + ')');
         // @ts-ignore
-        commander_1.default.parse(process.argv);
+        program.parse(process.argv);
         if (!this._handled) {
             // @ts-ignore
             console.log(chalk_1.default.red("Error: Unknown command %s supplied."), process.argv[2]);

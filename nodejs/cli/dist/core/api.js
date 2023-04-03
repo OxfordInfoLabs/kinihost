@@ -36,7 +36,7 @@ var Api = /** @class */ (function () {
         if (returnClass === void 0) { returnClass = "string"; }
         return new Promise(function (resolve, reject) {
             var url = _this._config.apiEndpoint + "/" + requestPath;
-            var macAddress = getmac_1.default();
+            var macAddress = (0, getmac_1.default)();
             var authParams = {
                 "userAccessToken": _this._config.userToken,
                 "secondaryToken": macAddress

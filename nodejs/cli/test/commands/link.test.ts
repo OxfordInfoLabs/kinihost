@@ -12,7 +12,7 @@ import getMAC from "getmac";
 
 describe('Tests for the link command', function () {
 
-    let config = new Config("useraccesstoken", "http://localhost", "test");
+    let config = new Config("useraccesstoken", "http://localhost:3000", "test");
     let api = new MockApi(config);
     let auth: Auth;
     let siteConfig: SiteConfig = Container.getInstance("SiteConfig");
@@ -89,13 +89,22 @@ describe('Tests for the link command', function () {
 
 
         // Remove a kinisite config file if it exists
-        if (fs.existsSync("kinisite.json")) {
-            fs.unlinkSync("kinisite.json");
+        if (fs.existsSync("config.json")) {
+            fs.unlinkSync("config.json");
         }
 
         let inquirer = new MockInquirer([
             {"siteKey": "lucientaylor"}
         ]);
+
+
+        api.setCallMethodExpectation([
+            {"siteKey": "lucientaylor", "title": "Lucien Taylor"},
+            {"siteKey": "nathanalan", "title": "Nathan Alan"},
+            {"siteKey": "samdavisdotcom", "title": "Sam Davis Design .COM"},
+            {"siteKey": "woollenmill", "title": "Woollen Mill Site"}
+        ], "/cli/site", "GET");
+
 
         let link = new Link(auth, siteConfig, api, inquirer);
 
@@ -123,8 +132,8 @@ describe('Tests for the link command', function () {
                 }
             ]);
 
-            expect(fs.existsSync("kinisite.json")).toBeTruthy();
-            expect(JSON.parse(fs.readFileSync("kinisite.json").toString()).deployment).toEqual({
+            expect(fs.existsSync("config.json")).toBeTruthy();
+            expect(JSON.parse(fs.readFileSync("config.json").toString()).deployment).toEqual({
                 siteKey: 'lucientaylor'
             });
 
@@ -140,8 +149,8 @@ describe('Tests for the link command', function () {
 
 
         // Remove a kinisite.json file if it exists
-        if (fs.existsSync("kinisite.json")) {
-            fs.unlinkSync("kinisite.json");
+        if (fs.existsSync("config.json")) {
+            fs.unlinkSync("config.json");
         }
 
         let inquirer = new MockInquirer([
@@ -156,8 +165,8 @@ describe('Tests for the link command', function () {
 
             expect(inquirer.promptCalls[0]).toBeUndefined();
 
-            expect(fs.existsSync("kinisite.json")).toBeTruthy();
-            expect(JSON.parse(fs.readFileSync("kinisite.json").toString()).deployment.siteKey).toEqual("lucientaylor");
+            expect(fs.existsSync("config.json")).toBeTruthy();
+            expect(JSON.parse(fs.readFileSync("config.json").toString()).deployment.siteKey).toEqual("lucientaylor");
 
             done();
 
@@ -170,18 +179,23 @@ describe('Tests for the link command', function () {
     it("Should return false if bad site key passed to the link object and no kinisite.json file created", function (done) {
 
 
-        // Remove a kinisite.json file if it exists
-        if (fs.existsSync("kinisite.json")) {
-            fs.unlinkSync("kinisite.json");
+        // Remove a config.json file if it exists
+        if (fs.existsSync("config.json")) {
+            fs.unlinkSync("config.json");
         }
 
         let link = new Link(auth, siteConfig, api, null);
+
+
+        // Programme failure
+        api.setCallMethodExpectation(new Error("Bad site key"), "/cli/site/badsitekey", "GET");
+
 
         link.process("badsitekey").then(result => {
 
             expect(result).toBeFalsy();
 
-            expect(fs.existsSync("kinisite.json")).toBeFalsy();
+            expect(fs.existsSync("config.json")).toBeFalsy();
 
             done();
 
@@ -190,21 +204,25 @@ describe('Tests for the link command', function () {
     });
 
 
-    it("Should return false if non accessible site key passed to the link object and no kinisite.json file created", function (done) {
+    it("Should return false if non accessible site key passed to the link object and no config.json file created", function (done) {
 
 
-        // Remove a kinisite.json file if it exists
-        if (fs.existsSync("kinisite.json")) {
-            fs.unlinkSync("kinisite.json");
+        // Remove a config.json file if it exists
+        if (fs.existsSync("config.json")) {
+            fs.unlinkSync("config.json");
         }
 
         let link = new Link(auth, siteConfig, api, null);
+
+        // Programme failure
+        api.setCallMethodExpectation(new Error("None accessible"), "/cli/site/paperchase", "GET");
+
 
         link.process("paperchase").then(result => {
 
             expect(result).toBeFalsy();
 
-            expect(fs.existsSync("kinisite.json")).toBeFalsy();
+            expect(fs.existsSync("config.json")).toBeFalsy();
 
             done();
 
@@ -215,9 +233,9 @@ describe('Tests for the link command', function () {
 
     it("Ensure linked should fail if bad auth supplied.", function (done) {
 
-        // Remove a kinisite.json file if it exists
-        if (fs.existsSync("kinisite.json")) {
-            fs.unlinkSync("kinisite.json");
+        // Remove a config.json file if it exists
+        if (fs.existsSync("config.json")) {
+            fs.unlinkSync("config.json");
         }
 
 
@@ -241,9 +259,9 @@ describe('Tests for the link command', function () {
 
     it("Ensure linked should fail if bad site key selected", function (done) {
 
-        // Remove a kinisite.json file if it exists
-        if (fs.existsSync("kinisite.json")) {
-            fs.unlinkSync("kinisite.json");
+        // Remove a config.json file if it exists
+        if (fs.existsSync("config.json")) {
+            fs.unlinkSync("config.json");
         }
 
         let inquirer = new MockInquirer([
@@ -252,6 +270,10 @@ describe('Tests for the link command', function () {
 
         // Not logged in
         let link = new Link(auth, siteConfig, api, inquirer);
+
+        // Programme failure
+        api.setCallMethodExpectation(new Error("Bad key"), "/cli/site/undefined", "GET");
+
 
         link.ensureLinked().then(result => {
             expect(result).toBeFalsy();

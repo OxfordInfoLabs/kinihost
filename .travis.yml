@@ -2,15 +2,24 @@ sudo: required
 language: php
 php:
   - '7.4'
+
+nodejs:
+  - '14.17.0'
+
 before_install:
   - openssl aes-256-cbc -K $encrypted_326d07a343a9_key -iv $encrypted_326d07a343a9_iv
     -in php/test/Config/config.txt.enc -out php/test/Config/config.txt -d
   - openssl aes-256-cbc -K $encrypted_147a1605fbb2_key -iv $encrypted_147a1605fbb2_iv
     -in php/test/Config/google.json.enc -out php/test/Config/google.json -d
-  - cd php
+  - npm i -g yarn
 install:
+  - cd php
   - composer install
   - composer clearcache
   - composer update
+  - cd ../nodejs/cli
+  - yarn
+  - cd ../..
 script:
-  - cd test; phpunit --exclude-group nontravis .
+  - (cd php/test; phpunit --exclude-group nontravis .)
+  - (cd nodejs/cli; yarn test)

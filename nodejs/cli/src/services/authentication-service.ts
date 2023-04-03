@@ -100,10 +100,11 @@ export default class AuthenticationService {
             this._config.userToken = userAccessToken;
             console.log(chalk.green("\nYou have logged in successfully"));
             return true;
-        } catch (error) {
+        } catch (error:any) {
+
 
             // Handle two factor case
-            if (error.indexOf("two factor") > 1) {
+            if (error.toString().indexOf("two factor") > 1) {
 
                 let twoFactorConfig = await this._inquirer.prompt([
                     {

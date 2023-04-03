@@ -4,6 +4,7 @@
   "description": "CLI package for Kinisite Site Builder",
   "scripts": {
     "build": "tsc -p .",
+    "start-server": "yarn build; node dist",
     "test": "jasmine-ts --config=jasmine.json",
     "publish-cli": "npm run build; bump patch; npm publish"
   },
