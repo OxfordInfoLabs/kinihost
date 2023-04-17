@@ -15,7 +15,7 @@
     "process-timeout": 0,
     "source-directory": "src",
     "test-directory": "test",
-    "exclude-test-data-paths": "../vendor/oxil/kinicart/php/src",
+    "exclude-test-data-paths": "vendor/oxil/kinicart/php/src",
     "queue-name": "kinihost"
   },
   "scripts": {

@@ -1,61 +1,78 @@
-<div class="mt-6 mb-4 flex flex-col text-2xl">
-    <div class="flex items-center justify-between">
-        <h1 class="ml-3 text-3xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
-            Sites
-        </h1>
-
-        <button type="button" (click)="createSite()"
-                class="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm ">
-            Create Site
-        </button>
+<div class="p-6 bg-white border-b border-gray-200">
+    <div class="md:flex md:items-center md:justify-between md:space-x-5">
+        <div class="flex items-start flex-1">
+            <div class="">
+                <h1 class="mb-0 text-2xl font-bold text-gray-900">Sites</h1>
+<!--                <p class="mb-0 text-sm font-medium text-gray-500">-->
+<!--                </p>-->
+            </div>
+        </div>
+        <div class="flex flex-col-reverse justify-stretch">
+            <button type="button" (click)="createSite()"
+                    class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary focus:outline-none">
+                Create Site
+            </button>
+        </div>
     </div>
 </div>
-
-<div class="mt-8 flow-root">
-    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                <div class="relative flex-grow">
-                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                        </svg>
+<div class="py-6 sm:px-6 lg:px-8">
+    <div class="mt-8 flow-root">
+        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                    <div class="relative flex-grow">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                                 aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input type="text" (keyup)="searchText.next($event.target.value)"
+                               class="w-full border-0 py-3 pl-10 text-sm leading-6 text-gray-900 placeholder:text-gray-400 focus:border-white focus:ring-white"
+                               placeholder="Search sites">
                     </div>
-                    <input type="text" (keyup)="searchText.next($event.target.value)"
-                           class="w-full border-0 py-3 pl-10 text-sm leading-6 text-gray-900 placeholder:text-gray-400 focus:border-white focus:ring-white"
-                           placeholder="Search sites">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col"
+                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Description
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status
+                            </th>
+
+                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <span class="sr-only">Edit</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                        <tr *ngFor="let site of sites">
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{site.title}}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{site.description}}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <div class="bg-green-500 text-white text-xs rounded-full px-2 py-1 inline text-center"
+                                     *ngIf="site.status === 'Active'">active
+                                </div>
+                                <div
+                                    class="bg-gray-400 text-white text-xs rounded-full px-2 py-1 lowercase inline text-center"
+                                    *ngIf="site.status !== 'Active'">{{site.status}}</div>
+                            </td>
+
+                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <a [routerLink]="['/sites', site.siteKey]"
+                                   class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                            </td>
+                        </tr>
+
+                        <!-- More people... -->
+                        </tbody>
+                    </table>
                 </div>
-                <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Description</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                            <span class="sr-only">Edit</span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 bg-white">
-                    <tr *ngFor="let site of sites">
-                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{site.title}}</td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{site.description}}</td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <div class="bg-green-500 text-white text-xs rounded-full px-2 py-1 inline text-center"
-                                *ngIf="site.status === 'Active'">active</div>
-                            <div class="bg-gray-400 text-white text-xs rounded-full px-2 py-1 lowercase inline text-center"
-                                 *ngIf="site.status !== 'Active'">{{site.status}}</div>
-                        </td>
-
-                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <a [routerLink]="['/sites', site.siteKey]" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                        </td>
-                    </tr>
-
-                    <!-- More people... -->
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
