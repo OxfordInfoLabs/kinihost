@@ -13,11 +13,10 @@ before_install:
     -in php/test/Config/google.json.enc -out php/test/Config/google.json -d
   - npm i -g yarn
 install:
-  - cd php
   - composer install
   - composer clearcache
   - composer update
-  - cd ../nodejs/cli
+  - cd nodejs/cli
   - yarn
   - cd ../..
 script:
