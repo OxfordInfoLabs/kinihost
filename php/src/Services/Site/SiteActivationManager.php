@@ -66,16 +66,8 @@ class SiteActivationManager {
         $storageProviderKey = $this->storageManager->createStorage($site);
         $site->setStorageProviderKey($storageProviderKey);
 
-        // Try 10 times to install content
-        for ($i = 0; $i < 10; $i++) {
-            try {
-                $this->sourceService->installBlankContent($site);
-                break;
-            } catch (\Exception $e) {
-                sleep(1);
-            }
-        }
-
+        // Initialise blank content
+        $this->sourceService->installBlankContent($site);
 
         // Initialise production content
         $this->sourceService->initialiseProductionContent($site);
