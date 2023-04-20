@@ -69,9 +69,6 @@ class SiteActivationManager {
         // Initialise blank content
         $this->sourceService->installBlankContent($site);
 
-        // Initialise production content
-        $this->sourceService->initialiseProductionContent($site);
-
         // Create routing for the site
         $routing = $this->routingManager->createRouting($site);
         $site->setRoutingProviderKey($routing->getRoutingProviderKey());

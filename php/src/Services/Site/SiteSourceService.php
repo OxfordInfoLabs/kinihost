@@ -59,27 +59,14 @@ class SiteSourceService {
         // Replace all content with the theme contents.
         $this->siteStorageManager->getContentRoot($site)->replaceAll($changedObjects);
 
-    }
-
-
-    /**
-     * Initialise production content, using the blank site content.
-     *
-     * @param $site
-     */
-    public function initialiseProductionContent($site) {
-
-        $blankSiteRoot = $this->getBlankSiteRoot();
-        $blankSiteObjects = $blankSiteRoot->getObjectFootprints();
-
-        $changedObjects = [];
-        foreach ($blankSiteObjects as $filename => $footprint) {
-            $fileRoot = $blankSiteRoot->getStorageProvider()->getFileSystemPath($blankSiteRoot->getContainerKey() . "/" . $blankSiteRoot->getPath(), $filename);
-            $changedObjects[] = new ChangedObject($filename, ChangedObject::CHANGE_TYPE_UPDATE, null, $fileRoot, $footprint);
-        }
-
-        // Replace all content with the theme contents.
-        $this->siteStorageManager->getProductionRoot($site)->replaceAll($changedObjects);
+        /**
+         * @var BuildService $buildService
+         *
+         * Queue a build
+         */
+        $buildService = Container::instance()->get(BuildService::class);
+        $buildService->createBuild($site->getSiteKey(), Build::TYPE_PREVIEW, Build::STATUS_RUNNING);
+        $buildService->createBuild($site->getSiteKey(), Build::TYPE_PUBLISH, Build::STATUS_RUNNING);
 
     }
 

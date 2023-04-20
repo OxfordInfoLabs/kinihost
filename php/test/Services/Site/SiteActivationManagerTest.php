@@ -94,7 +94,6 @@ class SiteActivationManagerTest extends TestBase {
         $this->assertTrue($this->routingManager->methodWasCalled("createRouting", [$site]));
         $this->assertTrue($this->dnsManager->methodWasCalled("createServiceDNSForSite", [$site, new SiteRouting(new Routing("mylittlepony", [], "1.1.1.1"), "test-route", "oxfordcyber.test")]));
         $this->assertTrue($this->sourceService->methodWasCalled("installBlankContent", [$site]));
-        $this->assertTrue($this->sourceService->methodWasCalled("initialiseProductionContent", [$site]));
 
         $this->assertEquals("test", $site->getStorageProviderKey());
         $this->assertEquals("test-route", $site->getRoutingProviderKey());
@@ -126,7 +125,6 @@ class SiteActivationManagerTest extends TestBase {
         $this->assertTrue($this->routingManager->methodWasCalled("createRouting", [$site]));
         $this->assertTrue($this->dnsManager->methodWasCalled("createServiceDNSForSite", [$site, new SiteRouting(new Routing("mylittlepony", [], "1.1.1.1"), "test-route", "oxfordcyber.test")]));
         $this->assertTrue($this->sourceService->methodWasCalled("installBlankContent", [$site]));
-        $this->assertTrue($this->sourceService->methodWasCalled("initialiseProductionContent", [$site]));
 
         $this->assertEquals("test", $site->getStorageProviderKey());
         $this->assertEquals("test-route", $site->getRoutingProviderKey());
