@@ -1,15 +1,15 @@
 sudo: required
 language: php
 php:
-  - '7.4'
+  - '8.1'
 
 nodejs:
   - '14.17.0'
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_326d07a343a9_key -iv $encrypted_326d07a343a9_iv
+  - openssl aes-256-cbc -K $encrypted_a63bee63ca0e_key -iv $encrypted_a63bee63ca0e_iv
     -in php/test/Config/config.txt.enc -out php/test/Config/config.txt -d
-  - openssl aes-256-cbc -K $encrypted_147a1605fbb2_key -iv $encrypted_147a1605fbb2_iv
+  - openssl aes-256-cbc -K $encrypted_b047c872ff13_key -iv $encrypted_b047c872ff13_iv
     -in php/test/Config/google.json.enc -out php/test/Config/google.json -d
   - npm i -g yarn
 install:
