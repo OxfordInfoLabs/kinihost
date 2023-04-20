@@ -19,7 +19,7 @@
     "queue-name": "kinihost"
   },
   "scripts": {
-    "dev": "rm -rf vendor/oxil/kini*; ln -s ../../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../../kiniauth vendor/oxil/kiniauth;",
+    "dev": "rm -rf vendor/oxil/kini*; ln -s ../../../kinikit/kinikit-core vendor/oxil/kinikit-core; ln -s ../../../kinikit/kinikit-mvc vendor/oxil/kinikit-mvc; ln -s ../../../kinikit/kinikit-persistence vendor/oxil/kinikit-persistence; ln -s ../../../kiniauth vendor/oxil/kiniauth;",
     "run-queue": "Kiniauth\\Tools\\QueuedTaskRunner::runFromComposer",
     "test": "cd test; phpunit ."
   },

@@ -59,13 +59,6 @@ class SiteSourceService {
         // Replace all content with the theme contents.
         $this->siteStorageManager->getContentRoot($site)->replaceAll($changedObjects);
 
-        /**
-         * @var BuildService $buildService
-         *
-         * Queue a build
-         */
-        $buildService = Container::instance()->get(BuildService::class);
-        $buildService->createBuild($site->getSiteKey(), Build::TYPE_CURRENT);
     }
 
 
