@@ -86,6 +86,7 @@ var KinihostCli = /** @class */ (function () {
                 }
             }
         ];
+        var config = container_1.default.getInstance("Config");
         // Apply all commands
         builtInCommands.concat(additionalCommands).forEach(function (command) {
             program.command(command.name).description(command.description).action(function () {
@@ -93,11 +94,22 @@ var KinihostCli = /** @class */ (function () {
                 for (var _i = 0; _i < arguments.length; _i++) {
                     params[_i] = arguments[_i];
                 }
+                // Check for overloaded values
+                var siteConfig = params[1].parent.getOptionValue("siteconfig");
+                if (siteConfig) {
+                    config.configFilename = siteConfig;
+                }
+                var endpoint = params[1].parent.getOptionValue("endpoint");
+                if (endpoint) {
+                    config.apiEndpoint = endpoint;
+                }
                 _this._handled = true;
                 command.action.apply(_this, params);
             });
         });
+        // Add options
         program.option('-c, --siteconfig <path>', 'Alternative path to a config file to use for site configuration (defaults to ' + defaultConfigFilename + ')');
+        program.option('-e, --endpoint <path>', "Alternative endpoint to call for deployment tasks (defaults to " + config.apiEndpoint + ")");
         // @ts-ignore
         program.parse(process.argv);
         if (!this._handled) {
