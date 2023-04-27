@@ -77,10 +77,10 @@
                                     </div>
                                 </div>
                                 <div *ngIf="latestPreview > latestUpload" class="mt-2 text-xs font-medium">
-                                   Server Up-to-date
+                                   Up-to-date
                                 </div>
                                 <div *ngIf="latestUpload > latestPreview" class="mt-2 text-xs font-medium">
-                                    Server Behind Source
+                                    Behind Source
                                 </div>
                             </div>
                             <div class="w-1/4 flex flex-col items-center">
@@ -97,13 +97,13 @@
                                     </div>
                                 </div>
                                 <div *ngIf="latestProduction > latestUpload" class="mt-2 text-xs font-medium">
-                                    Server Up-to-date
+                                    Up-to-date
                                 </div>
                                 <div *ngIf="latestUpload > latestProduction" class="mt-2 text-xs font-medium">
-                                    Server Behind Source
+                                    Behind Source
                                 </div>
                                 <div *ngIf="latestPreview > latestProduction" class="mt-2 text-xs font-medium">
-                                    Server Behind Preview
+                                    Behind Preview
                                 </div>
                             </div>
 
@@ -407,7 +407,7 @@
             </div>
 
             <button type="button" (click)="viewSourceFiles()"
-                    class="flex items-center justify-center w-full mb-4 rounded-md bg-white shadow px-3 py-2 text-sm font-semibold text-primary shadow-sm">
+                    class="flex items-center justify-center w-full mb-4 rounded-md bg-blue-500 shadow px-3 py-2 text-sm font-semibold text-white shadow-sm">
                 View Source Files
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-2 w-4 h-4">
                     <path fill-rule="evenodd"

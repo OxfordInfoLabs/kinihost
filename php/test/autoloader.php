@@ -1,7 +1,7 @@
 <?php
 
 // Call the core autoloader.
-include_once __DIR__ . "/../vendor/autoload.php";
+include_once __DIR__ . "/../../vendor/autoload.php";
 
 /**
  * Test autoloader - includes src one as well.

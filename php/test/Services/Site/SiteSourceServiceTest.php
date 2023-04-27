@@ -225,6 +225,7 @@ class SiteSourceServiceTest extends TestBase {
         // Install blank content
         $this->sourceService->installBlankContent($site);
 
+        // Check it made it into the content root
         $root = $this->siteStorageManager->getContentRoot($site);
         $this->assertEquals(2, sizeof($root->getObjectFootprints()));
         $this->assertEquals(md5("TEST THEME FILE 1"), $root->getObjectFootprints()["source/theme.html"]);
@@ -233,41 +234,28 @@ class SiteSourceServiceTest extends TestBase {
         $this->assertEquals("TEST THEME FILE 1", file_get_contents("FileStorage/testsourceuploadsite-content.kinihost.test/current/source/theme.html"));
         $this->assertEquals("TEST THEME FILE 2", file_get_contents("FileStorage/testsourceuploadsite-content.kinihost.test/current/source/theme2.html"));
 
+        // Check it made it into the preview root
+        $root = $this->siteStorageManager->getPreviewRoot($site);
+        $this->assertEquals(2, sizeof($root->getObjectFootprints()));
+        $this->assertEquals(md5("TEST THEME FILE 1"), $root->getObjectFootprints()["theme.html"]);
+        $this->assertEquals(md5("TEST THEME FILE 2"), $root->getObjectFootprints()["theme2.html"]);
+
+        $this->assertEquals("TEST THEME FILE 1", file_get_contents("FileStorage/testsourceuploadsite-preview.kinihost.test/theme.html"));
+        $this->assertEquals("TEST THEME FILE 2", file_get_contents("FileStorage/testsourceuploadsite-preview.kinihost.test/theme2.html"));
+
+        // Check it made it into the production root
+        $root = $this->siteStorageManager->getProductionRoot($site);
+        $this->assertEquals(2, sizeof($root->getObjectFootprints()));
+        $this->assertEquals(md5("TEST THEME FILE 1"), $root->getObjectFootprints()["theme.html"]);
+        $this->assertEquals(md5("TEST THEME FILE 2"), $root->getObjectFootprints()["theme2.html"]);
+
+        $this->assertEquals("TEST THEME FILE 1", file_get_contents("FileStorage/testsourceuploadsite-production.kinihost.test/theme.html"));
+        $this->assertEquals("TEST THEME FILE 2", file_get_contents("FileStorage/testsourceuploadsite-production.kinihost.test/theme2.html"));
+
+
         $builds = Build::filter("ORDER BY id DESC");
         $this->assertEquals($site->getSiteId(), $builds[0]->getSiteId());
 
-
-        $queuedItems = $this->queueService->listQueuedTasks("kinihost-test");
-        $this->assertEquals("run-site-build", $queuedItems[0]->getTaskIdentifier());
-
-
-    }
-
-
-    public function testCanInitialiseProductionContent() {
-
-        Container::instance()->get(DatabaseConnection::class)->query("DELETE FROM ka_queue");
-
-        if (!file_exists("FileStorage/themes.kinihost.test/global/default/current"))
-            mkdir("FileStorage/themes.kinihost.test/global/default/current", 0777, true);
-
-        $themeRoot = new VersionedStorageRoot("file", "themes.kinihost.test", "global/default");
-        $themeRoot->saveObject("theme.html", "TEST THEME FILE 1");
-        $themeRoot->saveObject("theme2.html", "TEST THEME FILE 2");
-
-
-        $site = $this->siteService->getSiteByKey("testsourceuploadsite");
-
-        // Initialise production content.
-        $this->sourceService->initialiseProductionContent($site);
-
-
-        // Check it has now been updated.
-        $productionRoot = $this->siteStorageManager->getProductionRoot($site);
-
-        $this->assertEquals(2, sizeof($productionRoot->getObjectFootprints()));
-        $this->assertEquals(md5("TEST THEME FILE 1"), $productionRoot->getObjectFootprints()["theme.html"]);
-        $this->assertEquals(md5("TEST THEME FILE 2"), $productionRoot->getObjectFootprints()["theme2.html"]);
 
 
     }

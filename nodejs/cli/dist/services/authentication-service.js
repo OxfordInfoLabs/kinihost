@@ -146,7 +146,7 @@ var AuthenticationService = /** @class */ (function () {
                         return [2 /*return*/, true];
                     case 4:
                         error_1 = _a.sent();
-                        if (!(error_1.indexOf("two factor") > 1)) return [3 /*break*/, 10];
+                        if (!(error_1.toString().indexOf("two factor") > 1)) return [3 /*break*/, 10];
                         return [4 /*yield*/, this._inquirer.prompt([
                                 {
                                     "type": "input",

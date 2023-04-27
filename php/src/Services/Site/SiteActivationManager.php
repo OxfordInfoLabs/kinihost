@@ -66,10 +66,8 @@ class SiteActivationManager {
         $storageProviderKey = $this->storageManager->createStorage($site);
         $site->setStorageProviderKey($storageProviderKey);
 
+        // Initialise blank content
         $this->sourceService->installBlankContent($site);
-
-        // Initialise production content
-        $this->sourceService->initialiseProductionContent($site);
 
         // Create routing for the site
         $routing = $this->routingManager->createRouting($site);

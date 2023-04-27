@@ -94,10 +94,24 @@ export default class KinihostCli {
             }
         ]
 
+        let config = Container.getInstance("Config");
+
         // Apply all commands
         builtInCommands.concat(additionalCommands).forEach((command: any) => {
 
-            program.command(command.name).description(command.description).action((...params:any[]) => {
+            program.command(command.name).description(command.description).action((...params: any[]) => {
+
+                // Check for overloaded values
+                let siteConfig = params[1].parent.getOptionValue("siteconfig");
+                if (siteConfig) {
+                    config.configFilename = siteConfig;
+                }
+
+                let endpoint = params[1].parent.getOptionValue("endpoint");
+                if (endpoint) {
+                    config.apiEndpoint = endpoint;
+                }
+
                 this._handled = true;
                 command.action.apply(this, params);
             });
@@ -105,8 +119,9 @@ export default class KinihostCli {
         });
 
 
+        // Add options
         program.option('-c, --siteconfig <path>', 'Alternative path to a config file to use for site configuration (defaults to ' + defaultConfigFilename + ')');
-
+        program.option('-e, --endpoint <path>', "Alternative endpoint to call for deployment tasks (defaults to " + config.apiEndpoint + ")");
 
         // @ts-ignore
         program.parse(process.argv);
