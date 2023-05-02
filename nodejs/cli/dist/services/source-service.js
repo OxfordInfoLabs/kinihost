@@ -69,7 +69,7 @@ var SourceService = /** @class */ (function () {
      * @param api
      */
     function SourceService(api, siteConfig) {
-        this._excludedPaths = ["node_modules", ".git", ".svn", ".oc-cache"];
+        this._excludedPaths = ["node_modules", ".git", ".svn", ".oc-cache", ".angular"];
         this._api = api ? api : container_1.default.getInstance("Api");
         this._siteConfig = siteConfig ? siteConfig : container_1.default.getInstance("SiteConfig");
     }
@@ -97,6 +97,7 @@ var SourceService = /** @class */ (function () {
         var dir = fs.readdirSync(dirRoot);
         dir.forEach(function (entry) {
             var filename = dirRoot + "/" + entry;
+            console.log(filename);
             // Continue provided not excluded.
             if (_this._excludedPaths.indexOf(entry) === -1) {
                 // If ignoring symlinks, skip any sym links.

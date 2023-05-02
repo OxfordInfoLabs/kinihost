@@ -36,7 +36,6 @@ export default class Api {
 
         return new Promise((resolve, reject) => {
 
-
             let url = this._config.apiEndpoint + "/" + requestPath;
 
             let macAddress: string = getMAC();
@@ -66,7 +65,7 @@ export default class Api {
                 payload = this._processPayload(payload);
             }
 
-            asyncRequest(method, url, payload ? {
+             asyncRequest(method, url, payload ? {
                 json: payload
             } : null).done((res: any) => {
 

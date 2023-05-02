@@ -24,7 +24,7 @@ export default class SourceService {
     private _siteConfig: SiteConfig;
 
 
-    private _excludedPaths = ["node_modules", ".git", ".svn", ".oc-cache"];
+    private _excludedPaths = ["node_modules", ".git", ".svn", ".oc-cache", ".angular"];
 
     /**
      * Construct source manager.
