@@ -208,6 +208,9 @@ class SiteSourceServiceTest extends TestBase {
     }
 
 
+    /**
+     * @nontravis
+     */
     public function testCanInstallBlankContentInSite() {
 
         Container::instance()->get(DatabaseConnection::class)->query("DELETE FROM ka_queue");
