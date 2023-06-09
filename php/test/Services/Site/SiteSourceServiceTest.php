@@ -209,7 +209,7 @@ class SiteSourceServiceTest extends TestBase {
 
 
     /**
-     * @nontravis
+     * @group nontravis
      */
     public function testCanInstallBlankContentInSite() {
 
