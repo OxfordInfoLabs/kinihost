@@ -50,7 +50,7 @@
                                 {{(build.buildType).toLowerCase().split('_').join(' ')}}
                             </td>
                             <td class="capitalize whitespace-nowrap border-b border-gray-200  px-3 py-4 text-sm text-gray-500 lg:table-cell">
-                                <span *ngIf="build.completedDate">{{moment.unix(build.completedDate.timestamp).format('DD/MM/YYYY HH:mm:ss')}}</span>
+                                <span *ngIf="build.completedDate">{{build.completed}}</span>
                             </td>
                             <td class="capitalize whitespace-nowrap border-b border-gray-200 px-3 py-4 text-sm text-gray-500">
                                 {{(build.status).toLowerCase()}}

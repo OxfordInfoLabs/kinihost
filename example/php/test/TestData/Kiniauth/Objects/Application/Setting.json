@@ -3,5 +3,10 @@
     "key": "referringDomains",
     "value": "kinihost.test",
     "valueIndex": 1
+  },
+  {
+    "key": "referringDomains",
+    "value": "kinisite-io.test",
+    "valueIndex": 2
   }
 ]

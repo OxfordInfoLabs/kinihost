@@ -56,11 +56,13 @@
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{site.description}}</td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <div class="bg-green-500 text-white text-xs rounded-full px-2 py-1 inline text-center"
-                                     *ngIf="site.status === 'Active'">active
+                                     *ngIf="site.status.toLowerCase() === 'active'">active
                                 </div>
                                 <div
                                     class="bg-gray-400 text-white text-xs rounded-full px-2 py-1 lowercase inline text-center"
-                                    *ngIf="site.status !== 'Active'">{{site.status}}</div>
+                                    *ngIf="site.status.toLowerCase() !== 'active'">
+                                    {{site.status}}
+                                </div>
                             </td>
 
                             <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
