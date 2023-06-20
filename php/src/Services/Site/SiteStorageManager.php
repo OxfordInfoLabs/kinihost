@@ -47,7 +47,7 @@ class SiteStorageManager {
         // If we are in a single domain scenario we want to rename our storage if possible to allow for providers
         // which are enabled for direct domain mapping.
 
-        if ($site->getType() == Site::TYPE_SITE && sizeof($site->getSiteDomains()) < 2) {
+        if (sizeof($site->getSiteDomains()) < 2) {
 
             list($storageProviderKey, $defaultProductionDomain) = $this->getStorageKeyAndContainerKey($site, "production");
 
@@ -95,9 +95,8 @@ class SiteStorageManager {
             $site->getConfig()->getNotFoundPage()));
 
         ($this->getPreviewRoot($site))->update($storageConfig);
-
-        if ($site->getType() == Site::TYPE_SITE)
-            ($this->getProductionRoot($site))->update($storageConfig);
+        
+        ($this->getProductionRoot($site))->update($storageConfig);
 
     }
 
@@ -128,7 +127,6 @@ class SiteStorageManager {
         list($storageProviderKey, $containerKey) = $this->getStorageKeyAndContainerKey($site, "content");
         return new StorageRoot($storageProviderKey, $containerKey, "upload");
     }
-
 
 
     /**

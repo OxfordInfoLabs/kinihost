@@ -459,7 +459,7 @@ class SiteService {
         $site->setSiteDomains($newSiteDomains);
         $this->saveSite($site);
 
-        $initiatingUser = $this->securityService->getLoggedInUserAndAccount()[0] ?? null;
+        $initiatingUser = $this->securityService->getLoggedInSecurableAndAccount()[0] ?? null;
         $initiatingUserId = $initiatingUser ? $initiatingUser->getId() : null;
 
         // Queue task to update routing.
