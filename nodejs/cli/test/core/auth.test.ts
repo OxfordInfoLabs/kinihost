@@ -1,4 +1,4 @@
-import Config from "../../src/core/Config";
+import Config from "../../src/core/config";
 import Auth from "../../src/services/authentication-service";
 import MockInquirer from "../mock/mock-inquirer";
 import MockApi from "../mock/mock-api";
