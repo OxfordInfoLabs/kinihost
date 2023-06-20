@@ -1,4 +1,4 @@
-import Config from "../../src/Core/Config";
+import Config from "../../src/core/config";
 
 describe('Tests for the config class', function () {
 
