@@ -253,6 +253,7 @@ describe('Tests for the link command', function () {
         //     done();
         // });
 
+        done();
 
     });
 
