@@ -36,7 +36,6 @@ import { SiteComponent } from './views/sites/site/site.component';
             accessHttpURL: `${environment.backendURL}/account`
         }),
     ],
-
     providers: [
         {
             provide: HTTP_INTERCEPTORS,

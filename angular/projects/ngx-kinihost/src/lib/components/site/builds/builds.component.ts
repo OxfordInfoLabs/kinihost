@@ -33,6 +33,12 @@ export class BuildsComponent implements OnInit {
     private getBuilds(site) {
         return this.buildService.getBuilds(site, '1000').then((builds: any) => {
             if (builds.length) {
+                builds.map(build => {
+                    if (build.completedDate) {
+                        build.completed = moment.unix(build.completedDate.timestamp).format('DD/MM/YYYY HH:mm:ss');
+                    }
+                    return build;
+                });
                 this.builds = builds;
             }
             this.loading = false;
