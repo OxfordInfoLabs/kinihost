@@ -6,6 +6,7 @@ namespace Kinihost\Services\Security;
 use Kiniauth\Objects\Account\Account;
 use Kiniauth\Objects\Account\AccountSummary;
 use Kiniauth\Objects\Security\Role;
+use Kiniauth\Objects\Security\Securable;
 use Kiniauth\Objects\Security\User;
 use Kiniauth\Objects\Security\UserRole;
 use Kiniauth\Services\Security\ScopeAccess;
@@ -43,13 +44,13 @@ class SiteScopeAccess extends ScopeAccess {
      *
      * Use * as the scope key to indicate all accounts.
      *
-     * @param User $user
+     * @param Securable $securable
      * @param Account $account
      * @param string[] $accountPrivileges
      *
      * @return
      */
-    public function generateScopePrivileges($user, $account, $accountPrivileges) {
+    public function generateScopePrivileges($securable, $account, $accountPrivileges) {
 
         $scopePrivileges = [];
 
@@ -63,11 +64,11 @@ class SiteScopeAccess extends ScopeAccess {
         // If super user logged in, grant full access
         if (isset($accountPrivileges["*"][0]) && $accountPrivileges["*"][0] == "*") {
             $scopePrivileges["*"] = ["*"];
-        } else if ($user) {
+        } else if ($securable) {
             /**
              * @var $role UserRole
              */
-            foreach ($user->getRoles() as $role) {
+            foreach ($securable->getRoles() as $role) {
 
                 if ($role->getScope() == self::SCOPE_SITE) {
 
@@ -88,18 +89,18 @@ class SiteScopeAccess extends ScopeAccess {
     /**
      * Check which of the supplied user roles are assignable
      *
-     * @param UserRole[] $userRoles
-     * @return UserRole[]
+     * @param SecurableRole[] $securableRoles
+     * @return SecurableRole[]
      */
-    public function getAssignableUserRoles($userRoles) {
+    public function getAssignableSecurableRoles($securableRoles) {
 
-        if (sizeof($userRoles) === 0) {
-            return $userRoles;
+        if (sizeof($securableRoles) === 0) {
+            return $securableRoles;
         }
         // Get the site id and load the site.
-        $siteIds = ObjectArrayUtils::getMemberValueArrayForObjects("scopeId", $userRoles);
+        $siteIds = ObjectArrayUtils::getMemberValueArrayForObjects("scopeId", $securableRoles);
 
-        $indexedRoles = ObjectArrayUtils::indexArrayOfObjectsByMember(["scopeId", "userId"], $userRoles);
+        $indexedRoles = ObjectArrayUtils::indexArrayOfObjectsByMember(["scopeId", "userId"], $securableRoles);
 
 
         // Grab site objects representing these site ids.
@@ -129,7 +130,7 @@ class SiteScopeAccess extends ScopeAccess {
         $returnUserRoles = [];
 
 
-        foreach ($userRoles as $userRole) {
+        foreach ($securableRoles as $userRole) {
 
             // Continue if no site accessible.
             if (!isset($accessibleSites[$userRole->getScopeId()]))
