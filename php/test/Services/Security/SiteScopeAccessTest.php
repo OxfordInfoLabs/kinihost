@@ -36,20 +36,20 @@ class SiteScopeAccessTest extends TestBase {
         AuthenticationHelper::login("admin@kinicart.com", "password");
 
         $crossAccountRoles = [new UserRole("SITE", 7, 1, 1, 2)];
-        $this->assertEquals([], $this->siteScopeAccess->getAssignableUserRoles($crossAccountRoles));
+        $this->assertEquals([], $this->siteScopeAccess->getAssignableSecurableRoles($crossAccountRoles));
 
         $inAccountRoles = [new UserRole("SITE", 1, 1, 1, 2)];
-        $this->assertEquals($inAccountRoles, $this->siteScopeAccess->getAssignableUserRoles($inAccountRoles));
+        $this->assertEquals($inAccountRoles, $this->siteScopeAccess->getAssignableSecurableRoles($inAccountRoles));
 
 
         // Account admin first
         AuthenticationHelper::login("sam@samdavisdesign.co.uk", "password");
 
         $crossAccountRoles = [new UserRole("SITE", 7, 1, 1, 2)];
-        $this->assertEquals([], $this->siteScopeAccess->getAssignableUserRoles($crossAccountRoles));
+        $this->assertEquals([], $this->siteScopeAccess->getAssignableSecurableRoles($crossAccountRoles));
 
         $inAccountRoles = [new UserRole("SITE", 1, 1, 1, 2)];
-        $this->assertEquals($inAccountRoles, $this->siteScopeAccess->getAssignableUserRoles($inAccountRoles));
+        $this->assertEquals($inAccountRoles, $this->siteScopeAccess->getAssignableSecurableRoles($inAccountRoles));
 
 
     }
