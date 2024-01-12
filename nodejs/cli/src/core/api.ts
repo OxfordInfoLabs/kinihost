@@ -73,7 +73,7 @@ export default class Api {
                 var body = rawBody ? JSON.parse(res.body.toString()) : {message: null};
 
                 if (res.statusCode != 200) {
-                    let errors = [];
+                    let errors: any[] = [];
                     if (body.validationErrors) {
                         let validationErrors = Object.values(body.validationErrors);
                         validationErrors.forEach((error: any) => {

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc -p .",
     "start-server": "yarn build; node dist",
-    "test": "jasmine-ts --config=jasmine.json",
+    "test": "ts-node node_modules/jasmine/bin/jasmine.js --config=jasmine.json",
     "publish-cli": "npm run build; bump patch; npm publish"
   },
   "dependencies": {
@@ -27,11 +27,10 @@
     "@types/jasmine": "^3.5.14",
     "@types/node": "^14.11.1",
     "jasmine": "^3.6.1",
-    "jasmine-ts": "^0.3.0",
     "ts-loader": "^8.0.3",
     "ts-node": "^8.3.0",
     "typescript": "^4.0.2",
     "version-bump-prompt": "^6.0.6",
-    "webpack": "^4.44.1"
+    "webpack": "^5.89.0"
   }
 }

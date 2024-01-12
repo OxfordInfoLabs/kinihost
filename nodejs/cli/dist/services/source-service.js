@@ -97,7 +97,6 @@ var SourceService = /** @class */ (function () {
         var dir = fs.readdirSync(dirRoot);
         dir.forEach(function (entry) {
             var filename = dirRoot + "/" + entry;
-            console.log(filename);
             // Continue provided not excluded.
             if (_this._excludedPaths.indexOf(entry) === -1) {
                 // If ignoring symlinks, skip any sym links.
