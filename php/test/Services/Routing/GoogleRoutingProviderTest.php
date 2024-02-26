@@ -58,7 +58,7 @@ class GoogleRoutingProviderTest extends TestBase {
 
 
         $forwardingRules = $this->computeService->globalForwardingRules->listGlobalForwardingRules("kinisite-test")->getItems();
-        foreach ($forwardingRules as $forwardingRule) {
+        foreach ($forwardingRules ?? []as $forwardingRule) {
             if (substr($forwardingRule->getName(), 0, 17) == "kinisite-test") {
                 $this->computeService->globalForwardingRules->delete("kinisite-test", $forwardingRule->getName());
             }
@@ -79,7 +79,7 @@ class GoogleRoutingProviderTest extends TestBase {
 
 
         $targetProxies = $this->computeService->targetHttpsProxies->listTargetHttpsProxies("kinisite-test")->getItems();
-        foreach ($targetProxies as $targetProxy) {
+        foreach ($targetProxies ?? [] as $targetProxy) {
             if (substr($targetProxy->getName(), 0, 17) == "kinisite-test") {
                 $retry = true;
                 while ($retry) {
@@ -161,7 +161,7 @@ class GoogleRoutingProviderTest extends TestBase {
         }
 
         $services = $this->computeService->backendServices->listBackendServices("kinisite-test")->getItems();
-        foreach ($services as $service) {
+        foreach ($services ?? [] as $service) {
             if (substr($service->getName(), 0, 17) == "kinisite-test") {
                 $this->computeService->backendServices->delete("kinisite-test", $service->getName());
             }
