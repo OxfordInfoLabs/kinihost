@@ -65,6 +65,12 @@ class SiteService {
 
 
     /**
+     * @var SecurityService
+     */
+    private $securityService;
+
+
+    /**
      * @var ScopeManager
      */
     private $scopeManager;
