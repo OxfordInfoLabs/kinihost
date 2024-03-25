@@ -8,6 +8,7 @@ use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\Utils;
 use Kinikit\Core\Asynchronous\AsynchronousFunction;
 use Kinikit\Core\Asynchronous\Processor\AsynchronousProcessor;
+use Kinikit\Core\Asynchronous\Processor\SynchronousProcessor;
 use Kinikit\Core\DependencyInjection\Container;
 use Kinihost\Exception\Storage\StorageProvider\ObjectDoesNotExistException;
 use Kinihost\Exception\Storage\VersionDoesNotExistException;
@@ -293,7 +294,7 @@ class VersionedStorageRoot extends StorageRoot {
                 /**
                  * @var AsynchronousProcessor $asyncProcessor
                  */
-                $asyncProcessor = Container::instance()->get(AsynchronousProcessor::class);
+                $asyncProcessor = Container::instance()->get(SynchronousProcessor::class);
                 $asyncProcessor->executeAndWait($asyncFunctions);
 
                 $this->storageProvider->saveObject($this->containerKey, $this->basePath . "/versions/$version/" . self::CHANGES_FILENAME,
