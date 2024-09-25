@@ -1,6 +1,6 @@
 {
   "name": "kinihost-cli",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "CLI package for Kinisite Site Builder",
   "scripts": {
     "build": "tsc -p .",

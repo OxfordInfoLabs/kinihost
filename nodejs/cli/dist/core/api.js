@@ -68,7 +68,7 @@ var Api = /** @class */ (function () {
                             if (typeof error == 'object') {
                                 var subErrors = Object.values(error);
                                 subErrors.forEach(function (subError) {
-                                    errors_1.push(subError.errorMessage);
+                                    errors_1.push((subError.errorMessage));
                                 });
                             }
                             else {

@@ -278,12 +278,6 @@ class Site extends SiteSummary {
         return $this->lastBuildNumber;
     }
 
-    /**
-     * @return Build
-     */
-    public function getLastBuild() {
-        return $this->lastBuild;
-    }
 
     /**
      * @return bool

@@ -80,7 +80,7 @@ export default class Api {
                             if (typeof error == 'object') {
                                 let subErrors = Object.values(error);
                                 subErrors.forEach((subError: any) => {
-                                    errors.push(subError.errorMessage);
+                                    errors.push(<any>(subError.errorMessage));
                                 });
                             } else {
                                 errors.push(error);
