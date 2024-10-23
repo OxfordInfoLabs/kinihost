@@ -11,6 +11,8 @@ export default class Api {
 
     private _config: Config;
 
+    private _cookie: string = '';
+
     /**
      * Construct with a config object
      *
@@ -61,13 +63,17 @@ export default class Api {
                 url += "?" + paramsAsStrings.join("&");
 
             // If we have a payload, ensure we remap _ properties back in object modes
+            let options: any = {};
+            if (this._cookie) {
+                options['headers'] = {'Cookie': this._cookie};
+            }
             if (payload) {
-                payload = this._processPayload(payload);
+                options['json'] = this._processPayload(payload);
             }
 
-             asyncRequest(method, url, payload ? {
-                json: payload
-            } : null).done((res: any) => {
+            asyncRequest(method, url, options).done((res: any) => {
+
+                this._cookie = res.headers['set-cookie'][0].split(';')[0];
 
                 var rawBody = res.body.toString();
                 var body = rawBody ? JSON.parse(res.body.toString()) : {message: null};
@@ -98,7 +104,7 @@ export default class Api {
 
         });
 
-        
+
     }
 
 

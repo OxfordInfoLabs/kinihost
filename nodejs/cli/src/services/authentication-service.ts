@@ -102,15 +102,14 @@ export default class AuthenticationService {
             return true;
         } catch (error:any) {
 
-
             // Handle two factor case
-            if (error.toString().indexOf("two factor") > 1) {
+            if (error.toString().toLowerCase().indexOf("two factor") > 1) {
 
                 let twoFactorConfig = await this._inquirer.prompt([
                     {
                         "type": "input",
                         "name": "twoFactorCode",
-                        "message": "Please enter the two factor code from your authenticator app"
+                        "message": "Please enter the two factor code sent to you by email"
                     }
                 ]);
 
