@@ -73,7 +73,8 @@ export default class Api {
 
             asyncRequest(method, url, options).done((res: any) => {
 
-                this._cookie = res.headers['set-cookie'][0].split(';')[0];
+                if (res.headers['set-cookie'])
+                    this._cookie = res.headers['set-cookie'][0].split(';')[0];
 
                 var rawBody = res.body.toString();
                 var body = rawBody ? JSON.parse(res.body.toString()) : {message: null};
