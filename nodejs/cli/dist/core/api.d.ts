@@ -4,6 +4,7 @@ import Config from "./config";
  */
 export default class Api {
     private _config;
+    private _cookie;
     /**
      * Construct with a config object
      *

@@ -17,6 +17,7 @@ var Api = /** @class */ (function () {
      * @param inquirer
      */
     function Api(config) {
+        this._cookie = '';
         this._config = config ? config : container_1.default.getInstance("Config");
     }
     /**
@@ -52,12 +53,16 @@ var Api = /** @class */ (function () {
             if (paramsAsStrings.length > 0)
                 url += "?" + paramsAsStrings.join("&");
             // If we have a payload, ensure we remap _ properties back in object modes
-            if (payload) {
-                payload = _this._processPayload(payload);
+            var options = {};
+            if (_this._cookie) {
+                options['headers'] = { 'Cookie': _this._cookie };
             }
-            asyncRequest(method, url, payload ? {
-                json: payload
-            } : null).done(function (res) {
+            if (payload) {
+                options['json'] = _this._processPayload(payload);
+            }
+            asyncRequest(method, url, options).done(function (res) {
+                if (res.headers['set-cookie'])
+                    _this._cookie = res.headers['set-cookie'][0].split(';')[0];
                 var rawBody = res.body.toString();
                 var body = rawBody ? JSON.parse(res.body.toString()) : { message: null };
                 if (res.statusCode != 200) {
